@@ -4,7 +4,6 @@ Nasce negli anni 1940, con schede perforate (120 bytes alla volta)
 
 Si son sviluppate tecnologie: schermi e strumenti di interazione
 
-
 30% del cervello è dedicato all'elaborazione di informazioni visive
 Gli occhi dispongono del canale di comunicazione col cervello con la banda maggiore
 ![[Pasted image 20240924124317.png||400]]
