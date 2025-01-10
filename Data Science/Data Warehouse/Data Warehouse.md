@@ -17,6 +17,7 @@ Data which is:
 used for decision support in a company
 
 ### Multidimensional Representation
+
 ![[Pasted image 20241006142909.png]]
 
 Dimension tables used to represent specific portions or properties of the database
