@@ -7,8 +7,6 @@ Designed for Pipeline efficiency: fixed instruction length, low-power applicatio
 ![[Pasted image 20241002132719.png]]
 PC = Program Counter
 HI, LO = special registers used for divisions etc...
-
-
 ## Data Types
 
 - Byte (8 bits)
@@ -17,11 +15,9 @@ HI, LO = special registers used for divisions etc...
 - Double Word (64 bits)
 - 32-bit single precision floating-point
 - 64-bit double precision floating-point
-
 ## Addressing Modes
 
 - Immediate: uses 16 bits Immediate field
-
 ```
 DADDUI R1, R2, #32
 	R1 <-- R2 + 32
@@ -31,17 +27,16 @@ DADDUI R1, R0, #32
 ``` 
 
 - Displacement
-
 ```
 LD R1, 30(R2)
-R2 = XX
+	R2 = XX
 	R1 = MEM[R2 + 30]
 ```
 ![[Pasted image 20241002133121.png]]
 
 ```
 LD R1, 0(R2)
-R2 = YY
+	R2 = YY
 	R1 <-- MEM[R2]
 ```
 ![[Pasted image 20241002133218.png]]
@@ -51,8 +46,8 @@ LD R1, 64(R0)  --> absolute addressing
 	R1 <-- MEM[64]
 ```
 ![[Pasted image 20241003110841.png]]
-
-[[DADDI vs DADDUI]]
+DADDI -> signed numbers (MSB is the sign of the number: +/-)
+DADDUI -> unsigned numbers
 ## Instruction Format
 CPU instruction is a single 32-bit aligned word
 	includes a 6-bit primary opcode
@@ -61,13 +56,15 @@ The CPU instruction formats are:
 - Immediate
 - Register
 - Jump
-
 ### Immediate
+
 ![[Pasted image 20241003111147.png]]
 ### Register
+
 ![[Pasted image 20241003111207.png]]
 Only registers in the instruction
 ### Jump
+
 ![[Pasted image 20241003111222.png]]
 only instructions with offsets
 26 bits, but memory is byte addressable --> up to 28 bits (add two 00 to complete the byte)

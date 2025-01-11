@@ -52,7 +52,7 @@ Two main steps for each level:
 2. frequent itemset generation: scan DB to count support for K+1 candidates, prune candidates below minsup
 ![[Pasted image 20241023111310.png]]
 
-Performance: extracting long frequent itemsets requires generating alla frequent subsets.
+Performance: extracting long frequent itemsets requires generating all frequent subsets.
 - minimum support threshold : increases number of frequent itemsets
 - dimensionality : more space needed to support count of each item
 - size of database : run time may increase with number of transactions
@@ -80,7 +80,6 @@ For each item i in header table extract frequent itemsets including item i and i
 1. build conditional pattern base for item i (i-CPB)
 2. recursive invocation of FP-growth on i-CPB
 
-
 An itemset is closed if none of its immediate supersets has the same support as the itemset
 
 Selection of the appropriate minsup threshold is not obvious:
@@ -94,12 +93,10 @@ Objective Measures:
 Subjective Measures:
 - rank patterns according to user interpretation
 
-
 Correlation: $\frac{P(A,B)}{P(A)P(B)}$ = $\frac{confr(r)}{sup(B)}$ 
 - statistical independence: correlation =1
 - positive correlation : correlation > 1
 - negative correlation : correlation < 1
-
 
 Weight could be considered
 items or transactions may be weighted

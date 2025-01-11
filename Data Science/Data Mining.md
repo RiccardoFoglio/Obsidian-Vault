@@ -8,7 +8,8 @@ Techniques for: association rule extraction, classification, clustering
 - Predictive methods : exploit some known variables to predict unknown or future values of other variables
 # Data Processing
 
-Data = collection off data objects and their attributes, property or characteristic of the object. A collection of attributes describe an object.
+Data = collection of data objects and their attributes, property or characteristic of the object. 
+A collection of attributes describe an object.
 
 Types:
 - Categorical: symbols
