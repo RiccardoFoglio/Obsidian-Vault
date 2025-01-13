@@ -1,4 +1,4 @@
-finding groups of objects such that the objects in a group will e similar to one another and different from other groups
+finding groups of objects such that the objects in a group will be similar to one another and different from other groups
 ![[Pasted image 20241106110208.png]]
 
 Clusters used for:
@@ -157,12 +157,11 @@ Compromise between Single and Complete Link.
 ### Cluster Similarity : Ward's Method
 Similarity between two clusters is based on the increase in squared error when two clusters are merged. Similar to group average if distance between points is distance squared.
 
-Les susceptible to noise and outliers
+Less susceptible to noise and outliers
 Biased towards globular clusters
 Hierarchical analogue of K-Means --> can be used to initialize K-Means
 
 ![[Pasted image 20241108152441.png|500]]
-
 ### Time and Space Requirements
 
 - $O(N^2)$ space since it uses the proximity matrix
@@ -171,7 +170,7 @@ Hierarchical analogue of K-Means --> can be used to initialize K-Means
 
 DBSCAN is a density-based algorithm
 - Density = number of points within a specific radius (Eps)
-- a point is a **core point** if it has more than a specified number of points (MinPts) withing Eps
+- a point is a **core point** if it has more than a specified number of points (MinPts) within Eps
 - a **border point** has fewer than MinPts within Eps, but is in the neighborhood of a core point
 - A noise point is any point that is not a core point or a border point 
 ![[Pasted image 20241108153149.png|500]]
@@ -189,9 +188,9 @@ for all core points
 ```
 ![[Pasted image 20241108153355.png|500]]
 
-Determining EPS and MinPts: idea is that for points in a cluster, their $k^th$ nearest neighbors are at roughly the same distance.
-Noise points have the $k^th$ nearest neighbor at farther distance
-Plot sorted distance of every point to its $k^th$ nearest neighbor
+Determining EPS and MinPts: idea is that for points in a cluster, their $k^{th}$ nearest neighbors are at roughly the same distance.
+Noise points have the $k^{th}$ nearest neighbor at farther distance
+Plot sorted distance of every point to its $k^{th}$ nearest neighbor
 # Cluster Validity
 
 For supervised classification we have a variety of measures to evaluate how good our model is.

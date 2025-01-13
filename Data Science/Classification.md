@@ -310,7 +310,7 @@ Solution : LSTM (Long Short Term Memories)
 - RNN with gates which encourage the state information to flow through long time intervals
 
 Autoencoders will allow compressing input data by means of compact representations and from them reconstruct the initial input. 
-- for feature extraction : the compressed representation can be used as significant set of features representing unput data
+- for feature extraction : the compressed representation can be used as significant set of features representing input data
 - for image (or signal) denoising: the image reconstructed from the abstract representation is denoised with respect to the original one
 ![[Pasted image 20241108151301.png|500]]
 
