@@ -10,9 +10,9 @@
  [[Data Lakes]]
  [[Data Mining]]
  [[Association Rules]]
- 
 [[Classification]]
 [[Clustering]]
+
 [[DBMS]]
 [[Buffer Manager]]
 [[Physical Access to Data]]
