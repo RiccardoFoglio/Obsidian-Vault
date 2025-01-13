@@ -99,12 +99,12 @@ Missing values affect decision tree construction in 3 ways:
 - affect how to distribute instances with missing value to child nodes
 - affect how a test instance with missing value is classified
 
-Accuracy : For simple datasets, comparable to other classification techniques 
-Interpretability : Model is interpretable for small trees, Single predictions are interpretable
-Incrementality : Not incremental
-Efficiency : Fast model building, very fast classification
-Scalability : Scalable both in training set size and attribute number
-Robustness : Difficult management of missing data
+**Accuracy** : For simple datasets, comparable to other classification techniques 
+**Interpretability** : Model is interpretable for small trees, Single predictions are interpretable
+**Incrementality** : Not incremental
+**Efficiency** : Fast model building, very fast classification
+**Scalability** : Scalable both in training set size and attribute number
+**Robustness** : Difficult management of missing data
 
 ## Random Forest
 
@@ -169,7 +169,7 @@ Building classification rules:
 
 Bayes Theorem: let C and X be random variables 
 
-$P(C,X) = P(C|X) P(X)$ and $P(C,X) = P(X|C) P(C)$
+$P(C,X) = P(C|X) P(X)$ and $P(X,C) = P(X|C) P(C)$
 
 Hence $$P(C|X) P(X) = P(X|C) P(C)$$ 
 and also $$P(C|X) = P(X|C) P(C) / P(X)$$
@@ -179,7 +179,7 @@ How the classification works:
 - Assign X to the class with Maximal $P(C|X)$
 - Applying Bayes Theorem: $P(C|X) = P(X|C)\cdot P(C)/P(X)$
 
-How to estimate P(X|C) ?
+How to estimate $P(X|C)$ ?
 - Naive Hypothesis : $P(x_1,...,x_k|C) = P(x_1|C)P(x_2|C)...P(x_k|C)$, not always true
 - Bayesian networks : allow specifying a subset of dependencies among attributes
 
@@ -207,6 +207,7 @@ find a linear hyperplane that separates the data
 - Robustness : Robust to noise and outliers
 
 ## Artificial Neural Networks
+
 inspired to the structure of the human brain
 - neurons are elaboration units
 - synapses as connection network
@@ -253,6 +254,7 @@ Process ends when:
 - Scalability : Medium scalable both in training set size and attribute number 
 - Robustness : Robust to noise and outliers, requires large training set, otherwise unstable when tuning parameters
 ### Convolutional Neural Networks (CNN)
+
 Allow automatically extracting features from images and performing classification
 ![[Pasted image 20241108144847.png|500]]
 
