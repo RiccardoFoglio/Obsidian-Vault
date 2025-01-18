@@ -2,7 +2,7 @@
 Data and computation are distributed over different machines.
 
 Advantages:
-- performance improve,ent
+- performance improvement
 - increased availability
 - stronger reliability
 

@@ -54,7 +54,7 @@ L = set of TIDs of active transactions
 
 ![[Pasted image 20250101163338.png]]
 
-Undo or Redo can be repeated an arbitary number of times without changing the final outcome
+Undo or Redo can be repeated an arbitrary number of times without changing the final outcome
 Useful for managing crashes during the recovery process
 > UNDO (UNDO(action)) = UNDO(action)
 
