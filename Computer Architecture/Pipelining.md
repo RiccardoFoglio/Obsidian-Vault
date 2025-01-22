@@ -1,6 +1,4 @@
-
 Pipelining is an implementation technique whereby multiple instructions are overlapped in execution
-
 In a pipeline, different units (stages) are completing different parts of different instructions in parallel
 
 ![[Pasted image 20241007194535.png|500]]
@@ -42,20 +40,17 @@ Imm <- (([IR]_16)^16##IR16..31)
 IR16..31 : Fixed-field decoding -> allows for decoding to b e performed while registers are read
 \## :  sign extension
 ### Execution (EXE)
-
-- Memory Reference : *ALUOutput <- A + Imm*
-- Register-Register ALU Instruction : *ALUOutput <- A op B*
-- Register-Immediate ALU Instruction : *ALUOutput <- A op Imm*
-- Branch : *ALUOutput <- NPC + Imm; Cond <- (A op 0)*
+- Memory Reference : `ALUOutput <- A + Imm`
+- Register-Register ALU Instruction : `ALUOutput <- A op B`
+- Register-Immediate ALU Instruction : `ALUOutput <- A op Imm`
+- Branch : `ALUOutput <- NPC + Imm; Cond <- (A op 0)`
 ### Memory Access (MEM)
-
-- Memory Reference : *LMD <- MEM\[ALUOutput] or MEM\[ALUOutput] <- B*
-- Branch : *IF (cond) PC <- ALUOutput else PC <- NPC*
+- Memory Reference : `LMD <- MEM[ALUOutput] or MEM[ALUOutput] <- B`
+- Branch : `IF (cond) PC <- ALUOutput else PC <- NPC`
 ### Write-Back (WB)
-
-- Register-Register ALU Instruction : *Regs\[IR16..20] <- ALUOutput*
-- Register-Immediate ALU Instruction : *Regs\[IR11..15] <- ALUOutput*
-- Load instruction : *Regs\[IR11..15] <- LMD*
+- Register-Register ALU Instruction : `Regs[IR16..20] <- ALUOutput`
+- Register-Immediate ALU Instruction : `Regs[IR11..15] <- ALUOutput`
+- Load instruction : `Regs[IR11..15] <- LMD`
 
 ![[Pasted image 20241007223148.png]]
 

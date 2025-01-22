@@ -5,11 +5,10 @@
 # [[Instruction Set Principles]]
 
 # [[MIPS64]]
-
-
 # [[Pipelining]]
 
 # [[Multicycle Operations]]
+
 
 # [[Instruction-Level Parallelism]]
 
