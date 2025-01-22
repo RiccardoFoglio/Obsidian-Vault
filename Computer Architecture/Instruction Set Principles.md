@@ -28,27 +28,20 @@ CPU can be classified according to:
 - typical number of operands per ALU instruction (2 or 3)
 - typical number of memory operands per ALU instruction (0 - 3)
 ![[Pasted image 20241002120626.png]]
-
 ## Memory Addressing
-
 recap:
 - Von Neumann : one RAM for code and data, one single interconnection (2R, 1W)
 - Harvard : code and data separate, so 2 interconnection (1R 1W each) -> better performance (faster) but more costly
-
 ### Endian
 - Little Endian : bytes with the lower address at the LS position
 ![[Pasted image 20241002121217.png]]
 - Big Endian : byte with lower address at MS position
 ![[Pasted image 20241002121248.png]]
-
 ### Aligned vs Misaligned
 - Aligned : allows only aligned accesses to memory is a limitation (0-3,4-7 but no 2-5 for example)
 - Misaligned : more freedom, but more hardware and performance overhead
-
-
 ### Addressing modes
 in GPR Machines an addressing mode specifies a constant, a register or a memory location (thru its effective address)
-
 #### Register Mode
 ![[Pasted image 20241002121545.png]]
 #### Immediate Mode
@@ -73,7 +66,6 @@ useful in loop cycles
 useful in loop cycles
 #### Scaled Mode
 ![[Pasted image 20241002122019.png]]
-
 
 By carefully choosing the addressing modes, one can obtain some important consequences:
 - Reduce the number of instructions
@@ -103,25 +95,20 @@ When designing and implementing an instruction set, the most commonly executed i
 - jumps
 - procedure calls
 - procedure returns
-
 Conditional branches are by far the most frequently executed control flow instructions
-
 ### Destination Address
 It's normally specified as a displacement with respect to the current value of the Program Counter. 
-
 `base + offset`
 
 This way: 
 - we save bits, since the target instruction is often close to the source one, 
 - the code is position-independent.
-
 ### Register Indirect Jumps and Procedure Calls
 They allow:
 - to write code including jumps whose target is not known at compile time
 - to implement case/switch statements
 - to support dynamically shared libraries (libraries loaded only when called)
 - to support virtual functions (calling different functions depending on data type)
-
 ### Evaluating Branch Conditions
 ![[Pasted image 20241002125115.png]]
 (MIPS : R31 register saves the return address in that register)
@@ -132,7 +119,6 @@ Information to be saved:
 	- caller saving
 	- callee saving
 ## Type and Size of Operands
-
 Most frequently supported data types:
 - char (1 byte)
 - half word (2 bytes)
@@ -141,7 +127,6 @@ Most frequently supported data types:
 - single-precision floating-point (4 bytes)
 - double-precision floating-point (8 bytes).
 ![[Pasted image 20241002130636.png]]
-
 ## Instruction Encoding
 Depends on:
 - which instructions compose the Instruction Set
@@ -153,11 +138,11 @@ When the number of addressing modes is low, they can be encoded together with th
 
 ![[Pasted image 20241002130904.png]]
 
-A: Variable -> supports any number of operands, instructions have a variable length, lower performance and minimum code size
+A: **Variable** -> supports any number of operands, instructions have a variable length, lower performance and minimum code size
 
-B: Fixed -> fixed number of operands, address specifier included in opcode, fixed instruction length, max performance, larger code size
+B: **Fixed** -> fixed number of operands, address specifier included in opcode, fixed instruction length, max performance, larger code size
 
-C: Hybrid -> multiple formats (specified by opcode), allow trading-off between code size and performance
+C: **Hybrid** -> multiple formats (specified by opcode), allow trading-off between code size and performance
 
 ### Conflicting Issues
 designer should address several conflicting issues:

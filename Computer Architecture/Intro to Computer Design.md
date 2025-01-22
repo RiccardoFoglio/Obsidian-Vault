@@ -7,12 +7,12 @@ evolution possible by:
 - advances in semiconductor tech
 - innovations in computer design
 
-![](file:///C:%5CUsers%5Cricca%5CDocuments%5CObsidian%20Vault%5CComputer%20Architecture%5Cattachments%5CPasted%20image%2020240924084839.png)
+![](Pasted%20image%2020240924084839.png)
 
 ### Exponential growth of the size of Data to be stored
-![](file:///C:%5CUsers%5Cricca%5CDocuments%5CObsidian%20Vault%5CComputer%20Architecture%5Cattachments%5CPasted%20image%2020240924085122.png)
+![](Pasted%20image%2020240924085122.png)
 ### Microprocessor Performance Growth
-![](file:///C:%5CUsers%5Cricca%5CDocuments%5CObsidian%20Vault%5CComputer%20Architecture%5Cattachments%5CPasted%20image%2020240924085427.png)
+![](Pasted%20image%2020240924085427.png)
 Performance referenced to VAX-11/780
 
 - **70s-80s**: 25% per year -> tech advancements
@@ -26,10 +26,10 @@ Software is a big part of the growth: Compiler is crucial for RISC architectures
 
 From simple CPU architectures (like this 8086 Architecture, standard in the 80s)
 
-![](file:///C:%5CUsers%5Cricca%5CDocuments%5CObsidian%20Vault%5CComputer%20Architecture%5Cattachments%5CPasted%20image%2020240924090934.png)
+![](Pasted%20image%2020240924090934.png)
 
 To many more modules and cores
-![](file:///C:%5CUsers%5Cricca%5CDocuments%5CObsidian%20Vault%5CComputer%20Architecture%5Cattachments%5CPasted%20image%2020240924091000.png)
+![](Pasted%20image%2020240924091000.png)
 open for adding accelerators, for graphics, AI (so matrix multiplications)
 ## Cerebras
 Devices for AI applications. Training of large language models, which requires huge computational power.
@@ -92,14 +92,12 @@ Request-level Parallelism (RLP) ((ignored for now))
 # Designing a Computer
 
 determining which attributes are important for the new machine
-
 design a machine which:
 - maximizes performance
 - matches cost and power constraints
-
 ## Computer Architecture
 
-computer design took advantage of:
+Computer design took advantage of:
 - architectural innovations
 - technology improvements
 
@@ -108,7 +106,7 @@ Three aspects of computer Design:
 2. organization
 3. hardware
 
-must meet requirements on:
+Must meet requirements on:
 - functional requirements
 - price
 - power
@@ -119,14 +117,12 @@ must meet requirements on:
 observation stating that for a number of decades: 
 >The number of transistors can be integrated in a single chip doubles every 18/24 months
 
-![](file:///C:%5CUsers%5Cricca%5CDocuments%5CObsidian%20Vault%5CComputer%20Architecture%5Cattachments%5CPasted%20image%2020240924100434.png)
+![](Pasted%20image%2020240924100434.png)
 
 ## IC Manufacturing Cost
 
 Yield is the percentage of products that pass the test phase
-
 Every product undergoes an evolution which normally leads to an improvement in yield (learning curve)
-
 When yield increases, cost decreases
 
 >More than 50% of manufacturing costs is due to validation and testing procedures
@@ -247,7 +243,7 @@ $$
 execution\ time = \frac{1}{(1-fraction_{enhanced})+ \frac{fraction_{enhanced}}{speedup_enhanced}}
 $$
 Example:
-![](file:///C:%5CUsers%5Cricca%5CDocuments%5CObsidian%20Vault%5CComputer%20Architecture%5Cattachments%5CPasted%20image%2020241001203157.png)
+![](Pasted%20image%2020241001203157.png)
 
 
 approaches to measuring the time required to execute a program:
