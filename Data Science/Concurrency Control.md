@@ -59,7 +59,7 @@ Definitions
 - **Reads-from** : $r_i(x)$ reads-from $w_j(x)$ when $w_j(x)$ precedes $r_i(x)$ and $i\neq j$ and there is no $w_k(x)$ between them
 - **final write** : $w_i(x)$ is the final write if it's the last write of x appearing in the schedule
 
-Two schedules are view equivalent if they have the same reads-from set and sane final write set
+Two schedules are view equivalent if they have the same reads-from set and same final write set
 
 A schedule is view serializable if it's view equivalent to an arbitrary serial schedule of the same transactions
 

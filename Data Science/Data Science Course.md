@@ -12,7 +12,6 @@
  [[Association Rules]]
 [[Classification]]
 [[Clustering]]
-
 [[DBMS]]
 [[Buffer Manager]]
 [[Physical Access to Data]]
@@ -23,3 +22,6 @@
 [[Distributed Database Management Systems]]
 [[MongoDB]]
 [[ElasticSearch]]
+
+
+[[Exam Notes]]
