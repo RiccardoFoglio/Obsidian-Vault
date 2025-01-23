@@ -19,7 +19,7 @@ Dynamic schemes make a prediction in hardware during execution
 They use the branch instruction address
 Dynamic branch prediction can be based via different techniques:
 - branch history table (one and two-bit prediction schemes)
-- two -level prediction schemes
+- two-level prediction schemes
 - branch-target buffer
 - others
 # Branch History Table
@@ -44,13 +44,11 @@ The effectiveness of the method depends on
 
 In the MIPs processor, condition evaluation is performed in the same stage where branch instructions are identified. Therefore the described technique does not five any advantage.
 ### Two-bit Prediction Scheme
-
 They provide higher prediction capabilities
 For every branch, two bits are maintained and the prediction is changed only after missing twice
 This technique is also called bimodal branch prediction
 ![[Pasted image 20241017130637.png]]
 ### N-bit Prediction Scheme
-
 General case of prev. one. It's based on an n-bit saturating counter associated to every branch instruction.
 Counter incremented each time the branch is taken, decremented each time it's not.
 When counter value is greater than the half of its max value, the branch is predicted TAKEN, otherwise it's NOT TAKEN.

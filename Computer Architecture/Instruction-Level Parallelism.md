@@ -34,12 +34,10 @@ In this way:
 
 Disadvantages: loop unrolling increases the size of the code
 ## SIMD
-
 Single instruction stream, multiple data streams may be exploited in
 - Vector processors : vector instruction operates on a set of data instead of scalar data
 - Graphics Processing Units (GPUs) : different functional units perform similar tasks in parallel acting on multiple data
 ## Dependencies
-
 If two instructions are independent, they can be executed in parallel without any stall
 If they are dependent, they have to be executed in order (partially overlapped)
 Therefore, exploiting the parallelism among instructions requires first identifying the dependencies existing among them
@@ -65,8 +63,8 @@ Dependencies involving memory cells can only be detected at run time, when the a
 
 ### Data Dependencies
 Instruction *i* is data dependent on instruction *j* if either of the following conditions hold:
-- instruction i procuses a result that is used by instruction j
-- instruction *j* i data dependent on instruction *k*, and instruction *k* is data dependent on instruction *i*
+- instruction i produces a result that is used by instruction j
+- instruction *j* is data dependent on instruction *k*, and instruction *k* is data dependent on instruction *i*
 ### Name Dependencies
 Name dependency occurs when two instructions refer to the same register or memory location (name) but there is no flow of data associated to the name
 
