@@ -35,9 +35,9 @@ Types of multithreading:
 The execution of multiple threads is interleaved (e.g., in a round-robin fashion, skipping any thread which is stalled at a given time).
 The CPU must be able to efficiently switch between tasks at any clock cycle.
 
-**Advantage**: l When an instruction is stalled, other instructions can be found in other threads, avoiding any performance loss.
+**Advantage**: When an instruction is stalled, other instructions can be found in other threads, avoiding any performance loss.
 
-**Disadvantage**: l Individual threads could be slowed down by the concurrent execution of other threads.
+**Disadvantage**: Individual threads could be slowed down by the concurrent execution of other threads.
 
 ### Coarse-grained Multithreading
 
@@ -45,12 +45,12 @@ The switch to a new thread is performed only on costly stalls.
 
 **Advantage** : Thread switch can be less efficient.
 
-**Disadvantage** : Performance losses from short stalls can not be avoided.
+**Disadvantage** : Performance loss from short stalls can not be avoided.
 
 ### Simultaneous Multithreading (SMT)
 It is a type of fine-grained multithreading enabling a superscalar processor to exploit ILP and multithreading at the same time.
 Multiple instructions from independent threads can be issued using dynamic scheduling capabilities to resolve dependencies among them.
-Instructions from multiple threads can be mixed in the data path thank to l the high number of available registers l the renaming mechanism
+Instructions from multiple threads can be mixed in the data path thank to the high number of available registers and the renaming mechanism
 
 ![[Pasted image 20250101181647.png]]
 
