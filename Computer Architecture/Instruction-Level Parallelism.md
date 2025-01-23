@@ -12,21 +12,21 @@ Static Approach : can mainly be found in products for embedded market. However b
 ### Basic blocks
 first kind of ILP is the one among instructions belonging to the same basic block
 A basic block is a sequence of instructions with:
-- no branches in except to the entry
+- no branches in, except at the entry
 - no branches out, except at the exit
 ### Rescheduling
 Within a basic block, the compiler may reschedule instructions to optimize the code, if the target CPU architecture is known
 ## ILP in Basic Blocks
 
-For typical MIPS programs the typical size of a basic bloc is between 4 and 7 instructions
-since these instructions are likely to be dependent one from the other, the amount of parallelism existing within a basic bloc is normally rather small
+For typical MIPS programs the typical size of a basic block is between 4 and 7 instructions
+since these instructions are likely to be dependent one from the other, the amount of parallelism existing within a basic block is normally rather small
 
 To further increase the available parallelism, the parallelism among iterations of a loop is considered.
 
 ### Loop Unrolling
 it's a technique that unrolls the loops, by explicitly replicating the loop body multiple times
 ![[Pasted image 20241014111506.png]]
-If the iteration body corresponds to a basic bloc, after loop unrolling the block is wider.
+If the iteration body corresponds to a basic block, after loop unrolling the block is wider.
 
 In this way: 
 - the relative overhead due to the control of iterations is reduced
