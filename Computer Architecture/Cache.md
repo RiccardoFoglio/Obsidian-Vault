@@ -28,7 +28,7 @@ The cache is located between the processor and the main memory. Each time the pr
 - YES: extracts word from block and allows CPU to access it without any access to main memory
 - NO : loads into cache the block that the word is part of
 
-In case of Hit, cache reduces the memory access times by factor that is dependent on the ration between cache and primary memory access time,
+In case of Hit, cache reduces the memory access times by factor that is dependent on the ratio between cache and primary memory access time,
 In case of Miss: 
 - access memory and load entire missing block, then provides requested word. Access time higher than cache-free system
 - access memory and immediately provide word. Higher cost in terms of hardware, but misses have more limited impact on performance
@@ -64,7 +64,6 @@ A set associative cache with W lines in each set is called a W-ways cache.
 Common values for W are 2 and 4 (so can deal up to 4 collisions).
 
 ### Fully Associative Mapping
-
 Each block of the main memory can be stored in any cache block. 
 Advantages : maximum flexibility in choosing the cache block to use 
 Disadvantages : complexity of search hardware (usually adopting associative memory).
@@ -91,7 +90,7 @@ Two solutions can be adopted:
 Write-Back: for each cache block, a flag (called dirty bit) is introduced, which remembers whether or not the block has been changed since it was loaded into the cache.
 When a block is evicted from the cache and the dirty bit is set, the block is copied from the cache to the main memory. 
 Disadvantages:
-- the replacement is slower because it sometimes requirescopying in the main memory the replaced block 
+- the replacement is slower because it sometimes requires copying in the main memory the replaced block 
 - in multiprocessor systems there may be incoherence between the caches of different processors
 - it may not be possible to restore memory data after possible system failures.
 
@@ -102,7 +101,7 @@ Cache coherence : this is a major problem in multiprocessor systems with shared 
 ![[Pasted image 20241211113700.png]]
 
 Validity Bit: to achieve cache coherence, a validity bit is introduced for every cache line.
-If disabled =any access to the block must produce a miss.
+If disabled = any access to the block must produce a miss.
 At power-on, the validity bits of all cache lines are disabled.
 
 ## Cache Levels
