@@ -24,7 +24,6 @@ Data may be read from the ROB if the producing instruction didn't commit yet, ot
 - Value: value when the instruction has completed but hasn't committed yet
 - Ready: whether the instruction completed its execution
 
-
 ![[Pasted image 20241021112259.png]]
 
 ## Instruction Execution Steps

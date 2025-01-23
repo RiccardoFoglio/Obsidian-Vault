@@ -9,7 +9,6 @@
 
 # [[Multicycle Operations]]
 
-
 # [[Instruction-Level Parallelism]]
 
 # [[Branch Prediction]]

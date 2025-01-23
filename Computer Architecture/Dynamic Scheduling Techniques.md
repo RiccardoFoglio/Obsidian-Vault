@@ -45,7 +45,6 @@ Common Data Bus (CDB) : results are passed directly to other functional units, r
 (after Instruction Unit, Issue Unit: decodes and dispatches instructions to different units using reservation stations)
 
 ## Instruction Execution Steps
-
 - Issue
 - Execute
 - Write results
@@ -86,6 +85,7 @@ Load and store instructions can be executed in any order, provided that they don
 - if the load is before the store, WAR hazard
 - if the load is after the store, RAW hazard
 To avoid hazards coming from reordering load and store instructions, the processor must: compute the memory addresses in order, perform checks described in the next transparencies for every load or store instruction, possibly block the load or store instruction before accessing to memory.
+
 Each time a load is ready to be issued, the store buffer is checked for store instructions acting on the same address. In this case the load is not sent to load buffer until the store completes.
 
 Each time a store is ready to be issued: The store and load buffers are checked for store instructions acting on the same address. In this case the store is not sent to the store buffer until all the previous load and store instructions complete 
