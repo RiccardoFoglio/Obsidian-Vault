@@ -36,7 +36,7 @@ Memory allocation: `{label} DCxx expr{,expr}...`
 ALIGN directive aligns the current location to a specified boundary by padding with zeros:
 `ALIGN {expr{, offset}}`
 The current location is aligned to the next address of the form: 
-$$n * expr + offset$$
+$$n * \text{expr} + \text{offset}$$
 If *expr* is not specified, ALIGN sets the current location to the next word boundary
 
 The SPACE directive reserves a zeroed block of memory: `{label} SPACE expr`
