@@ -42,7 +42,7 @@ Any reservation station waiting for the result reads it.
 The reservation station entry is marked as available.
 ### Commit
 ROB is ordered according to instructions original order. As soon as instructions reached the head of the buffer 
-	if it's a mispredicted branch the buffer is flushed, and the execution is restarted with the correct successor of the instruction
+	if it's a miss predicted branch the buffer is flushed, and the execution is restarted with the correct successor of the instruction
 	otherwise the result is written in the register or in memory
 	in both cases the reorder buffer entry is marked as free
 The ROB is implemented as a circular buffer
