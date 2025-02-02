@@ -29,16 +29,16 @@ IPv4 Solutions:
 
 ## Who Assigns IP Addresses?
 
-IANA assigns blocks of /8 IP addresses to each Regional Internet Registry (RIR), one for each continent.
+**IANA** assigns blocks of /8 IP addresses to each **Regional Internet Registry** (**RIR**), one for each continent.
 
-RIRs split the blocks into smaller blocks to assign them to respective National Internet Registries (NIRs) and Local Internet Registries (LIRs)
+**RIR** split the blocks into smaller blocks to assign them to respective **National Internet Registries** (**NIRs**) and **Local Internet Registries** (**LIRs**)
 
 Any individual IPv4 address can be in any of the 5 states:
 - reserved for special use                                                           (RESERVED)
 - part of IANA unallocated address pool                                   (FREE)
 - part of the unassigned pool held by a RIR                              (NOT ASSIGNED BUT HELD BY RIR)
-- assigned to and end user entity but unadvertised by BGP     (UNUSED)
-- assigned and advertised in BGP                                              (USED)
+- assigned to and end user entity but unadvertised by BGP   (UNUSED)
+- assigned and advertised in BGP                                               (USED)
 
 ## Routing Scalability Issues
 
@@ -54,7 +54,7 @@ Scalability of routing protocols, there is no solution at present. IPv6 wants to
 
 ## Birth of IPv6
 
-IETF boston Meeting (1992) "Call for proposals for IPng" (IP next gen)
+IETF Boston Meeting (1992) "Call for proposals for IPng" (IP next gen)
 Several proposals (among them a IPv5, awful). The best solution (SIPP with 128-bit address) was then called IPv6
 
 128 bit address, using Hex numbers --> X:X:X:X:X:X:X:X (group of 2 bytes)
@@ -122,21 +122,15 @@ private use and should not be routed to the global internet
 - 1 --> address is locally assigned
 
 ### IPv4 Embedded Addresses
-
 80 0s and 16 1s, then IPv4 address
-
 ![[Pasted image 20241004203218.png]]
 
 ### Loopback Addresses
-
 Used by a node to send a IPv6 packet to itself for testing reasons
-
 ::1
-
 Equivalent to IPv4 address: 127.0.0.
 
 ### Unspecified Addresses
-
 :: --> means the host doesn't have a specified address yet
 
 ## Anycast
@@ -146,7 +140,6 @@ A packet sent to an anycast address is routed to the "nearest" interface having 
 Initially designed for DNS but still in experimental stages (firstly introduced in 1993)
 
 # Modified Protocols
-
 Changes: 
 - ICMP
 - ARP --> Integrated inside ICMP
@@ -295,7 +288,6 @@ If you change IP address, it sends out this neighbor advertisement with solicite
 Target Address = IP Address of host we are replying to
 Options = Ethernet address of sender of message
 ![[Pasted image 20241010153238.png]]
-
 We write the Ethernet addresses even on layer 3, because we lose information of Layer 2 (encapsulation) and we store these addresses in cache for future use. This way we save Layer 2 info also if we deal with Layer 3
 ### Multicast Group Management
 - within a link, rely on data link layer multicasting service. 
@@ -372,7 +364,6 @@ O (Other Configuration) --> DNS Server, etc...
 Options : will store the DHCP Address / other addresses (O=1)
 Router Lifetime, Reachable Time, Retrans Timer : emergency settings, usually undefined or 0
 #### Options Format
-
 General format, length in multiple of 8 bytes
 ![[Pasted image 20241010162159.png]]
 ##### Prefix Information Option

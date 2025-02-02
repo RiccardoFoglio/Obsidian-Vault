@@ -75,14 +75,11 @@ Binary format: 11111111 11111111 11111110 00000000
 Prefix Length Notation: 200.23.16.0/23
 Netmask Notation: 255.255.254.0
 
-
 ## Valid Netmasks
+
 possible values in the 4 byte composing the address
-
 (in bracket: number of available host ID)
-
 (broadcast : Host ID all 1s)
-
 ![[Pasted image 20240925163100.png]]
 IP Address : 130.192.6.0   255.255.255.x 
 
@@ -104,7 +101,6 @@ IP Address : 130.192.6.0   255.255.255.x
 254 not valid, it would identify a network where you only have 1 bit for Host ID, so no actual space for the hosts to be connected
 
 255 used to represent a single device
-
 
 ### Examples
 
@@ -134,28 +130,15 @@ Invalid Net ID: after the net ID there's at least a 1, odd number in last byte -
 - 130.192.1.4/29 -> 0000 0-100
 - 130.192.1.24/28 -> 0001-1000
 
-
-### Real Example
-
-(recupera after break, 25/9)
-
-
 # IP Routing
 
 Given a destination IP address to reach, an IP device (ROUTER) search its own routing table, looking for a Match
-
 In case of multiple matches, it selects the most specific one (longest prefix matching)
 
 ![[Pasted image 20240925180253.png]]
-
 ## Example
 
 packet, coming in thru Interface 3 (I3)
-
-1. Destination address: 199.31.2.7
-
-(completa example 25/9)
-
 
 3. Packet: 200.23.19.45
 - 1st row -> first 20 bits: match
@@ -168,8 +151,6 @@ packet, coming in thru Interface 3 (I3)
 	- 31
 	- 23
 -> 2nd row is the best match
-
-
 # Exercises
 ## Exercise 1
 
@@ -204,7 +185,6 @@ check if the host ID is all 0s (V) or has 1s (I)
 | 192.168.2.0 / 23        | V                 |
 | 192.168.16.0 / 21       | V                 |
 | 192.168.12.0 / 21       | I                 |
-
 ## Exercise 3
 
 Find the configuration error in the network setup and explain why the network doesn't work properly.
@@ -212,18 +192,12 @@ Find the configuration error in the network setup and explain why the network do
 ![[Pasted image 20240925184232.png]]
 
 DNS must be reachable.
-
 DNS2:
 	Net ID: 192.168.1.{0000}
 	Host ID: 4 bits
-
 But IP: 192.168.1.23/28 --> 23: 0001-0111
-
 so it's impossible to reach because the 23 goes beyond the Host ID and to the Net ID
-
 UNREACHABLE
-
-
 ## Exercise 5
 ![[Pasted image 20241003124753.png]]
 

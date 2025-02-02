@@ -1,17 +1,12 @@
 Packets routed from source to multiple destinations. It's key for group communication (videoconferencing, video broadcasting etc...)
-
 Multicast Address identifies a group of hosts
-
 ![[Pasted image 20241003144557.png]]
-
 Multicast Addresses in Class D: 1110 start --> 224.0.0.0 - 239.255.255.255
-
 Address identifies a host group: packet is delivered to all hosts in the group, anywhere in the network.
-
 
 Hosts join and leave dynamically
 
-IGMP : (Internet Group Management Protocol) is a protocol incapsulated in IPv4 datagrams, that handles membership, used by hosts and routers.
+**IGMP** : (Internet Group Management Protocol) is a protocol incapsulated in IPv4 datagrams, that handles membership, used by hosts and routers.
 - JOIN
 - LEAVE
 
