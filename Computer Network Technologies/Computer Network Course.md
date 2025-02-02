@@ -1,4 +1,4 @@
-# [[IPv4 Addressing and Routing]]
+# [[IPv4]]
 
 # [[IPv4 Multicasting]]
 
