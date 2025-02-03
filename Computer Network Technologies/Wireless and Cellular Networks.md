@@ -22,7 +22,7 @@ More wireless phone subscribers than fixed : 10-to-1
 Important differences from wired link:
 - decreased signal strength: radio signal attenuates as it propagates through matter (path loss)
 - interference from other sources: wireless network frequencies shared by many devices
-- multipath propagation: radio signal reflects off objects ground, arriving at destination at different times
+- multi-path propagation: radio signal reflects off objects ground, arriving at destination at different times
 
 SNR = Signal-to-Noise Ratio : larger SNR the easier to extract signal from noise
 BER = Bit Error Rate
@@ -83,7 +83,7 @@ Given G:
 ![[Pasted image 20241029185407.png]]
 
 Given R: 
-- the larger the G the smaller the number of channels er cell, the lower the system capacity
+- the larger the G the smaller the number of channels per cell, the lower the system capacity
 - the larger the G the larger the distance between co-channel cells, the less the interference, the better the quality
 ![[Pasted image 20241029192129.png]]
 
@@ -108,7 +108,7 @@ It's performed when a terminal is switched on and has to associate with the netw
 
 We need procedures to handle mobility:
 - **roaming** : user position has to be traceable even if they move over the network area. the system has to store the user position in a database to locate users whenever needed. to store user positions the network area is divided into location areas (LAs)
-- **location updating** : procedure through which the user position is updated. A control channel is periodically broadcasted in each cell of an LA. When the mobile terminal receives an LA different from the one previously stored. the user starts a location updating procedure in order to update the position in the database
+- **location updating** : procedure through which the user position is updated. A control channel is periodically broadcasted in each cell of a LA. When the mobile terminal receives a LA different from the one previously stored. the user starts a location updating procedure in order to update the position in the database
 - **paging** : procedure through which the system notifies a mobile terminal about an incoming call/data delivery. the system broadcasts a paging message within the LA where the user is
 - **handover** : procedure that enables the transfer of an active connection from one cell to another, while the mobile terminal moves over the network area. Complex procedure that poses constraints on the network architecture, protocols and signaling
 
@@ -140,8 +140,8 @@ Base Station (BS)
 - Base Transceiver Station (BTS)
 	- physical interface in charge of transmission and reception
 	- point of access for the MT
-	- unlike other signal sources, BTW transmit signal only towards users that are active
-	- Up to 32 FDM channels per BTW (half uplink, half downlink)
+	- unlike other signal sources, BTS transmit signal only towards users that are active
+	- Up to 32 FDM channels per BTS (half uplink, half downlink)
 - Base Station Controller (BSC)
 	- Resource control on the radio interface: BSCs and BTSs communicate over a wired link
 	- A BSC controls a high number of BTSs : from 10s to 100s
@@ -163,7 +163,7 @@ Main functions:
 
 - MCS : Mobile Switching Center -> mobility support, call routing, GMSC interface between GSM network and other networks
 - HLR : Home Location Register -> database storing permanent user data and dynamic data to handle user mobility
-- VLR : Visitor Location Register -> database storing info related o MTs currently in the area controlled by MSC
+- VLR : Visitor Location Register -> database storing info related to MTs currently in the area controlled by MSC
 - AuC : Authentication Center -> authentication based on challenge & response control. Generations of encryption keys for over-the-air communication
 - EIR : Equipment Identity Register -> Database of stolen devices
 
@@ -233,7 +233,7 @@ Functions:
 - Security
 - Mobility management
 - Radio Resource management
-- |Network management
+- Network management
 - IP networking functions
 
 Components:
