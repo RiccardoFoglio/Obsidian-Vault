@@ -413,7 +413,7 @@ Arriving host: must associate with an AP
 - then may perform authentication
 - then typically run DHCP to get IP address in AP's subnet
 
-Passive or Active Scanning
+### Passive or Active Scanning
 
 passive scanning : 
 - beacon frames sent from APs
