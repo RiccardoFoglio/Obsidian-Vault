@@ -227,8 +227,8 @@ Hierarchical OSPF
 
 Differences between Intra- and Inter-AS Routing:
 policy: 
-inter-AS: admin wants control over how its traffic routed, who routes through its net. 
-intra-AS: single admin, so no policy decisions needed 
+- inter-AS: admin wants control over how its traffic routed, who routes through its net. 
+- intra-AS: single admin, so no policy decisions needed 
 scale: hierarchical routing saves table size, reduced update traffic 
 performance: 
 - intra-AS: can focus on performance 

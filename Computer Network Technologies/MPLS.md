@@ -27,7 +27,7 @@ At the edge of the network, we have Label Edge Router Ingress/egress LSR
 ![[Pasted image 20241212151724.png|500]]
 
 How the network works:
-- packet arrives at ingress LSR ands wants to go to a destination D
+- packet arrives at ingress LSR and wants to go to a destination D
 - gets routed to ingress LSR X
 - looks up table and sends it to Y
 - Y is a Label Switch Router (LSR), so it will attach a label to the packet in front
@@ -195,9 +195,7 @@ Only one control plan operating on physical topology
 ## Fast Fault Recovery
 
 When a link breaks, LSPs keep trying to cross that link (forwarding table not updated)
-
 Backup/protection LSP also created, when a failure happens, backup is used
-
 Re-routing node : node which will change link
 
 **Edge-to-Edge re-routing** : from entry point to destination, new path
