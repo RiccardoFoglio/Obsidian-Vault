@@ -92,7 +92,7 @@ All VPN features implemented in customer devices
 CE terminates tunnels
 ![[Pasted image 20241023175839.png]]
 ### Provider Provisioned VPN
-Provide implements VPN solution
+Provider implements VPN solution
 - owns, configures, manages devices implementing VPN functionalities
 VPN state maintained by the provider devices
 Traffic belonging to different VPNs is separated by the provider devices
