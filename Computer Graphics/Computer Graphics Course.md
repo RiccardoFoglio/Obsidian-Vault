@@ -1,4 +1,4 @@
-# [[Introduzione]]
+# [[Introduzione a CG]]
 
 # [[Sistema Visivo Umano]]
 
