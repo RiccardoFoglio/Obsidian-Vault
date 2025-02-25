@@ -8,10 +8,3 @@ they switch every other week: Cabodi on even weeks, Quer on odds
 Incremental path: 
 - Computer Science --> Programming Techniques --> Algorithms & Data Structures --> Operating systems --> System and Device Programming
 
-
-
-
-
-
-
-Different program from last year:
