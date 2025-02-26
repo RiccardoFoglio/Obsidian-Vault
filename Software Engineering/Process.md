@@ -89,8 +89,15 @@ one one side:
 - models
 
 many ways of putting everything together, but at least 3 recognized:
-1. Document based, semiformal, UML
-2. Formal/model based
-3. Agile
+1. Document based, semiformal, UML : standard industrial practice
+2. Formal/model based : limited application in critical domains
+3. Agile : latest approach, increasing usage
 4. (cowboy programming: just code the rest is pointless)
 
+Recent Trends in SE
+
+Cloud, DevOps, Outsourcing, Agile
+ASP : pay per use
+Freeware and pro versions
+Shareware: software distributed freely to facilitate trial use. users pay if they want to keep using it
+Adware: software free, interface shows adv banners via internet refresh
