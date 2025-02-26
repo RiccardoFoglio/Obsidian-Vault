@@ -41,6 +41,7 @@ Maintenance: can be seen as a consequence of developments. First development usu
 Development and maintenance do the same activities (requirement, design, etc...)
 
 Scenarios in dev / maintenance / operation
+
 1. IT to support businesses
 	- Dev : several months
 	- Operation: Years
@@ -53,4 +54,43 @@ Scenarios in dev / maintenance / operation
 	- Dev: years
 	- Op: years
 	- Maintenance: years, up to 60% of overall costs 
+
+Software process: not new, just applying engineering approach to software production.
+Traditional Engineering:
+- hundreds of years old
+- theory from physics or other hard science, laws and mathematical models
+- maturity of customers and managers
+Software Engineering:
+- 55 years old
+- limited theories and laws
+- variable maturity of customers and managers
+
+System and software process
+
+Different types of software require different processes
+- stand alone --> software process
+- embedded --> system process
+
+system process:
+- system requirements
+- system design
+- software dev
+- system integration and test
+
+![[Screenshot 2025-02-26 at 4.04.23 PM.png]]
+
+Software Engineering approaches
+
+one one side:
+- activities
+- documents
+- techniques
+- languages
+- models
+
+many ways of putting everything together, but at least 3 recognized:
+1. Document based, semiformal, UML
+2. Formal/model based
+3. Agile
+4. (cowboy programming: just code the rest is pointless)
 
