@@ -55,4 +55,165 @@ Dynamic Linking
 - small piece of code, **stub**, used to locate the appropriate memory-resident library routine
 
 
-(slide 17/71)
+
+# Linking and Loading
+
+what happens to your program after it's compiled, but before it can be run?
+
+EXE files: every OS expects executable files to have a specific format:
+- Header info : code locations, data locations
+- Code & Data
+- Symbol Table : 
+	- List of names of things defined in your program and where they are located within your program. 
+	- List of names of things defined elsewhere that are used by your program, and where they are used.
+
+Two step operation (in most systems)
+- **Linking** : Combining a set of programs including library routines, to create a loadable image
+- **Loading** : Copying the loadable image into memory, connecting it with any other programs already loaded, and updating addresses as needed 
+
+![[Screenshot 2025-03-05 at 11.49.25 AM.png|500]]
+![[Screenshot 2025-03-05 at 11.49.51 AM.png|500]]
+
+Classic Unix:
+- Linker lives inside of cc or gcc command 
+- Loader is part of exec system call
+- Executable image contains all object and library modules needed by program 
+- Entire image is loaded at once 
+- Every image contains its own copy of common library routines 
+- Every loaded program contain duplicate copy of library routines
+
+Dynamic Loading:
+- Routine is not loaded until it is called 
+- Better memory-space utilization; unused routines are never loaded. 
+- Useful when large amounts of code needed to handle infrequently occurring cases.
+- Must be implemented through program design 
+	- Needs OS support to for loading on demand
+
+Linker-assisted Dynamic Loading
+Programmer marks modules as "dynamic" to linker
+For function call to a dynamic function
+- Call is indirect through a link table 
+- Each link table entry is initialized with address of small stub of code to locate and load module. 
+- When loaded, loader replaces link table entry with address of loaded function
+- When unloaded, loader restores table entry with stub address 
+- Works only for function calls, not static data
+
+Shared Libraries
+- 
+
+Dynamic Linking
+
+
+
+
+INTEGRA CON SLIDES
+
+
+
+
+
+
+## Contiguous Allocation
+- Main memory must support both OS and user processes 
+- Limited resource, must allocate efficiently 
+- Contiguous allocation is one early method 
+- Main memory usually into two partitions: 
+	- Resident operating system, usually held in low memory with interrupt vector 
+	- User processes then held in high memory 
+	- Each process contained in single contiguous section of memory
+
+- Relocation registers used to protect user processes from each other, and from changing operating-system code and data 
+	- Base register contains value of smallest physical address 
+	- Limit register contains range of logical addresses – each logical address must be less than the limit register 
+	- MMU maps logical address dynamically 
+	- Can then allow actions such as kernel code being **transient** and kernel changing size
+![[Screenshot 2025-03-05 at 12.00.30 PM.png|400]]
+## Variable Partition
+
+Multiple-partition allocation 
+- Degree of multiprogramming limited by number of partitions 
+- **Variable-partition** sizes for efficiency (sized to a given process’ needs)
+- **Hole** – block of available memory; holes of various size are scattered throughout memory
+- When a process arrives, it is allocated memory from a hole large enough to accommodate it 
+- Process exiting frees its partition, adjacent free partitions combined
+- Operating system maintains information about: a) allocated partitions b) free partitions (hole)
+
+![[Screenshot 2025-03-05 at 11.59.14 AM.png|500]]
+
+How to satisfy a request of size n from a list of free holes?
+
+- First-fit: Allocate the first hole that is big enough 
+- Best-fit: Allocate the smallest hole that is big enough; must search entire list, unless ordered by size 
+	- Produces the smallest leftover hole 
+- Worst-fit: Allocate the largest hole; must also search entire list 
+	- Produces the largest leftover hole 
+	
+ First-fit and best-fit better than worst-fit in terms of speed and storage utilization
+
+## Fragmentation
+**External Fragmentation** – total memory space exists to satisfy a request, but it is not contiguous 
+**Internal Fragmentation** – allocated memory may be slightly larger than requested memory; this size difference is memory internal to a partition, but not being used 
+First fit analysis reveals that given N blocks allocated, 0.5 N blocks lost to fragmentation 
+- 1/3 may be unusable -> 50-percent rule
+
+Reduce external fragmentation by compaction 
+- Shuffle memory contents to place all free memory together in one large block 
+- Compaction is possible only if relocation is dynamic, and is done at execution time 
+- I/O problem 
+	- Latch job in memory while it is involved in I/O 
+	- Do I/O only into OS buffers
+- Now consider that backing store has same fragmentation problems
+
+## Paging
+
+Physical address space of a process can be noncontiguous; process is allocated physical memory whenever the latter is available 
+- Avoids external fragmentation 
+- Avoids problem of varying sized memory chunks
+Divide physical memory into fixed-sized blocks called frames 
+- Size is power of 2, between 512 bytes and 16 Mbytes 
+Divide logical memory into blocks of same size called pages 
+Keep track of all free frames
+To run a program of size N pages, need to find N free frames and load program 
+Set up a page table to translate logical to physical addresses 
+Backing store likewise split into pages 
+Still have Internal fragmentation
+
+Address generated by CPU is divided into: 
+- Page number (p) – used as an index into a page table which contains base address of each page in physical memory
+- Page offset (d) – combined with base address to define the physical memory address that is sent to the memory unit
+
+![[Screenshot 2025-03-05 at 12.25.11 PM.png|400]]
+![[Screenshot 2025-03-05 at 12.27.50 PM.png|400]]
+
+![[Screenshot 2025-03-05 at 12.40.30 PM.png|400]]
+
+### Structure of a Page Table Entry
+![[Screenshot 2025-03-05 at 12.43.42 PM.png|400]]
+
+## Implementation of Page Table
+
+Page table is kept in main memory 
+- Page-table base register (PTBR) points to the page table
+- Page-table length register (PTLR) indicates size of the page table
+In this scheme every data/instruction access requires two memory accesses 
+- One for the page table and one for the data / instruction
+
+The two memory access problem can be solved by the use of a special fast-lookup hardware cache called **translation look-aside buffers** (TLBs) (also called associative memory)
+
+Some TLBs store address-space identifiers (ASIDs) in each TLB entry – uniquely identifies each process to provide address-space protection for that process 
+- Otherwise need to flush at every context switch 
+TLBs typically small (64 to 1,024 entries) 
+On a TLB miss, value is loaded into the TLB for faster access next time 
+- Replacement policies must be considered 
+- Some entries can be wired down for permanent fast access
+![[Screenshot 2025-03-05 at 12.58.12 PM.png|500]]
+
+## Effective Access Time
+Hit ratio – percentage of times that a page number is found in the TLB 
+An 80% hit ratio means that we find the desired page number in the TLB 80% of the time.
+Suppose that 10 nanoseconds to access memory. 
+- If we find the desired page in TLB then a mapped-memory access take 10 ns
+- Otherwise we need two memory access so it is 20 ns
+ Effective Access Time (EAT) EAT = 0.80 x 10 + 0.20 x 20 = 12 nanoseconds implying 20% slowdown in access time 
+ Consider amore realistic hit ratio of 99%, EAT = 0.99 x 10 + 0.01 x 20 = 10.1ns implying only 1% slowdown in access time.
+
