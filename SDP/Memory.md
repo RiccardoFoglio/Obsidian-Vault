@@ -217,3 +217,71 @@ Suppose that 10 nanoseconds to access memory.
  Effective Access Time (EAT) EAT = 0.80 x 10 + 0.20 x 20 = 12 nanoseconds implying 20% slowdown in access time 
  Consider amore realistic hit ratio of 99%, EAT = 0.99 x 10 + 0.01 x 20 = 10.1ns implying only 1% slowdown in access time.
 
+## Memory Protection
+Memory protection implemented by associating protection bit with each frame to indicate if read-only or read-write access is allowed 
+- Can also add more bits to indicate page execute-only, and so on 
+Valid-invalid bit attached to each entry in the page table:
+- “valid” indicates that the associated page is in the process ’ logical address space, and is thus a legal page 
+- “invalid” indicates that the page is not in the process’ logical address space
+- Or use page-table length register (PTLR) 
+Any violations result in a trap to the kernel
+
+![[Screenshot 2025-03-05 at 1.47.36 PM.png|500]]
+
+## Shared Pages
+
+Shared Code:
+- One copy of read-only (reentrant) code shared among processes
+- similar to multiple threads sharing the same process space
+- also useful to interprocess communication if sharing of read-write pages is allowed
+Provate code and data
+- Each process keeps a separate copy of the code and data
+- The pages for the private code and data can appear anywhere in the logical address space
+
+## Structure of the Page Table
+
+Memory structures for paging can get huge using straight-forward methods 
+Consider a 32-bit logical address space as on modern computers 
+Page size of 4 KB (212)
+Page table would have 1 million entries ($2ˆ{32}$ / $2ˆ{12}$) 
+If each entry is 4 bytes è each process 4 MB of physical address space for the page table alone ! Don’t want to allocate that contiguously in main memory
+One simple solution is to divide the page table into smaller units ! Hierarchical Paging ! Hashed Page Tables ! Inverted Page Tables
+
+![[Screenshot 2025-03-05 at 2.03.15 PM.png|500]]
+
+### Two-Level Paging
+
+(RECUPER)
+
+### Hashed Page Tables
+
+Common in address spaces > 32 bits 
+The virtual page number is hashed into a page table 
+- This page table contains a chain of elements hashing to the same location 
+Each element contains (1) the virtual page number (2) the value of the mapped page frame (3) a pointer to the next element
+Virtual page numbers are compared in this chain searching for a match 
+- If a match is found, the corresponding physical frame is extracted
+Variation for 64-bit addresses is clustered page tables 
+- Similar to hashed but each entry refers to several pages (such as 16) rather than 1
+- Especially useful for sparse address spaces (where memory references are non-contiguous and scattered)
+
+
+![[Screenshot 2025-03-05 at 2.04.34 PM.png|500]]
+
+## Inverted Page Table
+
+Rather than each process having a page table and keeping track of all possible logical pages, track all physical pages 
+One entry for each real page of memory 
+Entry consists of the virtual address of the page stored in that real memory location, with information about the process that owns that page
+Decreases memory needed to store each page table, but increases time needed to search the table when a page reference occurs
+Use hash table to limit the search to one — or at most a few — page-table entries
+	TLB can accelerate access
+But how to implement shared memory? 
+	One mapping of a virtual address to the shared physical address
+	
+![[Screenshot 2025-03-05 at 2.18.58 PM.png|500]]
+![[Screenshot 2025-03-05 at 2.21.21 PM.png|500]]
+
+SPARC Solaris 
+
+55/71
