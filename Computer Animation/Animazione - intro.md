@@ -92,3 +92,91 @@ Editing:
 - Lineare --> tradizionale, diverse sorgenti, durata ordine ecc... scelti prima
 - Non Lineare --> digitale
 ![[Screenshot 2025-03-04 at 6.37.42 PM.png]]
+
+## Interpolazione
+
+- come interpolare un parametro che varia nel tempo?
+- parametrizzare in base alla distanza
+- controllo della posizione interpolata nel tempo
+
+"come generare al meglio i valori dei parametri per gli in-between frame?"
+- trovare una tecnica di interpolazione appropriata
+- applicare take tecnica
+
+AVAR: Animation Variable, un qualunque parametro animabile
+- posizione, orientamento, scala, forma, colore, velocità, trasparenza ecc...
+
+Il tempo non è l'unico driver delle animazioni
+
+Interpolazione (sx) vs Approssimazione (dx)
+![[Screenshot 2025-03-11 at 4.14.24 PM.png]]
+
+Complessità: complessità della funzione di interpolazione influenza il tempo di calcolo. Per contro, funzioni di interpolazioni troppo semplici possono dare origine a traiettorie non smooth.
+--> funzioni polinomiali cubiche
+
+Continuità: la continuità della traiettoria è una considerazione primaria: può influenzare il realismo dell'animazione
+Matematicamente determinata da quante derivate dell'equazione della curva sono continue
+![[Screenshot 2025-03-11 at 4.20.19 PM.png]]
+
+Controllo di forma --> Globale vs Locale: 
+- per controllare la forma della curva l'utente posiziona una serie di punti.
+- la modifica ad uno di questi punti può influenzare la forma di tutta la curva (contr. Globale) o solo della zona vicina al punto di controllo (contr. Locale)
+Preferite quelle locali
+
+### Curve
+Explicit: $y=f(x)$ può essere ambigua
+Implicit: $0 = f(x,y)$ non vanno bene, l'uguaglianza non si verifica se x e y sono float, causa errori di approssimazione dei calcolatori
+
+Parametric form: $x = f(u) \quad  y = g(u)$ --> al variare di un parametro, si ottengono dei valori x e y.
+
+se vogliamo controllare nel tempo gli attributi animabili, bisogna ricondurre u a t (time)
+
+solo variabili elevate a potenza --> Polinomiale
+se potenza maggiore = 1 --> Lineare
+seno, coseno, logaritmo --> Trascendente
+
+**polinomiali cubiche** sono le più diffuse
+
+Interpolazione lineare semplice
+![[Screenshot 2025-03-11 at 4.33.07 PM.png|500]]
+
+riscritta come $P(u) = (P1 - P0)\cdot u + P0$
+ulteriormente riscritta come:
+![[Screenshot 2025-03-11 at 4.36.41 PM.png|500]]
+
+Esistono altre funzioni di interpolazione che permettono di generare traiettorie lineare che "vengono percorse" in modo non lineare
+
+### Interpolazione di Hermite
+![[Screenshot 2025-03-11 at 4.39.16 PM.png|500]]
+![[Screenshot 2025-03-11 at 4.39.42 PM.png|500]]
+
+La continuità è garantita assicurando che il vettore tangente alla fine di un segmento sia uguale al vettore tangente iniziale del segmento successivo
+
+Problema: sono curve a livello globale: modificando un solo parametro può cambiare in modi diversi:
+![[Screenshot 2025-03-11 at 4.42.37 PM.png|400]]/
+
+Problema: calcolare la derivata prima di P nel fattore B è molto dispendioso
+### Interpolazione Catmull-Rom Spline (Spline Cardinali)
+
+unire due tratti di curve spline cardinali, ora significa congiungere $P_{i-1}$ e $P_{i+1}$ in modo geometrico
+![[Screenshot 2025-03-11 at 4.48.49 PM.png|400]]
+è un approssimazione che aiuta i calcoli, e se i punti non son troppo distanti tra loro, non è troppo diversa dal valore di derivata prima calcolato analiticamente
+
+Cambiano M e B:
+![[Screenshot 2025-03-11 at 4.50.04 PM.png|200]]
+
+Anche queste sono curve a controllo globale
+
+### Curve di Bezier
+
+n+1 punti di controllo, miscelati (blended) per produrre un vettore di punti che costituisce la curva P(u) che descrive la traiettoria di una funzione di approssimazione tra gli estremi
+![[Screenshot 2025-03-11 at 4.52.00 PM.png|500]]
+
+curva definita mediante punto di partenza, punto di fine e due punti interni che controllano la forma della curva.
+La continuità tra segmenti è controllata mediante la colinearità dei punti di controllo
+
+### B-Spline
+Le curve più flessibili: grado può essere definito entro certi limiti, indipendentemente dal numero di punti di controllo
+Per contro, son più complesse delle altre curve
+NURBS: NonUniform Rational B-Splines --> i punti di controllo sono distribuiti in modo non uniforme
+
