@@ -121,12 +121,30 @@ Key Elements:
 - Functional Goal that the actor achieves using the system
 
 Goals = must be a value to the primary actor
-	As a <actor type> i want <to do something> so that <some value is created>
+	As a actor type i want to do something so that some value is created
 
 Use case Diagram and Class Diagram must be consistent
 
-
 ## System Design
+
+subsystems that compose the system
+![[Screenshot 2025-03-14 at 2.09.56 PM.png|400]]
+
+Class that represents a computing component --> node
+Class that represents a software component --> artifact
+
+## Requirement doc structure
+1. Overall description
+2. Stakeholders
+3. Context diagram and interfaces
+4. Requirements
+	- functional
+	- non functional
+	- domain
+5. use case diagram
+6. scenarios
+7. glossary
+8. system design
 
 
 
