@@ -109,13 +109,13 @@ Variables: the extern is used as in C
 
 Pointers are used as in C
 
-### Qualifiers
+## Qualifiers
 - const --> used when we want to define an object we know cannot be changed, must be initialized
 - volatile --> used for objects that can be changed in ways outside the control of the program (variable changed by system clock)
 
 Auto --> compiler figures out the type of an object, must be initialized
 
-### Range for statement
+## Range for statement
 
 ```cpp
 for (declaration: expression)
@@ -129,4 +129,54 @@ for (auto r : v)
 ```
 # Functions
 
+Many similarities with C, but some exceptions:
+- Argument passing
+- varying parameters
+- overloading
+- default arguments
+- pointers to functions
+
+### Argument Passing
+
+- **By value** --> provide a value to the function parameter, local parameter is equivalent to a local variable, it holds a COPY of the parameter. Changes to the local parameter will not affect the original variable
+- **By address** (pointer) {in C this was by reference} --> to pass a pointer "by value" we copy the pointer, after they are distinct, however the pointer may give indirect access to the object to which it points. By de-referencing the address, the function may access and modify the original data. Unfortunately an address can be **nullptr** thus a variable by reference can be **invalid**
+- **By reference** --> pass a pointer to a verified variable. The parameter is accessed directly without de-referencing the pointer. NEVER have **nullptr** pointers
+### Varying parameters
+
+It's possible to write functions with a variable number of parameters
+in C++ 2 strategies:
+- if all arguments have same type, it's possible to use the library **initializer_list**
+- otherwise it's possible to use a special parameter type called ellipsis
+
+### Overloading
+
+it's possible to have multiple definitions for the same function in the same scope.
+Overloaded functions have:
+- same name
+- different parameter lists
+- appear in the same scope region
+
+Overloading eliminates the necessity to remind different names and is implemented by the compiler
+
+The definitions of the functions must differ from each other for:
+- type of arguments
+- number of arguments
+- cannot overload function declarations that differ only by the return type
+
+### Default arguments
+
+Functions may have parameters that have a particular value in most, but not all, calls
+In those cases, we can declare that value as a default argument
+	each parameter can have a single default value in a given scope
+	if a parameter has a default argument, ALL the parameters that follow MUST also have a default value
+
+### Pointers to functions
+
+A function pointer is just like any other pointer but denotes a function
+The name of a function is automatically converted into the function pointer
+function pointers can be
+ - passed to a function as a parameter
+ - returned by a function
+
 # Classes
+
