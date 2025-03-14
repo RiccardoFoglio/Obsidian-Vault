@@ -84,3 +84,25 @@ DONT
 - forget roles / association classes (when needed)
 
 ![[Screenshot 2025-03-14 at 3.11.01 PM.png|500]]
+
+- Don't us a class as an attribute: if an address has many attributes, it should be modelled as a class not as an attribute to citizen.
+- Don't use an attribute that represents many objects : "grades" is not an attribute but an association with multiplicity *
+- Don't use transient (dynamic) relationships that represent events
+- Don't repeat as an attribute of a class a relationship starting from the class: classroomID in Course is redundant, because course and classroom have an association which already conveys that info
+- Don't use Loops in relationships
+- Don't model classes that belong to software design
+
+Instance of a subclass cannot become instance of another subclass
+
+## UML Deployment Diagram
+
+Goal : design / show the hardware / software configuration of (one, many) applications
+
+Node: Physical entity or software entity capable of processing
+Association: physical link
+can be nested
+
+Artifact = source file, executable file, library, db table... for us mostly means application
+can be nested
+
+![[Screenshot 2025-03-14 at 3.19.52 PM.png|400]]
