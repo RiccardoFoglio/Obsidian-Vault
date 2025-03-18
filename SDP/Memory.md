@@ -349,3 +349,20 @@ But how to implement shared memory?
 SPARC Solaris 
 
 55/71
+
+## Swapping
+
+A process can be swapped temporarily out of memory to a backing store, and then brought back into memory for a continued execution
+- Backing store = fast disk large enough to accomodate copies of all memory images for all users. Must provide access to these memory images
+- Roll out, Roll in = swapping variant used for priority-based scheduling algorithms; lower-priority process is swapped out so higher-priority process can be loaded and executed
+
+Swapping slows down system, it's a safety procedure to keep the process running
+
+![[Screenshot 2025-03-18 at 1.20.20 PM.png|400]]
+
+Swapping on mobile systems is no typically supported, they are flash memory based (small amount of space, limited number of write cycles)
+- iOS asks apps to voluntarily relinquish allocated memory
+
+Swapping with Paging:
+![[Screenshot 2025-03-18 at 1.27.28 PM.png|400]]
+
