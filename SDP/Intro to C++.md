@@ -180,3 +180,182 @@ function pointers can be
 
 # Classes
 
+in C++ we define our own data structures using classes
+
+a class defines a type including:
+- set of objects
+- collection of operations related to that object
+
+core ideas:
+- data abstraction : Separate interface and implementation
+	- interface specifies the operations the user can execute
+	- implementation includes the data members and defines the body of functions
+- encapsulation : bundling of data and methods that operate on that data into a single unit
+
+`struct` --> heterogeneous data linked together by logical constraints. No automatic data hiding
+```c++
+struct product {
+	int weight;
+	float price;
+}
+```
+![[Screenshot 2025-03-21 at 12.10.18 PM.png|300]]
+
+`union` --> single memory location to access the same "bit-level" config based on different types. Overall size = largest type in a union
+```c++
+union mytypes_t {
+	char c;
+	int i;
+	float f;
+}
+```
+![[Screenshot 2025-03-21 at 12.12.06 PM.png|300]]
+
+Version 1: struct
+
+```c++
+struct my_class { 
+	int code; 
+	
+	int get_code() {      // inline method
+		return (code); 
+	} 
+	
+	void print_code();    // external method
+}; 
+
+void my_class::print_code () { cout << code << endl; } // method implementation
+```
+
+we can use access specifiers to enforce encapsulation
+Members defined after a
+- **public** specifiers are accessible to all parts of the program
+- **private** specifiers are accessible to the member functions of the class but not to the ones that use the class
+
+Version 2: explicit access specifiers
+
+```c++
+struct my_class { 
+	private: 
+		int code; 
+	public: 
+		int get_code() { 
+		return (code); 
+	} 
+	void print_code(); 
+}; 
+
+void my_class::print_code () { cout << code << endl; }
+```
+
+
+Encapsulation: in C++ we often use the keyword class rather than struct, the difference is the default access level.
+- Structs: objects are public by default
+- Class: objects are private by default
+
+in OOP define objects private as long as possible, methods as private and as protected when they need to be inherited by sub-classes
+
+```c++
+class my_class { 
+	private: 
+		int code; 
+	public: 
+		int get_code() { 
+			return (code); 
+		} 
+		void print_code(); 
+}; 
+
+void my_class::print_code () { cout << code << endl; }
+```
+
+keyword "THIS" acts as a pointer to the current instance of the class, prevents naming conflicts 
+
+```c++
+class MyClass { 
+	private: 
+		int value; 
+	public: 
+		MyClass(int value) { 
+			this->value = value; // allow distinguishing the parameter value                                         from the member value
+		} 
+		MyClass& increment() { 
+			this->value++; 
+			return *this;   // return *this for method chaining
+		}
+	...
+}
+
+int main() { MyClass obj(10); 
+	// Method chaining
+	obj.increment().increment();
+	... 
+	return 0;
+```
+
+**inheritance**: allows the generation of new classes based on existing classes. Promotes code reusability. Forms the basis for polymorphism (object of different classes can be treated as objects of a common base class)
+A derived class is a class that inherits the members of a base class. It can add its own members and override the member of the base class
+
+```C++
+// Base class 
+class Vehicle { 
+	public: 
+		string brand = "Ford"; 
+		void honk() {
+			 cout << "Tuut, tuut! \n" ; 
+		 } 
+ }; 
+// Derived class 
+class Car: public Vehicle {
+	 public: 
+		 string model = "Mustang"; 
+ }
+```
+
+Class Initialization: classes are instantiated into objects. It's the only time when all data associated to the class is ever allocated in memory
+Data is not shared among objects, 2 instances of the same class have different **ptr** pointers
+Code is shared among objects
+
+Classes control what happens when we operate on objects:
+- **Constructed** : when they are created
+- **Copied** : when we initialize a variable we pass a value by variable, we return an object by value
+- **Assigned** : when we use the assignment operator
+- **Destroyed** : when they cease to exist
+
+If we don't define these operations, the compiler defines them for us
+- in some cases the default doesn't behave correctly, for example when the classes allocate resources that reside outside the class object
+
+**Primary Constructor** = special function that initializes the object when it's created.
+Constructor has same names as the class, and no return
+Thanks to overloading it's possible to have different primary constructors for the same object
+and different primary constructors must have a different set of parameters in number and/or type
+If the programmer doesn't define a primary constructor, the compiler implicitly defines a default one.
+The default constructor initializes each data member as follows:
+- if there is an in-class initializer it runs the initializer
+- otherwise it initializes it with a default value
+Primary constructor automatically invoked when an object is created
+
+**Destructor** = unique function that is deputed to clear any internal resources handled by the object before destruction. There is only one destructor for each class
+- it has the exact name of the class with a ~ before
+- it has no parameters (impossible overloading)
+- it is not called directly by the user (only compiler schedules its calls, there's an automatic call, one for each abandoned object)
+There is no need for a destructor if the class handles only static resources, but it's needed to free dynamic memory, object descriptors etc...
+
+**Friend Classes** : a class can allow another class to access its non-public members by making that class a friend
+- this mechanism bypasses the normal access restrictions
+- friendship is non-transitive and cannot be inherited
+- must be used judiciously to allow certain interactions that would otherwise be impossible
+A class makes a class (function) a friend by including a declaration for that class (function) preceded by the keyword friend
+	Friend declarations may appear only inside a class definition
+	They may appear anywhere in the class
+```c++
+class A { 
+	... 
+	friend ; 
+	friend ; 
+	friend ;
+}
+```
+
+
+
