@@ -258,12 +258,60 @@ Valore di massa m è attribuito al punto per determinare un accelerazione $a = F
 Problemi:
 - stabilire una massa arbitraria m
 - stabilire un valore per la costante k della molla
-Se i parametri sono errati, la collisione non apparirà realistico
+Se i parametri sono errati, la collisione non apparirà realistica
+
+### Forze di impulso di collisione
+
+Per permettere un accurata gestione delle collisioni:
+- riportare indietro il tempo all'istante dell'impatto
+- calcolare la reazione
+- far ripartire in avanti il tempo
+
+Per trovare l'istante di collisione, è possibile usare una strategia di ricerca binaria:
+	Ogni iterazione l'intervallo è diviso a metà e si stabilisce se la collisione è nella prima o seconda metà. Procedimento termina quando si raggiunge la tolleranza desiderata
+
+Si può approssimare che la particella percorra un cammino lineare a velocità costante tra $t_{i-1}$ e $t_i$
+![[Screenshot 2025-03-25 at 4.24.24 PM.png|500]]
 
 
+All'impatto si modifica la componente normale del vettore velocità a seguito della collisione
+Un coeff. scalare di restituzione può essere applicato al vettore velocità per modellare il grado di elasticità
+![[Screenshot 2025-03-25 at 4.25.18 PM.png|500]]
 
-PAUSE, BLOCCO 3 PER DINAMICA CORPO RIGIDO
+Dopo il cambio di velocità della collisione, bisogna determinare il cambiamento di momento.
+Si introduce l'Impulso (J) espressa in unità di momento
 
+![[Screenshot 2025-03-25 at 4.28.02 PM.png|500]]
 
+per caratterizzare l'elasticità della collisione è possibile selezionare un coefficiente
+![[Screenshot 2025-03-25 at 5.19.03 PM.png|300]]
 
-Forze di impulso di collisione
+Dati due oggetti a caso:
+- i punti di contatto sui due oggetti devono essere identificati
+- si calcola la normale al punto di contatto
+- la velocità di un punto dell'oggetto è data dalla somma delle sue Velocità lineare e angolare:
+  $p(t) = v(t) + \omega(t) \times r$ 
+![[Screenshot 2025-03-25 at 5.21.04 PM.png|400]]
+
+il calcolo dell'impulso è iterativo, tramite codice
+
+## Tipi di forze
+- Gravità
+- Frizione
+- Viscosità
+- Corpi deformabili (sistemi molla smorzatore)
+
+In gravità: coefficiente per ogni forza, 1 per gravità e nullo per gli altri tipi.
+
+Attrito:
+- statico: dipende solo dalla componente normale, rappresenta la resistenza dell'oggetto di muoversi, coefficiente $\mu_s$ di frizione statica dipende dalle due superfici di contatto
+- cinetico: direzione inversa al movimento, proporzionale ad un coefficiente $\mu_k$ diverso da coefficiente di attrito statico
+
+Blender non distingue statico e cinetico
+
+Viscosità : dipende dal coefficiente del fluido, e dal volume e forma dell'oggetto. Non calcolabile se la forma non è semplice.
+L'oggetto viene messo nella galleria del vento e si calcola il coefficiente viscoso
+
+Corpi deformabili: molle uniscono due vertici
+![[Screenshot 2025-03-25 at 5.38.32 PM.png|400]]
+![[Screenshot 2025-03-25 at 5.39.23 PM.png|400]]
