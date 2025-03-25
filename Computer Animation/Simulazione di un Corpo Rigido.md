@@ -92,3 +92,27 @@ I giunti che permettono alle appendici ad esso connesse il modo in una sola dime
 
 ![[Screenshot 2025-03-25 at 6.05.26 PM.png|400]]
 
+Un arco contiene infomazioni che:
+- permettono di ruotare-traslare l'oggetto relativamente al giunto di livello superiore nella gerarchia
+- permettono di stabilire la posizione relativa rispetto al giunto corrente
+
+Un nodo contiene:
+- informazione relative all'oggetto
+- le trasformazioni applicabili all'oggetto stesso
+
+![[Screenshot 2025-03-25 at 6.11.31 PM.png|400]]
+
+non sempre si parla solo di gerarchie binarie, ma anche con più figli
+
+Cinematica Diretta: l'animatore definisce tutti gli angoli dei giunti
+spesso difficile e noioso, trial-and-errorn
+
+Cinematica Inversa: data una posizione finale, calcolare la configurazione dei giunti che porta a quella posizione. interpolare dalla posizione finale alla posizione obiettivo
+
+![[Screenshot 2025-03-25 at 6.28.10 PM.png|400]]
+è necessario verificare che la posizione sia raggiungibile dal sistema:
+![[Screenshot 2025-03-25 at 6.39.53 PM.png|400]]
+ci sono sempre soluzioni simmetriche rispetto all'asse, e non sempre la prima è quella che vogliamo noi.
+
+
+## Figure Articolate
