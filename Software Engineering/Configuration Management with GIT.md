@@ -133,6 +133,143 @@ Snapshot:
 Set all files (CIs) in a repo, in a certain version
 Identified by a unique ID (commit hash) computed at commit time
 
+Remote repo shared by all clients
+- `push` uploads snapshot from local repo to remote repo (sync of repos)
+- `pull` downloads snapshot from remote repo to local
+
+Set up user
+```
+config –global user.name «my_name»
+config –global user.email «my_email»
+```
+
+Set up repo
+- local
+```
+init
+```
+- remote
+```
+remote add origin <link>
+```
+
+Work on local repo:
+```
+add / rm / mv
+commit
+checkout <hashcode>
+fetch / rebase
+log / status / diff
+```
+
+Work on remote repo: 
+```
+push / pull
+```
+
+### Common Scenarios
+
+Project from scratch:
+- git init
+- work on files
+- add files
+- commit
+- remote add
+- push
+
+Project already been created by others, sync locally, work on it, sync remotely
+- Git clone
+- Pull
+- Work on files
+- Add
+- Commit
+- Push
+
+Modify a project, build fails, can't understand why. Retrieve previous version that did build
+- git checkout \<commit id\>
+- git checkout -b \<new branch\> \<commit id\>
+
+## Branching
+
+2 modes of development in a project: linear and branching
+LINEAR:
+![[Screenshot 2025-03-28 at 5.16.10 PM.png|400]]
+If a feature needs to be deleted and keep the following, it's difficult to implement
+
+BRANCHING:
+![[Screenshot 2025-03-28 at 5.21.03 PM.png|400]]
+one branch per feature, master remain unchanged, easy to delete a branch to delete a feature
+
+```
+// show all branches
+git branch 
+
+// create branch
+git branch <new branch>
+
+// create a new branch and switch to it
+git checkout -b <new branch>
+git switch -c <new branch>
+
+// switch to an existing branch
+git switch <existing branch>
+git checkout <existing branch>
+
+// delete branch
+git branch -d <existing branch>
+```
+
+Git stores a commit object that contains:
+- a pointer to the snapshot of the content you staged
+- pointers to the commit or commits that directly came before this commit (its parent or parents)
+
+Staging the files
+- checksums each one
+- stores that version of the file (blobs)
+- adds that checksum to the staging area
+
+A branch in GIT is simply a lightweight movable pointer to one of these commits
+HEAD points to the current branch
+Every commit HEAD moves forward automatically
+HEAD can be moved in other ways too
+
+![[Screenshot 2025-03-28 at 5.47.37 PM.png|400]]
+
+`git branch testing`
+![[Screenshot 2025-03-28 at 5.49.07 PM.png|400]]
+Pointer to current local branch
+![[Screenshot 2025-03-28 at 5.50.04 PM.png|400]]
+switch to branch
+`git checkout testing`
+![[Screenshot 2025-03-28 at 5.51.09 PM.png|400]]
+after another commit:
+![[Screenshot 2025-03-28 at 5.52.53 PM.png|400]]
+
+If u switch to master, HEAD and WC changes (files in `.git` folder change too)
+Commit will diverge the history
+![[Screenshot 2025-03-28 at 5.56.01 PM.png|400]]
+
+### Merging
+- no divergence
+Initial situation
+![[Screenshot 2025-03-28 at 5.58.57 PM.png|400]]
+`git merge hotfix`
+![[Screenshot 2025-03-28 at 5.59.58 PM.png|400]]
+`git branch -d hotfix`
+add a commit on iss53
+![[Screenshot 2025-03-28 at 6.02.00 PM.png|400]]
+`git checkout master`
+`git merge iss53`
+![[Screenshot 2025-03-28 at 6.02.56 PM.png|400]]
+
+Final result:
+![[Screenshot 2025-03-28 at 6.03.40 PM.png]]
+
+- With divergence: instead of just moving the ranch pointer forward, git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it. It's a merge commit and it's special because has more than one parent
+	Git determines the best common ancestor to use for its merge base
+
+
+
 
 38/111
 missing lecture + 26/3
