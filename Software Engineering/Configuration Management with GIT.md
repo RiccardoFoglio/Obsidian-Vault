@@ -267,9 +267,46 @@ Final result:
 
 - With divergence: instead of just moving the ranch pointer forward, git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it. It's a merge commit and it's special because has more than one parent
 	Git determines the best common ancestor to use for its merge base
+	Conflicts are possible and have to be managed
+	
+REBASE is another way of merging : applies changes of one snapshot history to another
+
+starting point:
+![[Screenshot 2025-03-28 at 6.15.16 PM.png|500]]
+`git checkout master`
+`git merge experiment`
+![[Screenshot 2025-03-28 at 6.16.11 PM.png|500]]
+`git checkout experiment`
+`git rebase master`
+![[Screenshot 2025-03-28 at 6.20.50 PM.png|500]]
+`git checkout master`
+`git merge experiment`
+![[Screenshot 2025-03-28 at 6.24.11 PM.png|500]]
+
+Result
+![[Screenshot 2025-03-28 at 6.24.32 PM.png]]
+careful, rebase rewrites the repo history!
+
+Rebase:
+it's also possible to organize / edit your commits
+some useful casesL
+- commit message is wrong, or doesn't make sense
+- order of commits is not nice regarding to git history
+- there are more than one commit which make similar changes (or even the same thing)
+- a commit grouped a lot of different code and it makes sense divide it in smaller commits
+
+`git rebase -i HEAD~4` 
 
 
+Rebase vs Merge: main difference are
+- merge combines the commit history of two branches, while rebase creates a linear commit history
+- merge creates a new merge commit, while rebase rewrites the commit history of the feature branch
+- Merge is better suited for integrating changes from different branches, while rebase is better suited for keeping a cleaner commit history
+
+Merge is generally safer than rebase because it preserves the original commit history and creates a new merge commit, which makes it easier to undo the merge if necessary
+
+Graph structure: every merge commit increases the connectivity of the commit graph by one. A rebase by contrast doesn't change the connectivity and leads to a more linear history
 
 
-38/111
+93/111
 missing lecture + 26/3
