@@ -72,4 +72,37 @@ distribuzione e valori di un istogramma di 3-bit, 64x64 digital image
 originale / funzione di trasformazione / istogramma equalizzato
 ![[Screenshot 2025-03-31 at 3.42.53 PM.png]]
 
+ dato un istogramma iniziale e uno desiderato, è possibile ricavare la funzione di trasformazione che si avvicina al risultato sperato.
 
+1. mappa i livelli dell'immagine originale a partire dall'istogramma e ottengo la cumulata
+2. calcola la funzione G dal istogramma desiderato, ottengo la cumulata
+3. inverto G
+4. applico G inverso all'immagine di partenza
+
+
+Si può svolgere anche l'equalizzazione solo su una parte locale dell'immagine.
+![[Screenshot 2025-03-31 at 4.27.21 PM.png|500]]
+
+
+Mathematical Operations
+- Image subtraction
+	- used in segmentation and enhancement
+- image addition
+- image division
+	- multiplication of one image by reciprocal of the other
+- image averaging
+	- used for contrasting noise
+
+FILTRI
+Linear Spatial Filtering
+Data un operatore invariante di posizione lineare $h(x,y)$
+1. Point Spread Function (PSF) $h(x,y)$ è la risposta del sistema all'impulso (punto di luce)
+2. Fourier Transform di $h(x,y)$ è $H(u,v)$ ed è la optical transfer function
+
+$h(x,y)$ si chiama anche spatial convolution matrix mask se è simmetrica
+
+![[Screenshot 2025-03-31 at 4.42.43 PM.png|400]]
+
+(il totale della somma dei valori dentro alla matrice deve essere 1)
+
+33/47
