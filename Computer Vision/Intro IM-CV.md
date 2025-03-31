@@ -9,8 +9,18 @@ Pixel or pel (picture element) = sample created by a detector (it can give an an
 Datel (data element) = each datum is a datel, which is in the computer memory
 	datels and pixels are the same if the detector is already in digital form, otherwise datels are given by the frame grabber's digitalization rate, which can produce more datels than pixels (but without more resolution)
 	image processing algorithms work with datels
-Disel (display element) = smallest element taht a display medium can access
+Disel (display element) = smallest element that a display medium can access
 Resel (resolution element) = smallest signal supported by an analog system
 
 
 jpeg = compatto perchè non registra e perde alcuni dettagli
+
+Computer Vision: several fields:
+- industrial machine vision
+- medicine
+- astronomy
+- remote sensoring
+- infrared ultrasound x-ray and radar imaging
+- partile physics
+- computer games
+
