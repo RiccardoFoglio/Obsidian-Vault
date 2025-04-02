@@ -312,9 +312,154 @@ Limit effects by using local or priority page replacement
 
 ## Working Set Model
 
-62/93
+$\Delta$ = working set window = fixed number of page references
+WSS = total number of pages referenced in the most recent $\Delta$
+- if too small it will not encompass entire locality
+- if too large ti will encompass several localities
+- if infinite it will encompass the entire program
 
+$D = \sum WSS_i$ = total demand frames
+if D > m --> Thrashing. Policy: suspend or swap out one of the processes
+
+Page Fault Frequency (PFF) : establish an acceptable rate and use local replacement policy
+- too low = process loses frame
+- too high = process gains frame
+![[Screenshot 2025-04-02 at 11.41.13 AM.png|400]]
+
+Page Fault Frequency Algorithm:
+	Activated at every page fault, not at page reference. 
+	Based on time interval τ from previous page fault.
+	if τ < c, i.e. page fault frequency greater than desired, add a new frame to the Resident Set of the page faulting process.
+	if τ ≥ c, i.e. page fault frequency OK, remove from Resident Set of page faulting process all pages with reference bit at 0; 
+	then clear (set 0) reference bit of all other pages in Resident Set.
+![[Screenshot 2025-04-02 at 11.43.46 AM.png|500]]
+
+Working set and page-fault rate are in direct relationship
+Working set changes over time
+peaks and valleys over time
+![[Screenshot 2025-04-02 at 11.44.52 AM.png|400]]
 
 ## Allocating Kernel Memory 
+
+Different from user memory
+Allocated from free-memory pool
+- kernel requests memory for structure of varying sizes
+- some kernel memory needs to be contiguous (ex: for device I/O)
+
+Buddy System: allocates memory from fixed-size segment consisting of physically-contiguous pages
+Memory allocated using power-of-2 allocator
+- satisfies requests in units sized as power of 2
+- request rounded up to next highest power of 2
+- when smaller allocation needed than is available, current chunk split into two buddies of next-lower power of 2
+	- (continue until appropriate size chunk available)
+
+Example: 256KB available, Kernel requests 21KB
+- split into $A_L$ and $A_R$ of 128KB each
+- divide further into $B_L$ and $B_R$ of 64KB
+- $C_L$ and $C_R$ of 32 will satisfy the request
+
+Slab Allocator: alternate strategy
+- slab = one or more physically contiguous pages
+- Cache = one or more slabs
+- single cache for each unique kernel data structure
+	- each cache filled with objects -- instantiations of the data structure
+
+cache created, filled with objects marked as `free`
+when structures stored, objects marked as `used`
+if slab is full of used objects, next object allocated from empty slab
+	if no empty slabs, new slab allocated
+Benefits : no fragmentation, fast money request satisfaction
+
+![[Screenshot 2025-04-02 at 3.41.34 PM.png|500]]
+
+In Linux: slab can be in 3 possible states
+1. full - all used
+2. empty - all free
+3. partial - mix of free and used
+
+Upon request, slab allocator
+- uses free struct in partial slab
+- if none, takes one from empty slab
+- if no empty slab, create new empty
+
 ## Other Considerations 
+
+### Prepaging
+
+Reduce the large number of page faults that occur at process startup
+Prepage all or some of the pages a process will need, before they are referenced
+But if prepaged pages are unused I/O and memory was wasted
+Assume s pages are prepaged and a of the pages is used
+	cost of $s * a$ saves page faults greater or lesser than the cost of prepaging
+	if a near zero --> prepaging loses
+### Page Size
+
+Some OS designers have a choice, especially if running on custom CPUs
+page size selection must take into account:
+- fragmentation
+- page table size
+- resolution
+- I/O Overhead
+- Number of page faults
+- Locality
+- TLB size and effectiveness
+
+### TLB Reach
+
+TLB Reach = TLB size x Page size (amount of memory accessible from the TLB)
+Ideally, working set of each process is stored in the TLB
+	Otherwise here is a high degree of page faults
+Increase the page size
+	This may lead to an increase in fragmentation as not all applications require a large page size
+Provide multiple page sizes
+	This allows applications that require larger page sizes the opportunity to use them without an increase in fragmentation
+
+### Program Structure
+
+Given `int[128,128] data;`
+Each row is stored in one page
+
+Program 1:
+```c++
+for (j = 0; j < 128; j++)
+	for (i = 0; i < 128; i++)
+		data[i,j] = 0;
+```
+128x128 = 16384 page faults
+
+Program 2:
+```c++
+for (i = 0; i < 128; j++)
+	for (j = 0; j < 128; j++)
+		data[i,j] = 0;
+```
+128 page faults
+### I/O Interlock
+
+I/O Interlock – Pages must sometimes be locked into memory 
+
+Consider I/O - Pages that are used for copying a file from a device must be locked from being selected for eviction by a page replacement algorithm 
+
+Pinning of pages to lock into memory
+
+![[Screenshot 2025-04-02 at 5.24.26 PM.png|300]]
 ## Operating-System Examples
+
+### Windows
+
+Uses demand paging with clustering, clustering brings in pages surrounding the faulting page
+Processes are assigned working set minimum and working set maximum
+when the amount of free memory in the system falls below a threshold, automatic working set trimming is performed to restore the amount of free memory
+Working set trimming removes pages from processes that have pages in excess of their working set minimum
+### Solaris
+
+Maintains a list of free pages to assign faulting processes
+`Lotsfree` – threshold parameter (amount of free memory) to begin paging 
+`Desfree` – threshold parameter to increasing paging 
+`Minfree` – threshold parameter to being swapping 
+Paging is performed by pageout process
+`Pageout` scans pages using modified clock algorithm
+`Scanrate` is the rate at which pages are scanned. This ranges from `slowscan` to `fastscan`
+`Pageout` is called more frequently depending upon the amount of free memory available 
+Priority paging gives priority to process code pages
+
