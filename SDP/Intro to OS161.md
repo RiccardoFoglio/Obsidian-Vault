@@ -147,6 +147,86 @@ runthreads(int doloud){
 ```
 
 
-rimasto a 22/72
+from fork to execution (ready state)
+
+```c++
+thread_fork(..., void (*entrypoint) (void *, unsigned long), void *data1, unsigned long data2){
+	...
+	newthread = thread_create(...);
+	...
+	switchframe_init(newthread, entrypoint, data1, data2);
+	thread_make_runnable(newthread, false);
+}
+
+thread_create(...){
+	thread = kmalloc(sizeof(*thread));
+	thread->... = ...;
+	return thread;
+}
+
+switchframe_init(...){
+	/*setup switchframe in stack*/
+}
+
+thread_make_runnable(struct thread *target){
+	...
+	target->t_state = S_READY;
+	threadlist_addtail(&targetcpu->c_runqueue, target);
+	...
+}
+```
+
+from ready to execution: `thread_switch()`
+
+```c++
+thread_switch(threadstate_t newstate,...){
+	struct thread *cur, *next;
+	cur = curthread;
+	/* put thread in right place */
+	switch (newstate){
+		case S_RUN: panic("Illegal S_RIN in thread_switch\n");
+		case S_READY: thread_make_runnable(cur, true /*have lock*/);
+		break;
+	}
+	next = threadlist_remhead(&curcpu->c_runqueue);
+
+	/* do the switch (in assembler in switch.S) */
+	switchframe_switch(&cur->t_context, &next->t_context);
+	...
+}
+```
+
+Kernel Thread Tests:
+1. tt1 : call `threadtest->runthreads(1/* loud */)` to generate `NTHREADS(8)` threads executing `loudthread`. 8 threads mixing output of chars (120 chars each)
+2. tt2 : call `threadtest2->runthreads(0 /* quiet */)` to generate `NTHREADS(8)` threads executing `quietthread` 8 threads doing busy wait followed by output of 1 char
+3. tt3 : call `threadtest3->runtest3` to generate a certain number of threads dong sleep or work and sync
+
+
+`switchframe_switch` done in assembler because switch done on registers
+```c++
+cur->t_context = registers;     /* save */
+registers = next->t_context;    /* restore */ 
+```
+
+
+![[Screenshot 2025-04-03 at 1.19.02 PM.png|500]]
+
+
+the Proc Struct
+
+```c++
+struct proc {
+	char *p_name;
+	struct spinlock p_lock;
+	unsigned p_numthreads;
+	/* VM */
+	struct addrspace *p_addrspace;
+	/* VFS */
+	struct vnode *p_cwd;
+	/* add more as needed */
+}
+```
+
+
 
 fino a 60/72
