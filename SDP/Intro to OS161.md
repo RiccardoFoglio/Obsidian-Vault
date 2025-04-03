@@ -227,6 +227,169 @@ struct proc {
 }
 ```
 
+Single threaded Process
+![[Screenshot 2025-04-03 at 9.50.06 PM.png|400]]
+
+Multi-threaded Process
+![[Screenshot 2025-04-03 at 9.50.55 PM.png|400]]
+
+ 
+![[Screenshot 2025-04-03 at 9.51.46 PM.png]]
 
 
-fino a 60/72
+Running a User Program
+(GDB: set breakpoint on load_elf) from os161 menu
+- `p <elf_file> {<args>}`
+	- p bin/cat \<filename\>
+	- p testbin/palin
+- Menu calls `cmd_prog->common_prog`
+	- `proc_create_runprogram` : create user process
+	- `thread_fork`: thread executes `cmd_progthread->runprogram`
+		- generate address space
+		- read ELF file
+		- Enter new process (kernel thread becomes USER thread)
+
+```c++
+/* see kern/syscall/runprogram.c */
+
+int runprogram(char *progname) {
+	struct addrspace *as;
+	struct vnode *v;
+	vaddr_t entrypoint, stackptr;
+	int result;
+
+	/* Open the file */
+	result = vfs_open(progname, O_RDONLY, 0, &v);
+	...
+	/* Create a new address space */
+	as = as_create();
+	...
+	/* Switch to it and activate it */
+	proc_setas(as);
+	as_activate();
+	/* Load the executable */
+	result = load_elf(v, &entrypoint);
+	...
+	/* Done with the file now */
+	vfs_close(v);
+	
+	/* Define the user stack in the address space */
+	result = as_define_stack(as, &stackptr);
+	...
+	/* Warp to user mode */
+	enter_new_process(
+		0 /*argc*/, 
+		NULL/*userspace addr of argv*/, 
+		NULL /*userspace addr of environment*/, 
+		stackptr, 
+		entrypoint);
+	
+	/* enter_new_process doesn't return */
+	panic("enter_new_process returned\n");
+	return EINVAL;
+}
+```
+
+enter_new_process
+```c++
+/* see kern/arch/mips/locore/trap.c */
+
+void enter_new_process(int argc, userptr_t argv, userptr_t env, vaddr_t stack, vaddr_t entry){
+	struct trapframe tf;
+	
+	bzero(&tf, sizeof(tf));
+	
+	tf.tf_status = CST_IRQMASK | CST_IEp | CST_KUp;
+	tf.tf_epc = entry;
+	tf.tf_a0 = argc;
+	tf.tf_a1 = (vaddr_t) argv;
+	tf.tf_a2 = (vaddr_t) env;
+	tf.tf_sp = stack;
+
+	mips_usermode(&tf);
+}
+
+void mips_usermode(struct trapframe *tf){
+	...
+	/* this actially does it, see exception -*.S. */
+	asm_usermode(tf);
+}
+```
+Assembler because working on registers. Usermode done as if returning from exception
+
+# OS Services
+![[Screenshot 2025-04-03 at 10.12.07 PM.png]]
+## System Calls
+
+Programming interface to the services provided by the OS
+typically written in high-level language (C or C++)
+Mostly accessed by programs via a high-level API rather than direct system call use
+3 most common APIs: 
+- Win32 API for Windows
+- POSIX API for Posix
+- Java API for Java Virtual Machine (JVM)
+
+![[Screenshot 2025-04-03 at 10.14.53 PM.png|500]]
+![[Screenshot 2025-04-03 at 10.16.15 PM.png|500]]
+
+System Call Implementation:
+- typically a number is associated with each system call
+	- system call interface maintains a table indexed according to these numbers
+- The system call interface invokes the intended system call in OS kernel and returns status of the system call and any return values
+- the caller needs to know nothing about know the system call is implemented
+	- needs to obey the API and understand what OS will do as a result call
+	- Most details of OS interface hidden from programmer by API (managed by run-time support library)
+
+![[Screenshot 2025-04-03 at 10.18.25 PM.png|500]]
+
+System Call Parameter Passing:
+
+3 general methods:
+- simplest : pass parameters in registers
+- parameters stored in a block/table/memory and address passed as parameter in a register
+- parameters placed/pushed into the stack by program and popped by OS
+Block and Stack method don't limit the number or length of parameters being passed
+
+
+Type of System Calls:
+
+Process Control
+- create process, terminate process
+- end, abort 
+- load, execute
+- get process attributes, set process attributes
+- wait for time
+- wait event, signal event
+- allocate and free memory
+- Dump memory if error
+- Debugger for determining bugs, single step execution 
+- Locks for managing access to shared data between processes
+
+File management
+- create file, delete file
+- open, close file
+- read, write, reposition
+- get and set file attributes 
+
+Device management 
+- request device, release device
+- read, write, reposition
+- get device attributes, set device attributes 
+- logically attach or detach devices
+
+Information maintenance 
+- get time or date, set time or date
+- get system data, set system data
+- get and set process, file, or device attributes 
+
+Communications
+- create, delete communication connection
+- send, receive messages if message passing model to host name or process name ! From client to server
+- Shared-memory model create and gain access to memory regions
+- transfer status information
+- attach and detach remote devices
+
+Protection 
+- Control access to resources
+- Get and set permissions
+- Allow and deny user access
