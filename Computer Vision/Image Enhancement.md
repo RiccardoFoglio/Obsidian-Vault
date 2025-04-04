@@ -105,4 +105,41 @@ $h(x,y)$ si chiama anche spatial convolution matrix mask se è simmetrica
 
 (il totale della somma dei valori dentro alla matrice deve essere 1)
 
-33/47
+in Photography: resulting image at the sensor level = convolution of the original image with the finite aperture of the lens.
+- if the original image is a very little point = result is in focus
+- if lens out of focus the result is much larger (bokeh)
+
+Averaging Filter Masks
+![[Screenshot 2025-04-04 at 11.48.20 AM.png|500]]
+
+Non linear Filtering: Median Filter 
+- median is the numerical value separating higher half from the lower half
+- median filter computes the median under the mask and uses it as a resulting value
+- it's very effective for some images
+- there exist also max, min and mean filters
+
+Sharpening spatial filters : Derivatives
+![[Screenshot 2025-04-04 at 2.35.18 PM.png|500]]
+
+Laplacian
+![[Screenshot 2025-04-04 at 2.36.42 PM.png|500]]
+
+![[Screenshot 2025-04-04 at 2.46.24 PM.png|300]]
+
+In order to get the final image the laplacian is added or subtracted to the image
+
+
+Unsharp masking and High Boost Filtering
+
+unsharp mask is the equivalent of dark room technique based on printing together positive with a blurred negative
+
+![[Screenshot 2025-04-04 at 2.49.08 PM.png|400]]
+
+Amount : how much the contrast has to be incremented
+Radius : how large is the area of modified pixels around starting pixel
+Threshold : minimum difference between pixels for applying filter
+
+
+First Derivative : Gradient
+![[Screenshot 2025-04-04 at 2.50.51 PM.png]]
+
