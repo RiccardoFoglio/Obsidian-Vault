@@ -149,6 +149,38 @@ fstream library allows manipulation of binary files
 - to read data from binary file use `read()`
 
 
+Random Walk = perform I/O operation starting from specific file position, possible to use:
+- seek get = set the next reading position
+- seek put = set the next writing position
+in many cases get and put pointers are tied together, using either seekg or seekp might result in the same file position
 
-Random Walk (lezione monday)
+```c++
+istream &seekg(streamoff offset, ios_base::seekdir dir); 
+istream &seekp(streamoff offset, ios_base::seekdir dir);
+```
+
+- **Offset** : integer value representing the offset in the stream's buffer
+- **dir** : starting position to evaluate the offset
+	- `ios_base::beg` -> beginning of file
+	- `ios_base::cur` -> current position
+	- `ios_base::end` -> end of file
+
+Seeking a file:
+```c++
+std::fstream file("example.bin", std::ios::binary | std::ios::out | std::ios::trunc);
+
+if (!file.is_open()) { ... Error ... } 
+
+// Write data1 at the beginning 
+file.write(reinterpret_cast(&data1), sizeof(data1));
+
+// Move the write pointer forward by sizeof(data2) 
+bytes.file.seekp(sizeof(data2), std::ios::cur); file.write(reinterpret_cast(&data3), sizeof(data3));
+
+// Move the write pointer back to overwrite the skipped 
+data2file.seekp(sizeof(data1), std::ios::beg); 
+file.write(reinterpret_cast(&data2), sizeof(data2));
+
+file.close();
+```
 
