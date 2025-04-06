@@ -177,9 +177,77 @@ lst.erase(lst.begin(), lst.end()); // Equivalent instruction
 ```
 
 
+Iterators:
+we can use subscripts to access elements of a vector or string
+All containers support iterators:
+- objects that can be thought of as pointer abstractions, t gives a direct access to the elements
+- standard library defines multiple iterator types as containers have different capabilities
+
+We can use iterators to: 
+- Access elements
+- Move from one element to another
+
+Iterators are returned by member functions, not by pointers (included in the `<iterator>` header)
+
+Standard library provides 5 iterator categories: Input, Output, Forward, Bidirectional, Random-Access
+![[Screenshot 2025-04-06 at 5.57.24 PM.png|500]]
+
+![[Screenshot 2025-04-06 at 5.57.38 PM.png|500]]
 
 
+```c++
+
+vector<std::string> v = {"one", "two", "three", "four"};
+
+vector<std::string>::iterator it = v.begin();
+//Iterators have type iterator or const_iterator
+
+vector<std::string>::const_iterator itc = v.begin();
+//A const_interator can be used to read not to write an element
+
+// MOST COMMON WAY:
+vector<int> v;
+auto it = v.begin();
+//Often the type is automatically decided by the compiler
 
 
+string s(“this is a string”);
 
-24-25-26/3 videos
+if (s.begin() != s.end()) { // Make sure s is not empty**
+	auto it = s.begin();
+	*it = tupper(*it);      // Make first character uppercase**
+}
+
+// Make all characters uppercase**
+for (auto it = s.begin(); it!=s.end(); it++)
+	*it = toupper(*it);
+
+list<int> l={0,1,2,3,4,5,6,7,8,9};
+
+auto it=l.begin();
+while (it!=l.end()) {
+	if (*it % 2)
+		it = l.erase(it); 
+	else
+		++it;
+	// Erase odd elements in the list**
+}
+```
+
+When we modify a container, an existing iterator may become invalid:
+	if we add an element, the existing iterator may be invalidated and must be used with care
+
+```c++
+
+vector<int> v = {0,1,2,3,4,5,6,7,8,9};
+auto it = v.begin();
+
+while (it != v.end()){
+	if (*it != v.end()){
+		it = v.insert(it, *it);
+		it += 2;
+	} else {
+		it = v.erase(it);
+	}
+}
+```
