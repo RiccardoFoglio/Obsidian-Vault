@@ -116,3 +116,13 @@ ci sono sempre soluzioni simmetriche rispetto all'asse, e non sempre la prima è
 
 
 ## Figure Articolate
+
+Modellare e animare figure articolate è un task complesso: il problema è il corpo umano virtuale
+
+Si consideri il braccio come una componente isolata dal resto del corpo
+![[Screenshot 2025-04-07 at 7.37.50 PM.png|400]]
+
+problema dell'avambraccio: rotazione associata al polso, ma la rotazione è distribuita lungo l'avambraccio stesso visto che radio e ulna ruotano l'uno attorno all'altro
+I giunti del braccio umano devono avere dei limiti (gomito: 160 gradi)
+
+
