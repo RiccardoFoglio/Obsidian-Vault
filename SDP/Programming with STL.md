@@ -90,6 +90,6 @@ std::sort(
 	[](unsigned lhs, unsigned rhs) {return lhs > rhs;}
 );
 // v is now {4, 3, 2, 1}
-
-
 ```
+
+26/3 + 7/4
