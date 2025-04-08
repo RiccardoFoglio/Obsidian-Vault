@@ -126,3 +126,4 @@ problema dell'avambraccio: rotazione associata al polso, ma la rotazione è dist
 I giunti del braccio umano devono avere dei limiti (gomito: 160 gradi)
 
 
+FINISCI LEZIONE DA AUDIO
