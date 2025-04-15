@@ -88,4 +88,66 @@ These are RAII-based mutex wrappers that simplify thread synchronization
 
 Their differences lie in flexibility, use cases, and supported mutex types
 
-18/32 + lecture 9/4
+![[Screenshot 2025-04-12 at 11.40.32 AM.png]]
+
+```c++
+std::mutex mtx;
+{
+	std::lock_guard<std::mutex> lock(mtx);
+	// Locks immediately
+	// Critical section**
+}   // Automatically unlocks
+```
+
+The main advantage is not needing to unlock the lock, out of scope unlocks it automatically
+
+
+![[Screenshot 2025-04-12 at 11.43.58 AM.png]]
+
+```c++
+std::mutex mtx;
+std::unique_lock<std::mutex> lock(mtx, std::defer_lock);
+// Defer locking
+if (condition) {
+	lock.lock(); // Manual lock
+	// Critical section
+	lock.unlock(); // Manual unlock
+}
+```
+
+![[Screenshot 2025-04-12 at 11.47.10 AM.png]]
+```c++
+std::shared_mutex sh_mt
+{
+	std::shared_lock<std::shared_mutex> lock(sh_mtx);
+	// Share read access
+	// Read-only critical sectio
+} // Automatically unlocks
+```
+
+![[Screenshot 2025-04-12 at 11.48.33 AM.png]]
+
+```c++
+std::mutex mtx1, mtx2;
+{
+	std::scoped_lock lock(mtx1, mtx2);
+	// Locks both mutexes
+	// Critical section using both resources
+} // Automatically unlocks both
+```
+
+![[Screenshot 2025-04-12 at 11.52.42 AM.png]]
+
+# Semaphores
+
+Introduced in C++20
+
+they contain a counter initialized by the constructor 
+When the counter is zero they acquire locks until the counter is incremented
+![[Screenshot 2025-04-12 at 11.59.02 AM.png]]
+
+Semaphores are not tied to threads, acquiring a semaphore can occur on a different thread than releasing the semaphore
+
+![[Screenshot 2025-04-12 at 11.59.59 AM.png]]
+
+!! compile with `-std=c++20`!!
