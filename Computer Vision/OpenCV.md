@@ -82,3 +82,52 @@ high performance multidimensional array objects and tools for working with them
 
 `np.eye(n)` genera una matrice d'identità di dimensione n
 
+`np.add(x,y)`
+`np.subtract(x,y)`
+`np.multiply(x,y)`
+`mp.divide(x,y)`
+`np.sqrt(x)`
+
+`second = np.copy(origin)` --> deep copy of origin array
+
+every array in NumPy is a grid of elements of the same type
+il datatype si può specificare
+`np.array([1,2], 'int64')`
+
+Access a pixel value:
+```python
+img[100,100] # molto lento, sconsigliato
+img.item(100,100,2) # accessing red values col canale 2 (BRG)
+```
+
+spit dei canali di un immagine:
+
+```python
+b,g,r = cv2.split(img)
+
+# faster
+b = img[:,:,0]
+g = img[:,:,1]
+r = img[:,:,2]
+```
+
+regione di interesse:
+
+```python
+bottom_right_corner = img[80:100, 80:100] #slicing
+img[273:333, 100:160] = ball 
+```
+
+# Matplotlib
+
+`import matplotlib.pyplot as plt`
+
+`plt.plot(x,y)` for points
+`plt.imshow(img)` for images
+
+`plt.show()`
+
+`plt.subplot(rows, columns, index)` plotting different things in the same plot
+
+matplotlib usa RGB mentre OpenCV usa BGR
+
