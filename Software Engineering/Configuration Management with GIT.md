@@ -307,6 +307,26 @@ Merge is generally safer than rebase because it preserves the original commit hi
 
 Graph structure: every merge commit increases the connectivity of the commit graph by one. A rebase by contrast doesn't change the connectivity and leads to a more linear history
 
+cherrypick : allows to apply a specific commit from one branch to another without merging the entire branch
+`git cherrypick <commit-hash>`
 
-93/111
-missing lecture + 26/3
+### Collaborative Models:
+
+- Shared repo : individuals and teams are explicitly designated as contributors with read, write or admin access
+- fork and pull : anyone can contribute, fork is a copy of a project under a dev's personal account. every dev has full control of their fork and is free to implement new stuff. Work completed can be brought to the original project via a pull request
+
+pull (or merge) request let the dev tell others about changes they pushed to the branch in a repo
+Once a request is opened, the dev can discuss and review the potential changes with collaborators and add follow-up commits before changes are merged into the base branch
+
+# Git Flow
+
+Branching model designed to structure and streamline software development
+
+separates stable code from ongoing development, reducing risks
+allows multiple features to be developed in parallel or isolated branches increasing efficiency
+ensures quality and stability by integrating testing before release
+facilitates collaboration using merge requests for code reviews
+keeps track of releases using tags and structured versioning
+
+Beneficial for projects with periodic releases
+
