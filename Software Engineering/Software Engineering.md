@@ -9,9 +9,5 @@
 
 # [[Configuration Management with GIT]]
 
+# [[UI Design]]
 
-
-
-
-Registrazioni:
-- dal 10/3 al 21/3 : esempi pratici e lab
