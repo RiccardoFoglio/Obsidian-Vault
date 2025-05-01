@@ -1,10 +1,36 @@
+
+spostare un vertice (seed vertex) o gruppo di vertici dell'oggetto e propagare lo spostamento ai vertici adiacenti lungo la superficie
+
+![[Screenshot 2025-05-01 at 3.15.54 PM.png]]
+
+funzione di attenuazione : dipende da quanto è lontano il vertice che considero dal seed vertex in termini di lati
+
+$$
+S(i) = 1.0 - (\frac{i}{n+1})^{k+1} \quad k \ge 0 
+\quad \quad 
+S(i) = (1.0 - (\frac{i}{n+1}))^{-k} \quad k < 0
+$$
+K rappresenta un fattore di scala da applicare allo spostamento ed è selezionato dall'utente
+- k=0 attenuazione lineare
+- k>0 impressione di elasticità
+- k<0 effetto di rigidezza
+
+Free Form Deformation (FFD) : sistema di riferimento locale che racchiude parte di oggetto che deve essere deformata
+Per deformare l'oggetto si manipola e si modifica il sistema di riferimento locale, dopodichè si ricalcolano le coordinate dei vertici e le si rimappano nel sistema globale.
+È più semplice e intuitivo manipolare il sistema di riferimento piuttosto che le coordinate dei vertici
+Le distorsioni dell'oggetto sono ristrette alle manipolazioni possibili dal sistema di riferimento
+
+sistema di riferimento locale = griglia 2D nel quale è piazzato l'oggetto da deformare
+Il sistema locale è inizialmente allineato con quello globale, in modo tale che il mapping tra sistema locale e globale consista in uno scalamento e una traslazione
+
+
+
 1. tecnica seed vertex : quando vertice si sposta proporzionalmente modifica i vertici vicini mediante un parametro (su blender : proportional editing)
 
 2. Free form deformation : 
 	- griglie 2D/3D (su blender : lattice, sistema di riferimento (u,v,w) != da (x,y,z) ) 
 	- polyline : mantenere delle distanze (su blender : armature in envelope mode)
 
-(recupera fino a 17/43)
 
 "descrivere una deformazione globale"
 

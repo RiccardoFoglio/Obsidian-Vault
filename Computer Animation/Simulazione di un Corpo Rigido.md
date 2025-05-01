@@ -114,16 +114,88 @@ Cinematica Inversa: data una posizione finale, calcolare la configurazione dei g
 ![[Screenshot 2025-03-25 at 6.39.53 PM.png|400]]
 ci sono sempre soluzioni simmetriche rispetto all'asse, e non sempre la prima è quella che vogliamo noi.
 
-
 ## Figure Articolate
 
 Modellare e animare figure articolate è un task complesso: il problema è il corpo umano virtuale
-
+![[Screenshot 2025-05-01 at 2.02.04 PM.png]]
 Si consideri il braccio come una componente isolata dal resto del corpo
 ![[Screenshot 2025-04-07 at 7.37.50 PM.png|400]]
 
-problema dell'avambraccio: rotazione associata al polso, ma la rotazione è distribuita lungo l'avambraccio stesso visto che radio e ulna ruotano l'uno attorno all'altro
-I giunti del braccio umano devono avere dei limiti (gomito: 160 gradi)
+problema dell'avambraccio: 
+- rotazione associata al polso, ma la rotazione è distribuita lungo l'avambraccio stesso visto che radio e ulna ruotano l'uno attorno all'altro
+	Soluzione: giunto a metà per distribuire la rotazione
+- I giunti del braccio umano devono avere dei limiti (gomito: 160 gradi)
+	catena cinematica per le ossa dei Bone Constraints, che son diversi dai vincoli di oggetto
 
+7 DoF minimi + 1 per collegare il bracio al busto
 
-FINISCI LEZIONE DA AUDIO
+Euristiche x il braccio:
+- Dal più vicino al più lontano
+- giunto lontano ha più effetto di quelli vicini
+
+Modello della mano: polso palmo falange falangine e falangette per tutte le dita --> 27 DoF
+![[Screenshot 2025-05-01 at 2.14.09 PM.png]]
+![[Screenshot 2025-05-01 at 2.20.05 PM.png|400]]
+movimento di una figura articolata in presenza di ostacoli: i numeri in figura son pesi che vengono usati per calcolare la probabilità di collisione con gli oggetti.
+
+Camminata: modellare una camminata è uno dei compiti più difficili
+è dinamicamente stabile ma non staticamente stabile
+	moto di un umano non può essere bloccato in un determinato istante e analizzato staticamente per determinare quali forze lineari e torsioni determinano il moto
+
+- lunghezza del passo
+- rotazione dell'anca
+- posizionamento dei piedi
+
+usati per specificare come una particolare camminata dovrebbe apparire
+Comprendere l'interazione tra i vari giunti coinvolti nel moto è il primo passo per modellare la camminata
+
+Modello della Gamba
+![[Screenshot 2025-05-01 at 2.30.19 PM.png|400]]
+
+Ciclo camminata può essere diviso in diverse fasi:
+![[Screenshot 2025-05-01 at 2.33.52 PM.png]]
+![[Screenshot 2025-05-01 at 2.34.13 PM.png|500]]
+
+Ciclo di corsa: diverso da camminata
+- piedi non sono mai entrambi sul pavimento contemporaneamente
+- istante in cui entrambi i piedi sono in aria
+![[Screenshot 2025-05-01 at 2.35.45 PM.png]]
+
+## Animazione facciale
+
+Creazione del modello è il primo problema
+Fattori importanti
+- metodo di acquisizione dei dati geometrici
+- controllo del moto
+- qualità di rendering
+- qualità del moto
+
+2 tecniche per la costruzione del modello
+- digitalizzazione (mediante scanner 3D o da fotografie)
+- modifica di un modello esistente
+
+metodo più semplice per l'animazione: identificare delle pose (espressioni) chiave
+Animazione facciale ottenuta da interpolazione tra pose chiave
+approccio restrittivo perchè non individualmente controllabile dall'animatore
+
+Facial Action Coding System (FACS) ha l'obiettivo di decomporre tutte le espressioni facciali in un insieme di movimenti facciali basici
+I movimenti sono detti Actiun Unit (AU)
+son stati identificate 46 AU
+Un animazione facciale può essere costruita dando accesso all'utente ad un insieme di variabili che corrispondono 1-1 con le AU
+non è time-based e non incorpora la descrizione per il parlato
+
+Modellazione muscoli:
+possono essere
+- lineari --> muscolo contraendosi tiri un punto (punto di inserzione) verso l'altro (punto di attacco)
+- laminari --> array di muscoli lineari
+- radiali --> contraggono radialmente verso un centro immaginario
+
+possono essere posizionati:
+- sulla superficie del volto (attaccati solo alla pelle)
+- attaccati da una parte alla pelle e dall'altra alle ossa (anatomicamente più accurato ma più complesso)
+
+reazione muscolare : muscolo attivato --> punto di inserzione si muove di un certo ammontare verso il punto di attacco
+il movimento del muscolo crea una deformazione che si propaga sulla pelle e determina l'espressione facciale
+il modello più semplice è quello di considerare la distanza dal punto di inserzione
+![[Screenshot 2025-05-01 at 2.51.41 PM.png|600]]
+
