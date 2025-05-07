@@ -86,3 +86,46 @@ Estimation by size and productivity
 ![[Screenshot 2025-04-30 at 4.42.41 PM.png|500]]
 
 4. estimate calendar duration
+
+
+Function Points : a metric for software project estimation. used to estimate time, cost and effort in software dev.
+Independent of programming language
+$$fp = A*EI + B*EO + C*EQ+D*EIF+E*ILF$$
+- External Inputs (EIs) = processes that data comes into the system
+- External Outputs (EOs) - Data outputs from the system.
+- External Inquiries (EQs) - Interactive transactions made by users.
+- External Interface Files (EIFs) - External systems data used by the application.
+- Internal Logical Files (ILFs) - User identifiable groups of logically related data.
+
+Procedure: 
+1. identify and classify components as ILFs, EIFs, EIs etc...
+2. assign each component a complexity weight (Low Average, High)
+3. use weighting tables to allocate points based on complexity
+4. sum all the points to get the total Function Points
+
+Technical Complexity Factor (TCF) : adjusts the Function Points to reflect the technical complexity and the technological challenges encountered in the project
+It accounts for computational performance, reusability and data processing needs
+
+- Data Processing Complexity: Impacts of extensive data management and manipulation.
+- Performance Requirements: The need for high-performance metrics under specific constraints.
+- End-User Efficiency: Focus on user interface and experience optimizations.
+- Complex Processing: The requirement for complex algorithms or computing processes.
+- Reusability: Designing software components that can be reused in other applications.
+- Installation Ease: Complexity involved in software deployment and installation.
+
+Environmental Complexity Factor (ECF) : adjusts the Function Points to consider the project’s environmental variables like team experience, working conditions, and project continuity.
+It reflects the non-technical influences that can affect the project timelines and efficiency
+
+- Team Experience: Level of experience the development team has with similar projects.
+- Application Experience: Familiarity with the technology and the application domain.
+- Team Motivation: Impact of team morale and motivation on the project’s progress.
+- Working Conditions: The work environment's adequacy for efficient project execution.
+- Required Software Tools: Availability and adequacy of tools to support the project development.
+
+# PM Approaches
+
+- waterfall --> requirements give a project plan
+- iterations --> dynamic requirements
+
+![[Screenshot 2025-05-07 at 5.01.11 PM.png|600]]
+
