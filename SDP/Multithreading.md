@@ -52,8 +52,5 @@ t3.join();   // after it's done i can read the content and use it
 std::thread t (f, std::ref(i));
 ...
 t.join();
-
-
-
 ```
 
