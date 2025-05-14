@@ -108,15 +108,9 @@ Life locking can produce
 - starvation 
 - deadlock
 
-
-
-
-
-
-
-
-
-
 # Multiplexing IO
+
+
+
 
 # File Mapping
