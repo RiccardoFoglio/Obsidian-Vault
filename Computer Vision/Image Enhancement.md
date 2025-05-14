@@ -139,7 +139,22 @@ Amount : how much the contrast has to be incremented
 Radius : how large is the area of modified pixels around starting pixel
 Threshold : minimum difference between pixels for applying filter
 
-
 First Derivative : Gradient
 ![[Screenshot 2025-04-04 at 2.50.51 PM.png]]
 
+
+--------------------------------
+
+In fotografia l'immagine risultante è la convoluzione dell'immagine originale con l'aperture della lente
+- se l'originale è piccola (1 micron) il risultato è una figura a fuoco
+- se la lente è fuori fuoco il risultato è più grosso (bokeh)
+
+
+somma dei prodotti nella matrice va smorzata da una costante per renderla average
+	Averaging filter masks --> smussa gli angoli
+![[Screenshot 2025-05-14 at 6.09.30 PM.png]]
+	Median Filter --> calcola mediana nell'area, il valore che divide metà alta da metà bassa (diversa da media), usata per correggere il rumore
+![[Screenshot 2025-05-14 at 6.09.11 PM.png]]
+	Sharpening filter --> derivata
+![[Screenshot 2025-05-14 at 6.12.47 PM.png|400]]
+Laplacian mask : aggiunta se il centro coeff è positivo, o sottratta se è negativo

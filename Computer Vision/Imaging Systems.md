@@ -73,3 +73,32 @@ si ruota di 5,7 gradi l'edge per avere più pixel interessati nel calcolo del pa
 ![[Screenshot 2025-04-23 at 3.58.41 PM.png|500]]
 
 programma standard per calcolare l'MTF : Imatest, ma costa troppo
+
+unsharp mask : può rendere dettagli più visibili
+![[Screenshot 2025-05-14 at 6.30.53 PM.png]]
+risalto anche il rumore con la mask
+
+basso diaframma = immagine più sharp
+
+ingrandimento lente:
+![[Screenshot 2025-05-14 at 7.03.32 PM.png]]
+
+oggetto: 50mm, voglio vederlo con precisione 1/10 mm (100 micron)
+u = distanza oggetto - obbiettivo (25cm) --> $u = f(1+ \frac{1}{m})$
+v = distanza obbiettivo - sensore (focale obbiettivo, es 25mm, 50mm ecc...) $u = f(1+m)$
+
+$D = u+v = f(2+m+\frac{1}{m})$
+ingrandimento: $m = \frac{v}{u}$
+
+grandezza sensore: data dal datasheet della camera
+grandezza del pixel: data dal datasheet della camera (1.25 micron)
+
+calcola da grandezza sensore e grandezza pixel se l'oggetto ci sta:
+
+- ingrandimento sistema lente: $m = v / u = 25mm / 25cm = 0.1$ 
+- --> 50mm diventano 5mm su sensore
+- controllo grandezza sensore per pixel (6.25mm, ci sta con un po' di margine)
+- precisione richiesta: 100micron --> nel sistema lente diventano 10micron --> circa una decina di pixel bastano per rappresentarla
+
+la formula non funziona del tutto perchè la focale cambia leggermente, l'unico modo per vedere quanto è grande su sensore l'oggetto è tramite il metodo sperimentale:
+- conta quanti pixel occupa, e sai quanto è grosso 1 pixel
