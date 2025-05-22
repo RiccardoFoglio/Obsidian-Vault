@@ -27,7 +27,7 @@ Tecnica **shadow-mask**: sottile lamina metallica allineata in modo tale che cia
 Soluzioni alternative:
 - Schema "aperture grille" : Griglia di sottili fili metallici tra i cannoni e lo strato di fosfori. Fasci di elettroni allineati solo dalla griglia
 - Schema "slot mask" : Incrocio tra le due tecniche precedenti. Griglia di linee verticali suddivise in celle ellittiche (migliorano la saturazione, il contrasto e la messa a fuoco)
-![[Pasted image 20241210122606.png]]Limite alla 
+![[Pasted image 20241210122606.png]] 
 
 Limite alla risoluzione dei CRT a colori
 - Distanza tra i centri (dot pitch, o stripe pitch) 
@@ -179,11 +179,11 @@ Le applicazioni che utilizzano grafica 3D devono elaborare una quantità di dati
 
 AGP (Accelerated Graphics Port)
 Benefici offerti dall’architettura AGP riguardano 
-- Non solo la quantità di dati trasferibili nell’unità di tempo
-- Ma la strada che questi percorrono all’interno del sistema
+- quantità di dati trasferibili nell’unità di tempo
+- strada che questi percorrono all’interno del sistema
 L’AGP ottimizza uno dei “colli di bottiglia” dell’architettura dei calcolatori
 Permette di utilizzare direttamente la memoria di sistema per immagazzinare le texture con un meccanismo di allocazione dinamica da parte del sistema operativo nei confronti del sistema grafico 
-Le texture possono essere lette direttamente dalla memoria di sistema senza alcuna operazione di prefetch nel frame buffer del sistema video
+Le texture possono essere lette direttamente dalla memoria di sistema senza alcuna operazione di pre-fetch nel frame buffer del sistema video
 
 ![[Pasted image 20241210170500.png]]
 
