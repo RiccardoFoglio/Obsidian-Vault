@@ -63,13 +63,13 @@ Transparency:
 - performance (throughput, max distances) may be different from the original network but functionalities are the same
 
 Each port of a bridge/switch has a MAC level and therefore a MAC address
- That MAC address is never used when forwarding dara grames
+ That MAC address is never used when forwarding data frames
  it's used when frames are generated / received by the switch itself
 
 ### Smart Forwarding Process
 Plug and play switches
 smarter forwarding rules apply for:
-- Unicast : only the port toward the destination (Destination MAC-based forwarding)
+- Unicast : only the port towards the destination (Destination MAC-based forwarding)
 - Multicast, broadcast : flooding (all ports except the port on which the frame has been received)
 
 MAC forwarding table must be available locally : filtering database

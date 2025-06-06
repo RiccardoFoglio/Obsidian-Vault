@@ -36,7 +36,7 @@ IPv4 Solutions:
 Any individual IPv4 address can be in any of the 5 states:
 - reserved for special use                                                           (RESERVED)
 - part of IANA unallocated address pool                                   (FREE)
-- part of the unassigned pool held by a RIR                              (NOT ASSIGNED BUT HELD BY RIR)
+- part of the unassigned pool held by a RIR                           (NOT ASSIGNED BUT HELD BY RIR)
 - assigned to and end user entity but unadvertised by BGP   (UNUSED)
 - assigned and advertised in BGP                                               (USED)
 

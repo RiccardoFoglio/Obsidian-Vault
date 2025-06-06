@@ -80,7 +80,7 @@ Cost of reaching Y from X, using Z as next hop
 ![[Pasted image 20241127130719.png]]
 
 Issues:
-- black hole : DoS attack by malicious node advertising impossibly short, non existent routs to attract traffic, which is then discarded
+- black hole : DoS attack by malicious node advertising impossibly short, non existent routes to attract traffic, which is then discarded
 - count to infinity : misalignment of Routing Tables due to slow convergence time of the Distance Vector algorithm and inconsistent information at different nodes
 - bouncing effect : (temporary) Loop caused by inconsistent Routing Tables following a link failure
 Common Reason: lack of information on the global topology
@@ -260,7 +260,7 @@ two important attributes:
 
 Policy-based routing:
 - gateway receiving route advertisement uses import policy to accept/decline path (e.g., never route through AS Y).
-- AS policy also determines whether to advertise path to other other neighboring ASes
+- AS policy also determines whether to advertise path to other neighboring ASes
 
 BGP messages exchanged between peers over TCP connection
 BGP messages: 

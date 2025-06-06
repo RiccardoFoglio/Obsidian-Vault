@@ -63,7 +63,7 @@ Classless InterDomain Routing
 network portion of address is arbitrary length
 
 Address format: **network ID** + **prefix length** or **netmask**
-	prefix length: */x* where x is the number of bits in network portion od address
+	prefix length: */x* where x is the number of bits in network portion of address
 	netmask: all *1s* in the network part, all *0s* in the host part
 
 ![[Pasted image 20240925162349.png]]
