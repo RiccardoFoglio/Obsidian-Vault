@@ -314,3 +314,51 @@ System test performed by end users is also called **acceptance testing** or **be
 Test of functional properties: starting point is requirements document
 consider usage profile:
 - some functions are used a lot more than others --> test them more
+Test of non functional properties: usually system properties, in many cases only testable when system is available
+
+- Usability, reliability, portability, maintainability, efficiency
+- configuration
+- recovery
+- stress
+- security
+
+## Reliability Testing
+
+variant of system testing
+aims at providing estimate of reliability = P(failure over period of time)
+other measures of reliability:
+- defect rate = defect / time
+- MTBF = mean time between defects
+
+Constraints: large number of test cases, independent, defect fix doesn't introduce other defects
+![[Screenshot 2025-06-18 at 3.11.46 PM.png]]
+
+## Risk Based Testing
+
+variant of system testing
+- identify risks
+- characterize risks: probability, effect
+- rank risks
+- handle risks
+
+## User Profiles Based Testing
+
+Variant of risk based testing
+- identify user profiles, and usage profiles
+- rank them by frequency of usage
+- test more used profiles
+
+## Regression testing
+
+ Tests previously defined are repeated after a change
+ To assume that the change has not introduced defects
+ - time0 : element in v0 test set t0 defined and applied, all tests pass
+ - time1: element is changed to v1, test set to t0 is re-applied, all test still pass?
+
+# Test Documentation
+
+Test cases should be documented and automated
+
+- informal testing : test cases are not documented, tests on the fly to check functions
+- formal testing : non operational (Word, excel...) and operational (JUnit, Jest)
+
