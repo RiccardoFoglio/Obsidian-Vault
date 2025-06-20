@@ -156,7 +156,6 @@ in RHEL 7 **NOOP** (no scheduling) is used but adjacent LBA requests are combine
 - **Input/Output operations per second** (**IOPS**) much higher with NVM (hundreds of thousands vs hundreds)
 - But **write amplification** (one write, causing garbage collection and many read/writes) can decrease the performance advantage
 
-
 ##  Error Detection and Correction
 
 Fundamental aspect of many parts of computing (memory, networking, storage)
@@ -269,3 +268,7 @@ Snapshot feature: view of file system before a set of change take place
 Replication is automatic duplication of writes between separate sites
 	for redundancy and disaster recovery
 	can be synchronous or asynchronous
+Hot spare disk is unused, automatically used by RAID production if a disk fails to replace the failed disk and rebuild the RAID set if possible --> decreases mean time to repair
+
+Extensions: RAID alone doesn't prevent or detect data corruption, just disk failures
+
