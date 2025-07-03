@@ -12,7 +12,7 @@ Semaphore Throttles --> strategy to manually reduce the number of workers in cri
 
 ### Atomic Operations
 
-`std::atomic<T>` provides atomic operations on single variables of tyoe T
+`std::atomic<T>` provides atomic operations on single variables of type T
 - atomic operation is guaranteed to execute fully without interruption from other threads
 - relies on special hardware instructions
 - provided by cpu architecture

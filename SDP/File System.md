@@ -31,7 +31,7 @@ Close(F) : move content of entity F from memory to directory structure on disk
 Open File: several pieces of data needed to open files
 - open-file table that tracks open files
 - file pointer: pointer tho last read/write location per process that has te file open
-- file-open count: counter of number of times a file is open (to allow removal of data from open0file table when last processes closes it)
+- file-open count: counter of number of times a file is open (to allow removal of data from open-file table when last processes closes it)
 - disk location of the file: cache of data access info
 - access rights: per-process access mode info
 

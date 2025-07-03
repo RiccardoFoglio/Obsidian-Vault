@@ -273,7 +273,7 @@ Streaming Multiprocessors (SMs)
 GPU hardware made of multiple SMs
 Each SM is an independent processing unit with its cores (CUDA Cores) shared memory registers and warp schedulers
 
-programming model guarantees that blocs can execute independently in any order relative to each other, concurrently or sequentially on the same or different SMs
+programming model guarantees that blocks can execute independently in any order relative to each other, concurrently or sequentially on the same or different SMs
 ![[Screenshot 2025-06-19 at 3.47.52 PM.png]]
 
 most critical factors on CUDA Efficiency:

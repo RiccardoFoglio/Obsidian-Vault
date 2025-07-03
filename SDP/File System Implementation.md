@@ -54,7 +54,7 @@ Hash Table: linear list with hash data structure
 ## Allocation Methods
 
 Allocation method refers to how disk blocks are allocated for files
-Contiguous allocationL each file occupies set of contiguous blocks
+Contiguous allocation, each file occupies set of contiguous blocks
 - best performance in most cases
 - simple: only starting location (block #) and length (number of blocks) are required
 - Problems: find space for file, knowing file size, external fragmentation, need for compaction off-line (downtime) or on-line

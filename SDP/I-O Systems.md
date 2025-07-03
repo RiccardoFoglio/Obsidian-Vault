@@ -1,7 +1,7 @@
 ## I/O Hardware
 
 Variety of I/O devices: storage, transmission, human-interface
-common conceps: signals from I/O devices interface with computer
+common concepts: signals from I/O devices interface with computer
 - Port : connection point for device
 - Bus : daisy chain or shared direct access
 	- PCI bus common in PCs and servers, PCI Express (PCIe)
@@ -47,7 +47,9 @@ Used for time-sensitive processing, frequent, must be fast
 
 Latency: stressing interrupt management because even single-user systems manage hundreds of interrupts per second. macOS generates 23k interrupts over 10sec
 
-Direct Memory Access : used to avoid programed I/O for large data movement. Requires DMA controller. Bypasses CPU to transfer data directly between I/O devices and memory.
+Direct Memory Access : used to avoid programmed I/O for large data movement. 
+Requires DMA controller. 
+Bypasses CPU to transfer data directly between I/O devices and memory.
 OS writes DMA command block into memory
 ## Application I/O Interface
 
@@ -80,7 +82,7 @@ raw I/O, direct I/O, or file-system access
 memory-mapped file access possible --> file mapped to virtual memory and clusters brought
 Character devices include keyboards, mice, serial ports
 
-Network Devices: varying enough from bloc and character to have their own interface.
+Network Devices: varying enough from block and character to have their own interface.
 Linux, Unix, Windows include socket interfaces --> separate network protocol from network operation, includes `select()` functionality
 Approaches vary widely (pipes, FIFOs, streams, queues, mailboxes)
 

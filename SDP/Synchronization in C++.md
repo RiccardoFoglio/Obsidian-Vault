@@ -121,7 +121,7 @@ std::shared_mutex sh_mt
 {
 	std::shared_lock<std::shared_mutex> lock(sh_mtx);
 	// Share read access
-	// Read-only critical sectio
+	// Read-only critical section
 } // Automatically unlocks
 ```
 

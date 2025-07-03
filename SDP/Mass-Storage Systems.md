@@ -86,7 +86,7 @@ Disk attachements:
 	- FC : Fibre Channel
 Most common: SATA
 NVM much faster than HDD, new interface is called NVM Express NVMe connecting directly to PCI bus
-Data transfers on a buss carried out by special electronic processors called controllers (or Host-Bus Adapters, HBAs)
+Data transfers on a bus carried out by special electronic processors called controllers (or Host-Bus Adapters, HBAs)
 - Host controller on the computer end of the bus, device controller on device end
 - computer places command on host controller, using memory-mapped I/O ports
 

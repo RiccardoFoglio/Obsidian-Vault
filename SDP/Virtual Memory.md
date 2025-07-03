@@ -106,7 +106,7 @@ Optimizations:
 - Swap space I/O faster than file system I/O even if on the same device
 - Copy entire process image to swap space at process load time
 - Demand page in from program binary on disk, but discard rather than paging out when freeing frame
-	- still need t o write to swap space:
+	- still need to write to swap space:
 		- pages not associated with a file = anonymous memory
 		- pages modified in memory but not yet written back to the file system
 - Mobile systems typically don't support swapping, instead demand page from file system and reclaim read-only pages (such as code)
