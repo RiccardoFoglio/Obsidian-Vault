@@ -301,392 +301,199 @@ La deconvoluzione viene eseguita trovando l'inverso del PSF e convolvendolo con 
 
 # Image Segmentation 
 
-Più importanti:
+La morfologia si occupa della forma degli oggetti 2D.
 
-Morphology deals with the shape of 2D objects.
+Gli operatori morfologici nell'elaborazione delle immagini vengono utilizzati per: noise filtering, shape simplification, skeletonizing, thinning and thickening, convex hull, object masking, segmentation wrt background e la descrizione degli oggetti mediante area, perimetro o altre caratteristiche. Gli operatori morfologici funzionano con immagini binarie.
 
-Morphological operators in image processing are used for noise filtering, shape simplification, skeletonizing, thinning and thickening, convex hull, object making, segmentation with respect to the background and describing objects by means of area, perimeter or other features. Morphological operators work with binary images.
+Anche operazioni su insiemi come unione, intersezione, complemento, differenza, riflessione e traslazione sono operatori morfologici.
 
-Set operations like union, intersection, complement, difference, reflection and translation  are morphological operators as well.
+Mescolando operazioni fondamentali sugli insiemi, otteniamo operatori più complessi come la dilatazione: dati gli insiemi A e B, la dilatazione di A per B si ottiene riflettendo B (chiamato structure element) rispetto alla sua origine e poi traslando questa riflessione di x; la dilatazione è quindi l'insieme di tutti gli spostamenti x tali che la riflessione di B e A si sovrappongono per almeno un elemento diverso da zero.
 
-Mixing fundamental set operations, we get more complex operators like dilation: Given sets A and B the dilation of A by B is obtained by reflecting B (called structure element) about its origin and then translating this reflection by x; dilation is then the set of all x displacements such as the reflection of B and A overlap by at least one nonzero element.
-
-Dilation is useful to fix holes or cracks and to make contour lines smoother.
-
-Dilation is commutative, associative, translation invariant, not invertible.
+La dilatazione è utile per correggere fori o crepe e per rendere più uniformi le linee di contorno.
+La dilatazione è commutativa, associativa, invariante rispetto alla traslazione, non invertibile.
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXeyCGPjPwBlIEfbPptTIxwfcI2a9hhMEC12CMpELyrHlJpkHD6MnVSORwbk9jEm2q9oq8vqrqpp9IGMfZuEDXENzqEVmjyJarzi_jEMS0BA0NMm6l6WsAi9L_c44RMANdd1QVeuDgl0y91nkYnlhnjPIWY?key=IlMU9hpgd3pUHC0chA8ahA)
 
-The Erosion operator works opposite to dilation: Given sets A and B the erosion of A by B is the set of all points x such that B, translated by x, is contained in A.
+L'operatore Erosione funziona in modo opposto alla dilatazione: dati gli insiemi A e B, l'erosione di A da parte di B è l'insieme di tutti i punti x tali che B, traslato di x, è contenuto in A.
 
-Erosion can be used to delete small spots (e.g. noise) or thin lines or small protrusions or to separate objects in order to count them.
-
-It is translation invariant, not commutative, and cannot be inverted.
+L'erosione può essere utilizzata per eliminare piccoli punti (ad esempio rumore), linee sottili o piccole sporgenze, oppure per separare oggetti al fine di contarli.
+È invariante rispetto alla traslazione, non commutativa e non può essere invertita.
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdk7RWoHNR-iFAHzdslMwjfuhp9yM3atjbM8-xpK4KxwOkRPazOZz0c_6qBPq2Js6xADvYx9f8E81a46CSteWq-PtBDq_cmpS-HlOWgkK5AAAef8ucQKHVPoScW1AnqclLtSwfpJrWi9ZkNqONp9ZRf_Ak?key=IlMU9hpgd3pUHC0chA8ahA)
 
-In other words dilation adds pixels to the boundaries of objects in an image, while erosion removes pixels on object boundaries. The number of pixels added or removed from the objects in an image depends on the size and shape of the structuring element used to process the image.
+In altre parole, la dilatazione aggiunge pixel ai contorni degli oggetti in un'immagine, mentre l'erosione rimuove pixel dai contorni degli oggetti. Il numero di pixel aggiunti o rimossi dagli oggetti in un'immagine dipende dalle dimensioni e dalla forma dell'elemento strutturante utilizzato per elaborare l'immagine.
 
-Le operazioni di dilatazione e erosione sono irreversibili, quindi una volta eseguita la trasformazione non è possibile ottenere l’immagine di partenza.
+Le operazioni di dilatazione ed erosione sono irreversibili, quindi una volta eseguita la trasformazione non è possibile ottenere l'immagine di partenza.
 
-  
 
-Opening of A by B is the erosion of A by B, followed by a dilation of the result by B.
-
-Since erosion deletes objects smaller than the mask it is possible to delete particular objects by using structures larger than them.
-
-It can be used to smooth the contour of an image, break narrow links and delete thin protrusions.
-
-Opening is idempotent: repeated applications maintain the same effect. 
-
-  
+L'apertura di A da parte di B è l'erosione di A da parte di B, seguita da una dilatazione del risultato da parte di B.
+Poiché l'erosione elimina gli oggetti più piccoli della maschera, è possibile eliminare oggetti particolari utilizzando strutture più grandi di essi.
+Può essere utilizzata per smussare il contorno di un'immagine, rompere collegamenti stretti ed eliminare sporgenze sottili.
+L'apertura è idempotent: applicazioni ripetute mantengono lo stesso effetto.
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcYmszI82734BigMctpuSNRo2wuKAT3RNUpYxBVGtN6lH3tmXZ0dirwudXnQ8dHnZJ2PwiUasT_D5T5lOVTYl-6SYHWyavP1qHWXKSgOeR4nJWmqhGPn0vOrpLiZ3t8pJvUTA3H8yA6ReQmWvqgJijyq58?key=IlMU9hpgd3pUHC0chA8ahA)
 
-Closing is the dual of opening: of A by B is the dilation of A by B, followed by the erosion of the result by B.
-
-Closing smooths contour of an image, fuses narrow breaks, eliminates small holes and fills gaps in the contour,
-
-It is an idempotent operation.
+La chiusura è il duale dell'apertura: di A per B è la dilatazione di A per B, seguita dall'erosione del risultato per B.
+La chiusura leviga il contorno di un'immagine, fonde le interruzioni strette, elimina i piccoli fori e riempie gli spazi vuoti nel contorno.
+È un'operazione idempotente.
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfUaNl41nKq_h2HurnlEvhp6MbX5J2MfIU_NeVq4_5K6XdV5uU34hEN4uNyCLyp886gyfTqYVB9gvfPFlQoKSflxo5pimNSemiaLlYbAfye3338QoupKcFYebtnfs3aOdPsrA0o1MQP9TATmKzr1g6d1w?key=IlMU9hpgd3pUHC0chA8ahA)
 
-  
 
 Meno importanti:
 
-The Hit-miss operator detects objects of a specific shape,  using the erosion operator and a pair of disjoint structuring elements. The first structuring element erodes with mask M1, the second erodes the background with mask M2, opposite to M1. The intersection of the two erosions gives all centre pixels of desired objects.
+L'**hit-miss operator** rileva oggetti di una forma specifica, utilizzando l'operatore di erosione e una coppia di elementi strutturanti disgiunti. 
+Il primo elemento strutturante erode con la maschera M1, il secondo erode lo sfondo con la maschera M2, opposta a M1. 
+L'intersezione delle due erosioni fornisce tutti i pixel centrali degli oggetti desiderati.
 
-  
 
-The boundary extraction operator is used to obtain the boundary of a set by first eroding A by the suitable structuring element B, and then doing set difference between A and its erosion.
+Il **boundary extraction operator** viene utilizzato per ottenere il confine di un insieme erodendo prima A con l'elemento strutturante B appropriato, quindi eseguendo la differenza tra A e la sua erosione.
 
-Region filling is an iterative operator that applies dilation to a point inside a region until it fills it completely, to then do the union with the boundary.
+**Region Filling** è un operatore iterativo che applica la dilatazione a un punto all'interno di una regione fino a riempirla completamente, per poi eseguire l'unione con il confine.
 
-The extraction of connected components is an operation that, using dilation iteratively, looks for all pixels connected to a starting pixel.
+L'estrazione dei componenti connessi è un'operazione che, utilizzando la dilatazione in modo iterativo, cerca tutti i pixel connessi a un pixel di partenza.
 
-The convex hull of an arbitrary set S is the smallest convex set containing S. The set difference H-S is called the convex deficiency D of the set S. The algorithm that finds the convex hull of a set uses the union of four structural elements that iteratively apply the hit-miss operator to the original set.
+Il **Convex Hull** di un insieme arbitrario S è il più piccolo insieme convesso che contiene S. La differenza tra gli insiemi H-S è chiamata deficienza convessa D dell'insieme S. L'algoritmo che trova l'involucro convesso di un insieme utilizza l'unione di quattro elementi strutturali che applicano in modo iterativo l'operatore hit-miss all'insieme originale.
 
-Thinning of a set A by a structuring element B can be defined with hit-miss transforms:  the process is to thin A by one pass with B1 then thin the result with one pass of B2; after Bn the entire process is repeated until no further changes occur.
+Il **Thinning** di un insieme A mediante un elemento strutturante B può essere definito con trasformazioni hit-miss: il processo consiste nel diradare A con un passaggio di B1, quindi diradare il risultato con un passaggio di B2; dopo Bn l'intero processo viene ripetuto fino a quando non si verificano ulteriori cambiamenti.
 
-Thickening is the morphological dual of thinning and can be done via thinning the background.
+Il **Thickening** è il duale morfologico del thinning e può essere effettuato tramite il diradamento dello sfondo.
 
-  
 
-In shape analysis, the skeleton of a shape is a thin version of that shape that is equidistant to its boundaries. The skeleton usually emphasises geometrical and topological properties of the shape, such as its connectivity, topology, length, direction, and width. The skeleton of a region is obtained by means of a thinning algorithm. A Skeleton S(A) can be expressed via erosions and openings.
+Nella **shape analysis**, lo **scheletro** di una forma è una versione assottigliata di quella forma che è equidistante dai suoi confini. Lo scheletro di solito enfatizza le proprietà geometriche e topologiche della forma, come la sua connettività, topologia, lunghezza, direzione e larghezza. Lo scheletro di una regione si ottiene mediante un algoritmo di assottigliamento. 
+Uno scheletro S(A) può essere espresso tramite erosioni e aperture.
 
-  
-
-Lastly, pruning is used as a complement to the skeleton and thinning algorithms to remove unwanted components.
-
-  
+Infine, il **pruning** (potatura) viene utilizzata come complemento agli algoritmi dello scheletro e del diradamento per rimuovere i componenti indesiderati.
 
 # Object Recognition
 
-Machine learning in computer vision is used to turn data into information by extracting rules or patterns.
+Il **Machine Learning** nella visione artificiale viene utilizzato per trasformare i dati in informazioni estraendo regole o modelli.
 
-Data is preprocessed into features that are arranged into patterns. Those patterns can be:
+I dati vengono pre-elaborati in features che vengono organizzate in patterns. 
+Questi modelli possono essere:
+- <font color="#00b0f0">Vettori</font>, utilizzati per descrizioni quantitative, come lunghezza, area, consistenza
+- <font color="#00b0f0">String Patterns</font>, in cui ogni lettera rappresenta un elemento primitivo
+- <font color="#00b0f0">Tree Patterns</font>, per la descrizione strutturale della composizione
 
-- Vectors, used for quantitative descriptions, like length, area, texture
-    
-- String Patterns, where each letter represents a primitive
-    
-- Tree Patterns, for structural description of the composition
-    
+Gli string pattern sono utilizzati per il riconoscimento delle impronte digitali.
 
-  
+Le caratteristiche seguono le regole di copertura, concisione e immediatezza: le caratteristiche ottimali dovrebbero garantire che tutte le informazioni rilevanti siano acquisite con il minor numero possibile di dati e che ciascuna caratteristica sia utile in modo indipendente per la previsione.
 
-Gli string pattern sono utilizzati per il riconoscimento di impronte digitali.
+Il passo successivo nel machine learning consiste nel trasformare le caratteristiche in un modello, classificandole con etichette o raggruppandole in cluster.
 
-Features follow the rules of coverage, concision and directness: good features should ensure all relevant info is captured with their number minimised, and each feature should be independently useful for prediction.
+Gli algoritmi di ML analizzano le nostre caratteristiche e regolano pesi, soglie e altri parametri per massimizzare le prestazioni in base a tali obiettivi. 
 
-  
+*La regolazione dei parametri è ciò che intendiamo con il termine “learning”*
 
-The next step in machine learning is turning features into a model; either by classifying features with labels, or by clustering them into groups.
+Per testare l'efficacia di un metodo di ML, suddividiamo i dati in un ampio set di addestramento e un set di test più piccolo. Dopo aver eseguito l'algoritmo sul set di addestramento, ne misuriamo le prestazioni sul set di test.
 
-ML algorithms analyse our features and adjust weights, thresholds, and other parameters to maximise performance according to those goals. Parameter adjustments is what we mean by the term "learning".
-
-To test how well a ML method works we break the data in a large training set and a smaller test set. After running the algorithm on the training set, we measure its performance on the test set.
-
-  
-
-Machine Learning Problems:
-
+Problemi di apprendimento automatico:
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXf_8HvvXbHbSrhPRFgzci_Sy1hMLi94-2cxEm_VeFtzP_TUX8VqaO4lIHnJi7BVNNj-NwDBi684IalFkOes79aMaq4_4keSMknzX3k6pX3bLh4WXXBAW_9zvkpGWPMl-L_sISNsDwApzJoKZJ6rqllhC54?key=IlMU9hpgd3pUHC0chA8ahA)
 
-  
+Il **clustering** raggruppa punti simili e li rappresenta con un unico token. Questo ci permette di esaminare grandi quantità di dati, applicare la compressione o il denoising basati su patch, o rappresentare un grande vettore continuo con il numero del cluster. Alcuni utilizzi del clustering sono:
+- <font color="#00b0f0">Segmentation</font>: separare l'immagine in diverse regioni coerenti
+- <font color="#00b0f0">Counting</font> degli istogrammi di texture, colore, vettori SIF
+- <font color="#00b0f0">Prediction</font>: le immagini nello stesso cluster possono avere le stesse etichette
 
-Clustering groups together similar points and represent them with a single token. This allows us to look at large amounts of data, apply patch-based compression or denoising, or represent a large continuous vector with the cluster number. Some usages of clustering are:
+Esistono molti algoritmi diversi per il clustering, uno dei più utilizzati è il **K-means**: un algoritmo euristico semplice e veloce che individua il cluster naturale nei dati riassegnando iterativamente i punti al centro del cluster più vicino. 
+Non garantisce la convergenza verso un optimum globale. 
+L'algoritmo k-means funziona seguendo questi passaggi:  
+1) Dato un set di dati e un numero desiderato di cluster k scelto dall'utente, assegnare in modo casuale le posizioni dei centri dei cluster (noti anche come "means")  
+2) Associare ogni punto dati al centro del cluster più vicino, per creare k cluster  
+3) Spostare il centro del cluster al centroide dei propri punti dati  
+4) I passaggi 2 e 3 vengono ripetuti fino al raggiungimento della convergenza
 
-- Segmentation: separating the image into different coherent regions
-    
-- Counting histograms of texture, colour, SIFT vectors
-    
-- Prediction: Images in the same cluster may have the same labels
-    
+La **Classification** è il problema di etichettare un nuovo oggetto sulla base di un insieme contenente istanze già etichettate. 
+Le Training Labels determinano se due esempi sono diversi, i classificatori cercano di apprendere pesi o parametri per le caratteristiche e le misure di distanza in modo che la somiglianza visiva predica la somiglianza delle etichette.
+In generale, è meglio trovare caratteristiche che esprimano una certa invarianza negli oggetti.
 
-  
+Qualsiasi regola decisionale divide l'input space in regioni decisionali separate da confini decisionali. Le tecniche più utilizzate per dividere lo spazio sono: 
+K-nearest neighbour, Naïve Bayes, Decision trees, Haar/Viola-Jones classifier, Neural networks.
 
-There are many different algorithms for clustering, one of the most used is K-means: a simple, fast heuristic algorithm that finds the natural cluster in the data by Iteratively re-assigning points to the nearest cluster centre. It doesn’t guarantee convergence to a global optimum. The k-means algorithm works by following these steps:  
-1) Given a data set and a desired number of cluster k chosen by the user, randomly assign cluster centre locations (aka "means")  
-2) Associate each data point with its nearest cluster centre, to create k cluster  
-3) Move cluster centre to the centroid of their data points  
-4) Step 2 and 3 are repeated until convergence has been reached  
-  
+Definiamo la **varianza** come la differenza tra i modelli stimati da diversi set di addestramento, mentre il **bias** è la differenza tra il valore corretto, che è quello che si vorrebbe prevedere, e la previsione media.
 
-Classification is the problem of labelling a new object based on a set containing already labelled instances. Training labels dictate if two examples are different, Classifiers try to learn weights or parameters for features and distance measures so that visual similarity predicts label similarity.
-
-In general, it is better to find features that express some invariance in the objects.
-
-  
-
-Any decision rule divides the input space into decision regions separated by decision boundaries, the most used techniques for dividing the space are, for instance, K-nearest neighbour, Naïve Bayes, Decision trees, Haar/Viola-Jones classifier, Neural networks.
-
-We define variance as how much models estimated from different training sets differ from each other, while bias is the difference between the correct value, which is what one would like to predict, and the average prediction.
-
-A model is said to be underfitting when it is too "simple" to represent all the relevant class characteristics, while a model too “complex” that fits irrelevant characteristics (noise) in the data is said to be overfitting.
+Si dice che un modello è sottodimensionato quando è troppo "semplice" per rappresentare tutte le caratteristiche rilevanti della classe, mentre un modello troppo "complesso" che si adatta a caratteristiche irrilevanti (rumore) nei dati è detto sovradimensionato.
 
   
+Il teorema <font color="#ff0000">No Free Lunch</font> afferma che nessun classificatore è intrinsecamente migliore di un altro, pertanto sono necessarie alcune ipotesi per generalizzare.
+Gli errori nei modelli di classificazione sono intrinseci, e quindi inevitabili, a causa di un'eccessiva semplificazione (distorsione) o dell'incapacità di stimare perfettamente i parametri da dati limitati (varianza).
 
-The No Free Lunch theorem states that no classifier is inherently better than any other, thus some assumptions are needed to generalise.
+I classificatori si dividono in due categorie: generative models e discriminative models:
+- I <font color="#00b050">generative models</font> forniscono la distribuzione dei dati in base all'etichetta e sono utili per fornire una rappresentazione più potente dei dati. 
+- I <font color="#00b050">discriminative models</font> forniscono la probabilità dell'etichetta in base ai dati e sono utili per le previsioni.
 
-The errors in classification models are either inherent, and so unavoidable, due to oversimplification (bias) or due to the inability to perfectly estimate parameters from limited data (variance)
+**I classificatori Bayes** seguono un modello generativo. 
+Si tratta di un classificatore probabilistico, il che significa che effettua previsioni sulla base della probabilità di un oggetto e può essere utilizzato per separare un'immagine in diversi componenti.
 
-  
+I classificatori vengono utilizzati anche per il riconoscimento facciale. 
+Ad esempio, il **classificatore Haar** è una tecnica basata su alberi adatta per oggetti "prevalentemente rigidi" come i volti e il corpo umano, ma anche automobili, biciclette ecc.
+Le caratteristiche simili a Haar sono solitamente collegate a caratteristiche di bordo, caratteristiche di linea o caratteristiche di centro circostante, che sono per lo più specificate da forma, posizione e scala.
 
-Classifiers fall in two categories: generative models and discriminative models:
+Il **classificatore Viola-Jones** organizza i nodi deboli di una cascata di rifiuto utilizzando il **boosting**: uno schema di classificazione che combina learner deboli in un classificatore ensemble più accurato. Il boosting viene utilizzato per creare nodi di classificazione binaria caratterizzati da un elevato rilevamento e un rifiuto debole.
 
-Generative models give the distribution of the data given the label, and are good for giving more powerful representation of the data. 
-
-Discriminative models give the probability of the label given the data, and are good for yearning predictions.
-
-  
-
-Bayes Classifiers follow a generative model. It is a probabilistic classifier, which means it predicts on the basis of the probability of an object and can be used to separate an image in different components.
-
-  
-  
-
-Classifiers are also used for face recognition. For instance, the Haar Classifier is a tree-based technique suitable for "mostly rigid" objects like faces and the human body, but also cars, bikes etc.
-
-Haar-like features are usually linked to edge features, line features or centre surround features, which are mostly specified by shape, position and scale.
-
-The viola-jones classifier organises weak nodes of a rejection cascade using boosting: a classification scheme that combines weak learners into a more accurate ensemble classifier. Boosting is used to create binary classification nodes characterised by high detection and weak rejection.
-
-In the first step of the boosting training procedure, each training example is weighted equally. In each boosting round we find the weak learner that achieves the lowest weighted training error and raise the weights of training examples misclassified by the current weak learner. The final classifier is computed as a linear combination of all weak learners, where the weight of each learner is directly proportional to its accuracy.
+Nella prima fase della procedura di addestramento del boosting, ogni esempio di addestramento viene ponderato in modo uguale. In ogni round di boosting troviamo il learner debole che ottiene l'errore di addestramento ponderato più basso e aumentiamo i pesi degli esempi di addestramento classificati erroneamente dal learner debole attuale. Il classificatore finale viene calcolato come una combinazione lineare di tutti i learner deboli, dove il peso di ciascun learner è direttamente proporzionale alla sua accuratezza.
 
   
-
-Face recognition and facial expression recognition have many different applications and as a consequence face different challenges, like illumination changes and white balancing, age, glasses, makeup, facial hair etc.
-
+Il **riconoscimento facciale** e il **riconoscimento delle espressioni facciali** hanno molte applicazioni diverse e, di conseguenza, devono affrontare diverse sfide, come i cambiamenti di illuminazione e il bilanciamento del bianco, l'età, gli occhiali, il trucco, i peli sul viso, ecc.
   
 
-The Local Binary Pattern operator thresholds a 3x3 neighbourhood for each pixel, reading binary thresholded values as a label for each pixel. The histogram of the labels can then be used as a texture descriptor.
+L'operatore **Local Binary Pattern** applica un threshold (soglia) ad un 3x3 vicino per ciascun pixel, leggendo i valori binari soglia come etichetta per ciascun pixel. 
+L'istogramma delle etichette può quindi essere utilizzato come descrittore di texture.
 
-Principal Component Analysis is a method that uses eigenfaces: a reduced set of eigenfaces is computed, then a new face image is approximated by a weighted sum of the eigenfaces.
+La **Principal Component Analysis** è un metodo che utilizza gli eigenfaces: viene calcolato un insieme ridotto di eigenfaces, quindi una nuova immagine del volto viene approssimata mediante una somma ponderata degli eigenfaces.
 
-Linear Discriminant Analysis Tries to find a linear transformation by maximising the between-class variance and minimising within-class variance.
+La **Linear Discriminant Analysis** cerca di trovare una trasformazione lineare massimizzando la varianza tra le classi e minimizzando la varianza all'interno delle classi.
 
-Elastic Bunch Graph Matching represents faces as graphs, where nodes are positioned at fiducial points and edges are labelled with distance vectors. Identification of a new face means determining among the constructed graphs the most similar in terms of graph similarity.
+L'**Elastic Bunch Graph Matching** rappresenta i volti come grafici, in cui i nodi sono posizionati in punti fiduciali e i bordi sono etichettati con vettori di distanza. L'identificazione di un nuovo volto significa determinare, tra i grafici costruiti, quello più simile in termini di somiglianza grafica.
 
-Bayesian Intra/extrapersonal Classifier uses Bayesian decision theory to divide the difference vectors between pairs of face images in intrapersonal differences and extrapersonal differences.
-
-  
-
+Il **Bayesian Intra/Extrapersonal Classifier** utilizza la teoria decisionale bayesiana per dividere i vettori di differenza tra coppie di immagini facciali in differenze intrapersonali e differenze extrapersonali.
 # Motion analysis and Object Reconstruction
 
-Motion analysis can make use of spatial grey value changes to identify object or camera movements.
+La **Motion Analysis** può utilizzare le variazioni spaziali del valore di grigio per identificare i movimenti di oggetti o telecamere.
+Purtroppo, non tutte le variazioni temporali del valore di grigio sono dovute al movimento, poiché alcune possono dipendere, ad esempio, dall'illuminazione.
 
-Unfortunately not all temporal grey value changes are due to motion, as some may depend for instance on illumination.
+Gli operatori locali (come le derivate spaziali e temporali) spesso non sono in grado di determinare lo spostamento in modo univoco. Questo fenomeno è noto come **problema dell'apertura**. 
+Il **problema della corrispondenza** è una generalizzazione del problema dell'apertura che afferma che la corrispondenza fisica può non essere identica alla corrispondenza visiva.
 
-Local operators (like spatial and temporal derivatives) often can not determine the displacement unambiguously. This is known as the aperture problem. The correspondence problem is a generalisation of the aperture problem that states that physical correspondence can be not identical to visual correspondence.
+L'analisi della sequenza di immagini (video) può essere effettuata considerandola come un'immagine spazio-temporale, in cui ogni pixel si estende a un voxel con estensioni x, y, t. 
+Ciò ci consente di reinterpretare il movimento come orientamento e di studiare analiticamente la velocità prima di applicare una discretizzazione adeguata. 
+Inoltre, è possibile utilizzare più di due immagini per trovare l'orientamento nello spazio-tempo.
 
-Image sequence (video) analysis can be done considering it as a spatiotemporal image, where each pixel extends to a voxel with extensions x, y, t. This lets us reinterpret motion as orientation and study velocity analytically before a suitable discretization is applied. Furthermore, More than two images can be used to find orientation in space-time.
+Dopo aver introdotto il dominio spazio-temporale, possiamo anche analizzare il movimento nel dominio di Fourier. In una sequenza in cui tutti gli oggetti si muovono a velocità costante, è possibile determinare la pendenza del piano su cui si trova lo spettro della sequenza.
 
-Having introduced the space-time domain, we can also analyse motion in the Fourier domain. In a sequence in which all the objects are moving with constant velocity it is possible to determine the slope of the plane on which the spectrum of the sequence is located.
+Il **Motion Field** è il movimento reale dell'oggetto nella scena 3D proiettato sul piano dell'immagine, mentre l'**Optical Flow** è il "flusso" dei valori di grigio nel piano dell'immagine. 
+Il campo di movimento e il flusso ottico sono uguali solo se gli oggetti non modificano l'irradianza sul piano dell'immagine mentre si muovono in una scena.
 
-Motion field is the real motion of the object in the 3D scene projected into the image plane, while Optical flow is the “flow” of grey values in the image plane. Motion field and optical flow are the same only if the objects do not change the irradiance on the image plane while moving in a scene.
+Le tecniche **Block Motion** sono metodi di analisi del movimento utilizzati nella compressione video che mirano a trovare la posizione successiva di un oggetto e quindi a calcolare il vettore di spostamento. 
 
-Block Motion techniques are motion analysis methods used in video compression that aim to find the next position of an object and then compute the displacement vector. 
+L'analisi del movimento può essere effettuata anche attraverso la **camera calibration**. 
+Per calibrare una telecamera è necessario calcolarne i parametri intrinseci ed estrinseci. 
+I parametri estrinseci sono correlati alla matrice di rotazione-traslazione e consentono di descrivere il movimento di un oggetto davanti a una telecamera o il movimento della telecamera stessa.
 
-Motion analysis can also be done through camera calibration. To calibrate a camera we need to compute its intrinsic and extrinsic parameters. Extrinsic parameters are related to rotation-translation matrix and allow to describe motion of an object in front of a camera or motion of the camera.
-
-In order to reconstruct large scenes it can be required to use a panoramic camera, in which the lens rotates around the rear node N2 with the film held static in a circular path centred in N2 and of radius f.
-
-The angle of rotation however can’t be too large due to residual aberrations.
-
-  
-
-# Neural Networks
-
-An Artificial Neural Network  is an adaptive system that learns by using interconnected nodes or neurons in a layered structure that resembles a human brain. A neural network can learn from data—so it can be trained to recognize patterns, classify data, and forecast future events.
-
-Le reti neurali cercano di copiare il funzionamento del cervello umano.
-
-Dentro ogni neurone c’è un componente che agisce come un trigger di Schmitt che agisce come soglia, sopra un certo valore viene considerato on e sotto viene considerato off. Durante il processo di apprendimento i recettori di polarità presenti all’interno dei neuroni vengono stimolati.
-
-  
-
-A Feed-Forward Neural Network, in its simplest form, is commonly seen as a single-layer Perceptron. It is composed of synapses and neurons. 
-
-Synapses have a weighting and interconnection functions, while neurons make the linear combination between the inputs coming from the synapses. This linear combination can be described as follows: 
-
-Y=(weights*inputs)+bias.
-
-Weighs decide how much an input will affect the output. biases are constant and, alongside inputs, are fed into the next layer to ensure that even when all inputs are zero, there will still be activation in the neuron.
-
-The output is then passed to an activation function, which is needed to decide if the neuron is activated or not.
-
-Le reti neurali funzionano con dei pesi e con delle connessioni: tutto parte dai sensori che recepiscono le informazioni, seguito da un idle layer e seguito da un output layer.
-
-  
-
-Convolutional Neural Networks, unlike FeedForward ones, add the possibility of using three types of layers:
-
-- Convolutional layers:  
-    The fundamental element of a CNN that does most of the computation: it requires input data, a filter and a feature map. The filter or kernel moves through the input data (image) to see if a feature is present, calculating the scalar product and storing the result into an output array. The final output is known as a convolved feature, feature map or activation map. Convolutional layers have 3 parameters that can change their behaviour: stride is the distance the kernel moves across the input matrix (a larger stride produces a smaller output), The number of filters affects the depth of the output, and padding is a parameter that can be set in three states:  
-    Valid padding, in which the last convolution is dropped if dimensions do not align.  
-    Same padding, which guarantees that the output layer is the same size as the input layer  
-    Full padding, which increments the output size by adding zeros to the edge of the input layer  
-      
-    
-- Pooling layers:  
-    also known as downsampling, reduces the number of parameters in the input. It works by scrolling an unweighted filter over the entire input. The two types of pooling are max pooling (chooses the pixel with the maximum value) and average pooling (computes the average).  
-      
-    
-- Fully Connected Layers  
-    In the fully connected layer, each node in the output layer connects straights to a node in the previous layer. It is usually used to perform the classification based on the features extracted in the previous layers and through different filters. 
-    
-
-  
-
-During training,  the two metrics used to evaluate the performance of a model are accuracy, which indicates the fraction of predictions guessed by the model (with 1 = 100% accuracy) and loss, which indicates how bad the prediction of the model was on a single sample (with 0 = perfect prediction). Depending on the particular task we want to perform we can choose different loss functions, like binary cross-entropy for binary choices or categorical cross-entropy for multiple classes.
-
-  
-
-Backpropagation is a technique that attempts to minimise the loss function as much as possible in the learning process. It tells us how quickly the cost changes as weights and distortions change, then provides detailed information on how weight changes and distortions affect the overall behaviour of the network. It is calculated from the last layer of the network until the first.
-
-  
-
-For training a neural network, it is good practice to divide the input dataset into three parts:
-
-- the training dataset, used to train the network
-    
-- the validation dataset, used to evaluate the network
-    
-- the test dataset, used to test the network in order to verify its capability to generalise on new, unseen data
-    
-
-  
-
-Training a neural network requires a large amount of labelled data; the ground truth is the label that is assigned to a particular object by experts.
-
-Fornendo troppi dati di uno stesso tipo causeremo un overfitting e, nel caso contrario, un underfitting, perché bisogna fornire un insieme di dati variegato per poter avere un buon riconoscimento. 
-
-Hyperparameters are variables that must be set before the training and that determines how the network will be trained. The most important hyperparameters are:
-
-- Learning rate:  
-    Defines the update rate of the network; low values slow down the learning process but make it more fluid, while high values speed it up but increases the risk of not converging and overfitting 
-    
-- Samples:  
-    Elements of the dataset
-    
-- Batch:  
-    a set of N samples, processed independently and in parallel. During the training, a batch makes a single update of the network
-    
-- Epoch:  
-    "a passage on the entire dataset", used to divide the training in more phases in order to make, for example, periodic evaluation and logging
-    
-
-  
-
-Recurrent Neural Networks
-
-A recurrent neural network (RNN) is a special type of an artificial neural network adapted to work for time series data or data that involves sequences. Ordinary feed forward neural networks are only meant for data points, which are independent of each other.
-
-Recurrent neural networks add in their architecture backlinks and loops that allow information to persist. Neurons have an hidden state h, that carries information from previous events and overwrites itself uncontrollably at each step. An RNN cell is a recurring part of a network that maintains an internal state yt for each instant, and can be considered as a sort of network layer itself. 
-
-Despite all the advantages, RNNs suffer from many problems.
-
-  
-
-Long-short term memory networks are a special kind of RNN that attempt to solve some of these problems by introducing the ability to learn long-term dependencies at the cost of adding additional gates. In particular, they control what information in the hidden cell is exported as output and to the next hidden state.
-
-A basic LSTM unit is composed of:
-
-- A memory cell, which has the purpose of recording additional information with respect to the hidden state
-    
-- A forget gate, which  decides when to remember and when to ignore inputs in the hidden state
-    
-- An input gate
-    
-- An output gate
-    
-
-  
-
-A technology similar to that of the LSTM network is the Gated Recurrent Unit (GRU). Which with respect to the LSTM only has update and reset gates and no internal memory. It is usually best to use when modelling not-so-long distance relations, since using fewer training parameters makes it perform faster and use less memory.
-
-  
-Le reti neurali moderne hanno capacità sovrumane perché sono più precise degli umani nel riconoscimento delle persone.
-
-  
-
-Neural networks used to solve  classification problems all belong to the discriminative model. 
-
-  
-
-The neural networks we’ve studied until now are not able to synthesise new data in a realistic way. Generative models attempt to do this by learning the data distribution p(x) in order to generate new samples.
-
-Generative models use a latent space, which means that similar samples from the outside world are placed next to each other in a multidimensional space for the internal representation of observed external events.
-
-  
-
-Generative Adversarial Networks (GANs) are based on the simultaneous use of generative and discriminative neural networks in competition.
-
-In this competition, generative neural networks generate candidates, while the discriminative one  tries to distinguish the false candidates produced by the generator from the true data distribution.
-
-  
+Per ricostruire scene di grandi dimensioni può essere necessario utilizzare una telecamera panoramica, in cui l'obiettivo ruota attorno al nodo posteriore N2 con la pellicola mantenuta statica in un percorso circolare centrato in N2 e di raggio f.
+L'angolo di rotazione, tuttavia, non può essere troppo grande a causa delle aberrazioni residue.
 
 # OpenCV
 
 GIMP
-
 Analisi istogramma con GIMP: Colors>Info>Histogram
-
 Equalizzazione istogramma con GIMP: Colors>Auto>Equalize or Colors>Curves
-
 Sogliatura con GIMP: Threshold or Curve
-
 Contrasto e Luminosità con GIMP: Brightness-Contrast
-
-  
 
 COMANDI OPENCV
 
-Apri immagine:
+Apri immagine: `cv2.imread("esempio.jpg")`
 
- `cv2.imread("esempio.jpg")`
+Cambia Spazio Colori: `cv2.cvtColor(img, cv2.COLOR_BGR2RGB)`
 
-Cambia Spazio Colori: 
+Mostra l’immagine:  `plt.imshow(rgb_img)` `plt.show()`
 
-`cv2.cvtColor(img, cv2.COLOR_BGR2RGB)`
+Cambia un canale con un valore: `img_[:, :, 0] = NewValue`
 
-Mostra l’immagine: 
-
-`plt.imshow(rgb_img)`
-
-`plt.show()`
-
-Cambia un canale con un valore:
-
-`img_[:, :, 0] = NewValue`
-
-Calcola l’istogramma:  
-`cv2.calcHist([img], [0], None, [256], [0, 256])`
+Calcola l’istogramma:   `cv2.calcHist([img], [0], None, [256], [0, 256])`
 
 Calcolo della trasformata di fourier:
-
 ```
 cv2.dft(np.float32(img), flags=cv2.DFT_COMPLEX_OUTPUT) //dft
 dft_shift = np.fft.fftshift(dft) //reorder the quadrants
@@ -718,121 +525,67 @@ Dilatazione
 ```
 cv2.dilate(img, kernel, iterations=3)
 ```
-  
-
-- Riportare le operazioni principali, in OpenCV, per calcolare la trasformata di Fourier di un'immagine RGB rappresentante la funzione seno (4 cicli, orizzontale). Qual è l'immagine risultante dalla trasformazione e cosa rappresenta?
-    
-```
-img = cv2.imread("images/sinFunction.png", cv2.IMREAD_GRAYSCALE)
-
-# convert the image in float32 and transform
-
-# DFT_COMPLEX_OUTPUT: the output is a complex matrix of the same #size as input
-
-dft = cv2.dft(np.float32(img), flags=cv2.DFT_COMPLEX_OUTPUT)
-
- # re-order the quadrants (put the zero frequency component in the middle of #the image)
-
- dft_shift = np.fft.fftshift(dft)
-
-img_magnitude = cv2.magnitude(dft_shift[:, :, 0], dft_shift[:, :, 1])
-
-# if np.log() gives a warning and you want to get rid of it, just add 1 to avoid #log(0)
-
-img_magnitude += 1
-
-magnitude_log = 20*np.log(img_magnitude)
-```
-  
-
-L’immagine risultante è una linea orizzontale con tre punti che rappresenta la magnitudine della funzione seno.
-
-- Due oggetti, denominati "background" e "logo", contengono due immagini. Il "logo" è in scala di grigio mentre background è in BGR. Inoltre, "logo" è il triplo di "background". Si vuole aggiungere, tramite linear blending, "logo" nell'angolo in basso a sinistra di "background", in modo che occupi 1/4 di "background". Si descrivano i passi principali in OpenCV per eseguire questa operazione, riportando i metodi essenziali da utilizzare
-    
-
-  
-Carichiamo il logo tramite logo = cv2.imread(“logo.png”); Come prima cosa bisogna trasformare logo da scala di grigi in RGB.  
-Carichiamo anche il background. Per eseguire il linear blending si usa il metodo di cv2 addWeighted(src1, alpha, src2, beta, 0.0), con src1 il background, alpha=1, src2 il logo e beta = 1/12 (?) .
-
-  
-  
 
 # Esempi domande e risposte esami
 
-- Spiegare il significato dell’MTF e illustrare l’MTF dell’occhio umano:
-    
-
-La MTF è la modular transfer function, la quale rappresenta l’ampiezza (magnitudine) dell’OTF. E’ la misura di quanto bene un sistema può riprodurre l’input, si può misurare tramite un segnale sinusoidale o tramite uno slant target; in particolare rappresenta il rapporto tra la modulazione di output e quella di input. Per il principio di conservazione di energia l’MTF dovrebbe sempre essere minore di uno perché l’output non può essere più grande dell’input. Nel caso dell’occhio umano si ha un MTF maggiore se l’area dell’immagine è più grande.
-
-  
+- Spiegare il significato dell’MTF e illustrare l’MTF dell’occhio umano:    
+  La MTF è la modular transfer function, la quale rappresenta l’ampiezza (magnitudine) dell’OTF. E’ la misura di quanto bene un sistema può riprodurre l’input, si può misurare tramite un segnale sinusoidale o tramite uno slant target; in particolare rappresenta il rapporto tra la modulazione di output e quella di input. Per il principio di conservazione di energia l’MTF dovrebbe sempre essere minore di uno perché l’output non può essere più grande dell’input. Nel caso dell’occhio umano si ha un MTF maggiore se l’area dell’immagine è più grande.
 
 - Indicare le modalità per la modifica del contrasto a livello di funzione di trasferimento. Qual è la differenza tra micro e macro contrasto?
-    
-
-Il macrocontrasto è definito sull’intera immagine, il microcontrasto è definito su una porzione ristretta.
-
-  
+  Il macrocontrasto è definito sull’intera immagine, il microcontrasto è definito su una porzione ristretta.
 
 - Quali sono i principali operatori morfologici? 
-    
-
-Gli operatori morfologici sono usati per il filtraggio del rumore, semplificazione delle forme, thinning, thickening, etc. I principali sono l’erosione il cui compito è quello di eliminare le piccole protrusioni nei bordi di una forma o di separare gli oggetti, la dilatazione che può essere considerato come l’opposto dell’erosione perché riempie i buchi nell’immagine per far apparire l’immagine più continua. Da questi due primi operatori dipendono le operazioni di opening, che applica prima un'erosione e poi una dilatazione per regolare i contorni di un’immagine, e di closing che applica prima una dilatazione e poi un’erosione con l’obiettivo di riempire i buchi nell’immagine e nel suo contorno. Altri operatori morfologici sono hit and miss, boundary extraction, region filling, convex hull, thinning, thickening, skeleton e pruning.
-
-  
+  Gli operatori morfologici sono usati per il filtraggio del rumore, semplificazione delle forme, thinning, thickening, etc. I principali sono l’erosione il cui compito è quello di eliminare le piccole protrusioni nei bordi di una forma o di separare gli oggetti, la dilatazione che può essere considerato come l’opposto dell’erosione perché riempie i buchi nell’immagine per far apparire l’immagine più continua. Da questi due primi operatori dipendono le operazioni di opening, che applica prima un'erosione e poi una dilatazione per regolare i contorni di un’immagine, e di closing che applica prima una dilatazione e poi un’erosione con l’obiettivo di riempire i buchi nell’immagine e nel suo contorno. Altri operatori morfologici sono hit and miss, boundary extraction, region filling, convex hull, thinning, thickening, skeleton e pruning.
 
 - In che modo si può contrastare l’aliasing nelle fotocamere a colori?
-    
-
-L'aliasing nelle fotocamere a colori si può risolvere tramite il Bayer drizzling, tramite cui vengono scattate più foto spostandosi ogni volta lungo una direzione diversa e, infine, vengono riunite in un'unica immagine.
-
-  
+  L'aliasing nelle fotocamere a colori si può risolvere tramite il Bayer drizzling, tramite cui vengono scattate più foto spostandosi ogni volta lungo una direzione diversa e, infine, vengono riunite in un'unica immagine.
 
 - Spiegare il principio di Scheimpflug e la sua utilità a livello industriale.
-    
-
-Il principio di Scheimpflug è utilizzato per correggere i problemi riguardanti la profondità di campo in fotografia. Secondo Scheimpflug per poter avere una profondità di campo distribuita sulla scena bisogna far incontrare le rette su cui giacciono  la fotocamera (o meglio il suo sensore), il soggetto e il piano focale in un unico punto.
-
-  
+  Il principio di Scheimpflug è utilizzato per correggere i problemi riguardanti la profondità di campo in fotografia. Secondo Scheimpflug per poter avere una profondità di campo distribuita sulla scena bisogna far incontrare le rette su cui giacciono  la fotocamera (o meglio il suo sensore), il soggetto e il piano focale in un unico punto.
 
 - Illustrare il classificatore di Bayes.
-    
-
-Il classificatore di Bayes può essere usato per determinare le probabilità delle classi alla luce di una serie di osservazioni. Grazie a questo classificatore è possibile, ad esempio, dividere un’immagine in più parti.
-
-  
+  Il classificatore di Bayes può essere usato per determinare le probabilità delle classi alla luce di una serie di osservazioni. Grazie a questo classificatore è possibile, ad esempio, dividere un’immagine in più parti.
 
 - Illustrare, anche mediante un esempio, l’effetto dell’operatore morfologico di opening
-    
+  L’operatore morfologico di opening consiste nell’applicazione di un’erosione seguita da una dilatazione. Questo operatore può essere utilizzato, ad esempio, per aprire uno spazio fra gli oggetti collegati tramite un piccolo ponte; per fare questo l’erosione elimina i pixel corrispondenti al ponte tra i due oggetti e poi la dilatazione riporta gli oggetti sopravvissuti alla prima operazione alla dimensione originale. 
 
-L’operatore morfologico di opening consiste nell’applicazione di un’erosione seguita da una dilatazione. Questo operatore può essere utilizzato, ad esempio, per aprire uno spazio fra gli oggetti collegati tramite un piccolo ponte; per fare questo l’erosione elimina i pixel corrispondenti al ponte tra i due oggetti e poi la dilatazione riporta gli oggetti sopravvissuti alla prima operazione alla dimensione originale. 
-
-  
-
-- Spiegare il concetto di ISO invarianza.  
-    L’ISO invarianza è una proprietà del sensore della fotocamera grazie al quale il rumore non aumenta quando si cambia l’ISO. Nessuna fotocamera, però, è perfettamente ISO invariante.
-    
-
-  
+- Spiegare il concetto di ISO invarianza.
+  L’ISO invarianza è una proprietà del sensore della fotocamera grazie al quale il rumore non aumenta quando si cambia l’ISO. Nessuna fotocamera, però, è perfettamente ISO invariante.
 
 - Definire il concetto di contrasto e spiegare come esso può influenzare la qualità delle immagini riprese.
-    
+  Il contrasto rappresenta la differenza relativa all’interno dell’immagine fra i livelli massimo e minimo di intensità. Più formalmente, detti Lmax ed Lmin il massimo ed il minimo rispettivamente, si definisce il contrasto C:
+  
+  C = (Lmax-Lmin)/(Lmax+Lmin)
+  
+  Quando viene calcolato sull’intera immagine si parla di macrocontrasto, altrimenti se calcolato su una porzione dell’immagine si parla di microcontrasto. Il contrasto è una misura di quanto è possibile distinguere variazioni di intensità luminosa. Immagini a basso contrasto avranno un aspetto maggiormente ‘slavato’, con una generale difficoltà a distinguere i dettagli, e presentano un istogramma concentrato su pochi livelli di luminosità. Al contrario, immagini ad alto contrasto presentano dettagli ben distinguibili a livello visivo e un istogramma ben distribuito lungo i diversi livelli di luminosità.
 
- Il contrasto rappresenta la differenza relativa all’interno dell’immagine fra i livelli massimo e minimo di intensità. Più formalmente, detti Lmax ed Lmin il massimo ed il minimo rispettivamente, si definisce il contrasto C:
+- Spiegare cos’è il disco di Airy e qual è il suo ruolo nella ripresa e gestione delle immagini.
+  Il disco di Airy è il pattern di diffrazione che si genera quando la luce attraversa un diaframma circolare uniformemente illuminato. Analogamente, esso può essere visto come la risposta all’impulso (PSF) di un sistema ottico a singola lente ideale. Il disco di Airy disperde la luce puntiforme lungo un disco la cui ampiezza va come sinc(r), e si può dimostrare che la quasi totalità dell’energia è concentrata entro un diametro di: 𝐷 = 2.44𝜆𝑓# Dove λ è la lunghezza d’onda incidente e f# l’apertura del diaframma (in f-stop). Essendo il più piccolo dettaglio risolvibile dall’ottica, è necessario che esso sia campionato opportunamente per evitare problemi di aliasing, con almeno 3-4 pixel che ne coprano il diametro.
 
-C = (Lmax-Lmin)/(Lmax+Lmin)
+- Riportare le operazioni principali, in OpenCV, per calcolare la trasformata di Fourier di un'immagine RGB rappresentante la funzione seno (4 cicli, orizzontale). Qual è l'immagine risultante dalla trasformazione e cosa rappresenta?
+  ```python
+  img = cv2.imread("images/sinFunction.png", cv2.IMREAD_GRAYSCALE)
+  # convert the image in float32 and transform
+  # DFT_COMPLEX_OUTPUT: the output is a complex matrix of the same #size as input
+  dft = cv2.dft(np.float32(img), flags=cv2.DFT_COMPLEX_OUTPUT)
+  # re-order the quadrants (put the zero frequency component in the middle of
+  #the image)
+  dft_shift = np.fft.fftshift(dft)
+  img_magnitude = cv2.magnitude(dft_shift[:, :, 0], dft_shift[:, :, 1])
+  # if np.log() gives a warning and you want to get rid of it, just add 1 to
+  # avoid #log(0)
+  img_magnitude += 1
+  magnitude_log = 20*np.log(img_magnitude)
+  ```
+  L’immagine risultante è una linea orizzontale con tre punti che rappresenta la magnitudine della funzione seno.
 
-Quando viene calcolato sull’intera immagine si parla di macrocontrasto, altrimenti se calcolato su una porzione dell’immagine si parla di microcontrasto. Il contrasto è una misura di quanto è possibile distinguere variazioni di intensità luminosa. Immagini a basso contrasto avranno un aspetto maggiormente ‘slavato’, con una generale difficoltà a distinguere i dettagli, e presentano un istogramma concentrato su pochi livelli di luminosità. Al contrario, immagini ad alto contrasto presentano dettagli ben distinguibili a livello visivo e un istogramma ben distribuito lungo i diversi livelli di luminosità.
+
+- Due oggetti, denominati "background" e "logo", contengono due immagini. Il "logo" è in scala di grigio mentre background è in BGR. Inoltre, "logo" è il triplo di "background". Si vuole aggiungere, tramite linear blending, "logo" nell'angolo in basso a sinistra di "background", in modo che occupi 1/4 di "background". Si descrivano i passi principali in OpenCV per eseguire questa operazione, riportando i metodi essenziali da utilizzare
+  
+  Carichiamo il logo tramite `logo = cv2.imread(“logo.png”);` 
+  Come prima cosa bisogna trasformare logo da scala di grigi in RGB.  
+  Carichiamo anche il background. 
+  Per eseguire il linear blending si usa il metodo di cv2 `addWeighted(src1, alpha, src2, beta, 0.0)` 
+  con src1 il background, alpha=1, src2 il logo e beta = 1/12 (?) .
 
   
-
-- Spiegare cos’è il disco di Airy e qual è il suo ruolo nella ripresa e gestione delle immagini.  
-    Il disco di Airy è il pattern di diffrazione che si genera quando la luce attraversa un diaframma circolare uniformemente illuminato. Analogamente, esso può essere visto come la risposta all’impulso (PSF) di un sistema ottico a singola lente ideale. Il disco di Airy disperde la luce puntiforme lungo un disco la cui ampiezza va come sinc(r), e si può dimostrare che la quasi totalità dell’energia è concentrata entro un diametro di: 𝐷 = 2.44𝜆𝑓# Dove λ è la lunghezza d’onda incidente e f# l’apertura del diaframma (in f-stop). Essendo il più piccolo dettaglio risolvibile dall’ottica, è necessario che esso sia campionato opportunamente per evitare problemi di aliasing, con almeno 3-4 pixel che ne coprano il diametro.
-    
-
-  
-  
-  
-  
-  
-  
-**
