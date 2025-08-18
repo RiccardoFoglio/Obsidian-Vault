@@ -87,16 +87,70 @@ for(u=u1; u<=u2; u++){
 ```
 ![[Pasted image 20240924193802.png]]
 
+---
 # Sistema Visivo Umano
 
+influenzato da:
+- percezione colore
+- acutezza, capacità dell'occhio di risolvere e percepire dettagli fini
+- percezione profondità
+- livelli di luminosità
+- variazioni temporali
+- campo visivo (FOV)
+
+Risoluzione spaziale = acutezza di risoluzione, fondamentale per progettazione di dispositivi output grafici. dipende da luminosità e contrasto
+Inutile creare output grafici più fini dell'occhio umano, non viene percepito, costo inutile
+Risoluzione occhio: 20"x24" = 6000x6000 pixel, gli schermi solitamente sono 70-100 dpi
+
+Risoluzione Temporale = Frequenza critica del flicker (CFF), sopra la quale non si è in grado di osservare effetti di sfarfallio o flicker (solitamente 35-60Hz)
+2 aspetti:
+- Refresh rate --> frequenza di aggiornamento superiore a CFF per evitare flicker
+- animazioni fluide --> frame rate, frequenza di aggiornamento superiore a CFF
+
+Campo Visivo (FOV): occhio singolo = 150 gradi, combinati 180-200 con sovrapposizione centrale
+![[Pasted image 20241003180556.png]]
+
+luce visibile tra 430nm (violetto) a 790 nm (rosso), con picco a 559nm
+![[Pasted image 20241003180905.png]]
+
+livelli di luminosità percepibili: da pochi fotoni a tanto di più, nessuno schermo replica il range percepibile, occhio effettua un adattamento per operare su questo range
+percezione dipende anche da luminosità sfondo
+
+esperimenti: pochi livelli diversi possono essere riconosciuti in un immagine monocromatica, ma il movimento rapido dell'occhio --> intensità sfondo cambia --> percezione diversa di livelli
+
+numero di livelli in immagine dipende da range dinamico del dispositivo di visualizzazione
+![[Pasted image 20241003192058.png]]
+
+Effetto Mach = strisce verticali con tono di grigio omogeneo, percezione diversa. sistema visivo tende a esagerare o smorzare percezione al confine tra regioni con intensità diverse. Rilevante per ombreggiatura di superfici poligonali
+![[Pasted image 20241003212322.png|300]]
+
+Profondità : approccio basato su cues (suggerimenti), info 2D che fanno percepire immagine in 3D tipo ombre, occlusioni, prospettiva, gradienti texture, dimensioni di oggetti comuni
+
+Info oculomotorie = convergenza e accomodazione (fissazione e messa a fuoco)
+Info binoculari = disparità binoculare, stereopsi (capacità percettiva di unire immagini proveniente dai 2 occhi)
+Info dal movimento = parallasse
+
+Fisiologia occhio umano: sfera diametro 20mm
+![[Pasted image 20241003214151.png|450]]
+- **Cornea** = tessuto trasparente, copre superficie occhio
+- **Membrana sclerotica** = tessuto opaco, ricopre resto bulbo oculare
+- **Membrana coroidea** = ricca rete di vasi sanguigni, fonte nutrimento
+- corona ciliare 
+- **Iride** = contrae o allarga a seconda della luce, 2-8mm, apertura = pupilla
+- **Corpo vitreo** = nutrimento occhio e forma sferica sotto pressione
+- **Cristallino** = assorbe 8% luce visibile, assorbimento aumenta al diminuire della lunghezza d'onda. Infrarossi e ultravioletti quasi tutti assorbiti, eccessivi = danni
+- **Retina** = formazione immagine tramite recettori di luce: coni e bastoncelli
+	- Coni (CONES) = 6-7mln, parte centrale retina, altamente sensibili a colore ed elevati livelli di illuminazione, ognuno connesso a nervo --> dettagli più fini
+	- Bastoncelli (RODS) = 75-150mln, connessi a gruppi di nervi (meno dettagli), visione generale campo di vista, sensibili a bassi livelli illuminazione
+
+Cristallino != lente normale perchè è flessibile --> raggi di curvatura vengono controllati dalla tensione delle fibre del corpo ciliare, accomodamento per focalizzare oggetti a distanze diverse
+
+Distanza focale: 14-17mm, quindi possibile calcolare dimensioni immagine su retina
+![[Pasted image 20241003215243.png|500]]
+h=2.55mm
 
 
-
-
-
-
-
-
+---
 
 # Hardware
 
