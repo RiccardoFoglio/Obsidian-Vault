@@ -22,9 +22,6 @@ La frequenza (colore) è determinata dalla temperatura
 
 Frequenza visibile dall'occhio umano: spettro visibile
 
-Luce acromatica (letteralmente, assenza di colore)
-Televisore in bianco (grigio) e nero
-
 **Luce acromatica** (senza colore)
 - televisore in bianco (grigio) e nero
 - non si possono associare sensazioni di colore

@@ -88,7 +88,7 @@ for(u=u1; u<=u2; u++){
 ![[Pasted image 20240924193802.png]]
 
 ---
-# Sistema Visivo Umano
+# CH2 - Sistema Visivo Umano
 
 influenzato da:
 - percezione colore
@@ -149,10 +149,234 @@ Distanza focale: 14-17mm, quindi possibile calcolare dimensioni immagine su reti
 ![[Pasted image 20241003215243.png|500]]
 h=2.55mm
 
+---
+# CH3 - Luce e Colori
+
+Isaac newton (1676) luce attraverso prisma --> intuisce che è insieme di colori con indici rifrazione diversi
+
+- Teoria corpuscolare (newton, 1600)
+- Teoria ondulatoria (Huygens 1600) ed elettromagnetica (maxwell 1800)
+	- onde luminose come onde radio, campi elettrici e magnetici si propagano sia nella materia che nel vuoto
+- Meccanica quantistica (Plank + Einstein 1900)
+	- fotone sia proprietà ondulatorie che particellari
+
+LUCE = radiazione elettromagnetica
+COLORE = frequenza di oscillazione / lunghezza d'onda della radiazione
+
+calore genera moto particelle --> campo elettromagnetico --> oscillazione particelle aumenta con aumentare temperatura --> colori rossi per caldo (es: visione termica)
+
+frequenza visibile: 400 (violetto) - 700 (rosso) nm
+
+Luce acromatica = assenza di colore, parametro: quantità di luce
+- termini di energia --> intensità / luminanza (luminance)
+- termini di intensità percepita --> brillanza / brillantezza (brightness)
+
+quantità di energia per diverse lunghezze d'onda --> distribuzione di energia spettrale
+![[Pasted image 20241004121552.png]]
+
+spettro emissione = quanta luce viene prodotta, utile per descrivere il colore di una sorgente
+	intensità di luce in funzione della frequenza
+spettro di assorbimento = quanta luce viene assorbita, descrive colore di vernice, inchiostro etc...
+	colore percepito
+
+Stesso colore ma più efficiente:
+![[Pasted image 20241004121741.png|600]]
+
+Colore = quantità di luce generata o assorbita, in funzione della frequenza
+
+- assorbimento
+- riflessione
+- trasmissione
+- rifrazione
+- diffusione
+- diffrazione
+- polarizzazione
+
+oggetto riceve energia luminosa --> assorbimento + riemissione a frequenza minore
+- fluorescenza = riemissione immediata
+- fosforescenza = riemissione ritardata
+
+Rappresentazione colore -->
+- spazio di colore : insieme di colori (spazio RGB)
+- modello di colore : modo in cui colore viene specificato (HEX)
+
+colore associato a 3 quantità (leggi di Grassmann)
+- Tinta (HUE) --> colore puro, rosso verde ecc...
+- Saturazione (saturation) --> bianco/grigio mischiato a colore puro
+- Luminosità (lightness) --> intensità percepita per oggetti riflettenti
+- Brightness --> intensità percepita di un oggetto che emette luce
+
+Artisti specificano colori di
+- Tinta (tint) --> pigmento bianco + pigmento puro = diminuisce la saturazione
+- Sfumatura (shade) --> pigmento nero + pigmento puro = diminuisce luminosità
+- Tonalità (tone) --> pigmenti bianchi + neri al pigmento puro
+
+occhio umano percepisce:
+$$
+128\ colori\ saturi\ diversi\ \times 
+130\ tinte\ (bianco\ aggiunto)\ \times
+23\ sfumaure\ (nero\ aggiunto)\ =
+380.000
+$$
+
+Distribuzioni di energia spettrale possono descrivere in modo compatto i colori:
+- Lunghezza d'onda dominante --> colore percepito quando si guarda la luce, picco della distribuzione
+- Purezza di eccitazione --> saturazione del colore, proporzione luce pura e luce bianca $e_2 / e_1$
+- Luminanza --> intensità di luce, proporzionale all'area sottesa della distribuzione
+![[Pasted image 20241004130502.png|600]]
+
+
+per rappresentare un colore non è necessario riprodurre la sua distribuzione del mondo reale, ci son tanti modi per ottenere la stessa percezione
+
+Servono solo 3 colori per ottenerne tanti altri --> spettri diversi possono produrre stesso colore
+
+Teoria del Tristimolo: 3 tipi di coni nella retina
+![[Screenshot 2025-08-19 at 4.48.21 PM.png]]
+
+occhio: maggior sensibilità attorno ai 550nm --> verde giallo
+
+ottenere tutti colori visibili --> combo di colori spettrali puri (RGB) --> tramite color matching
+
+CIE (Commission Internationale de l'Eclairage) in 1931 definisce colori primari X Y Z invece che R G B, non sono colori reali, sono sempre positivi, Y = luminanza e corrisponde a funzione di efficienza luminosa dell'occhio umano
+
+![[Screenshot 2025-08-19 at 4.56.14 PM.png]]
+$$x = \frac{X}{X+Y+Z}\quad y = \frac{Y}{X+Y+Z}\quad z = \frac{Z}{X+Y+Z}$$
+
+## Modelli di Colore
+specifica sistema di coordinate di colori 3D, diversi modelli:
+- XYZ
+- CIELab
+- RGB
+- CMY(K)
+- HSV/HSB/HLS
+- YIQ
+- YCbCr / Y'CbCr
+### RGB
+colore = terna di valori RGB
+linea di grigi unisce nero e bianco
+solo 3 elementi da controllare, facile per elettronica
+![[Pasted image 20241008121733.png]]
+Utente: difficile scegliere colore desiderato
+
+ Sintesi Additiva dei Colori: mescolanza di stimoli di colore che entrano simultaneamente o in rapida successione nell'occhio
+ ![[Pasted image 20241008122225.png]]
+ Primari additivi: Rosso Verde Blu
+ Complementari: Magenta Ciano Giallo
+
+Media spaziale: piccoli punti colorati vicini non distinguibili dall'occhio
+Media temporale: rapida successione
+
+Halftoning: migliora aspetto immagine se limiti del sistema grafico non la rendono buona. ampie sfumature di uno stesso colore su sistema che non permette riproduzione di molti livelli
+
+Sintesi Sottrattiva:
+- luce emessa R+G+B = Bianco
+- luce riflessa R+G+B = Non bianco (pigmenti)
+sintesi sottrattiva di stimoli ha cause esclusivamente fisiche: colore 1 + colore 2 assorbe più luce, vediamo nero
+
+Additiva vs Sottrattiva
+![[Pasted image 20241008123554.png]]
+### Modello CMY(K)
+Stampa elettrostatica o getto d'inchiostro, Ciano Magenta Giallo (complementari di RGB)
+![[Screenshot 2025-08-19 at 5.30.30 PM.png]]
+Ulteriore pigmento nero (K) per evitare di sprecare altri CMY
+### Modello HSV
+Hue Saturation Value (brightness)
+User-oriented, facile per l'utente, sistema coordinate cilindrico, cono 6 facce
+trasformazione non lineare da RGB
+![[Pasted image 20241008124059.png]]
+### Modello HLS
+Hue Lightness Saturation
+Modello simile a HSV, doppio cono, più complicato
+![[Pasted image 20241009111230.png]]
+Limiti:
+- ci si può muovere lungo coordinata senza ottenere effetti visibili
+- coordinata luminosa dovrebbe essere indipendente dal colore
+### Modello YIQ
+Ricodifica RGB per trasmissione efficiente e retro-compabilità della TV a colori con TV in bianco e nero.
+Y = luminanza (su schermi BW solo questo viene mostrato, retro compatibile)
+IQ codificano cromaticità
+![[Screenshot 2025-08-19 at 5.38.08 PM.png]]
+### Modello YCbCr
+Codifica video e fotografia digitale
+Y = luma / Y' = luminanza
+Cb = differenza dal verde nel campo del blu
+Cr = differenza dal verde nel campo del rosso
+![[Screenshot 2025-08-19 at 5.40.07 PM.png]]
+## Codifica Colori
+tipica codifica 8 bit per canale = 256 valori, cifre esadecimali : #ff6600
+codifiche diverse:
+- comodità = utente può scegliere velocemente il colore
+- efficienza = possibile codificare in maniera diversa in base a quanto siano rilevanti dal unto di vista percettivo (compressione)
+- elaborazione = rilevante lo spazio di colori in cui si effettuano operazioni di interpolazione o miscellazione (blending)
+- riproducibilità = modelli diversi rappresentano insiemi di colori diversi
+
+Spazio dei colori CIE --> spazio di riferimento, include tutti i colori visibili
+proiezione sul piano x,y = diagramma di cromaticità
+![[Pasted image 20241009112752.png]]
+![[Pasted image 20241009112810.png]]
+mostra tutti i valori di cromaticità visibili, i colori puri sono lungo il bordo
+triangolo che si ottiene unendo RGB rappresenta i colori rappresentabili con RGB, fuori non si vedono.
+due colori combinati = risultato si trova sul segmento che li unisce
+
+GAMUT = gamma di colori rappresentabili(triangolo nel diagramma di cromaticità), può dipendere sia da hardware che software
+![[Pasted image 20241009113701.png|550]]
+
+**Ellissi di MacAdam**: utilizzate per valutare la acuità di colore, colori dentro ellissi non sono distinguibili da un umano
+![[Pasted image 20241009113757.png]]
+
+## Radiometria
+misura delle grandezze fisiche relative ad una sorgente di radiazioni elettromagnetiche
+
+- fotoni si propagano in linea retta, lunghezza d'onda della luce molto più piccola degli oggetti, ignorati fenomeni di diffrazione interferenza ecc...
+
+fotone trasporta energia, info di luce
+
+- Energia Radiante (# totale di impatti) = Joules (J)
+- Flussio Radiante (# impatti / secondo) = Watts (W)
+- Irradianza (# impatti / secondo per unità di superficie) = W / Mˆ2
+
+luce direzionale : sorgente di luce infinitamente luminosa a distanza infinita, raggiunge superficie in ugual modo
+
+Luce puntiforme, isotropica, in tutte direzioni
+
+Irradianza: decresce in maniera quadratica con la distanza
+
+Legge di Lambert: relazione tra irradianza e l'angolo tra la direzione della luce / orientamento superficie
+	Irradianza è proporzionale al coseno dell'angolo tra direzione della luce e la normale della superficie
+
+Grandezze radiometriche
+- energia radiante = energia trasportata da un qualunque campo di radiazione magnetica
+- potenza / flusso radiante = energia per unità di tempo rilasciata da una sorgente di radiazioni
+- emettenza radiante = flusso radiante emesso da una sorgente estesa per unità di area
+- irradianza = irradiamento/irraggiamento, flusso radiante incidente su superficie per unità di area
+- intensità di radiazione = flusso radiante emesso da sorgente puntiforme in una direzione per unità di angolo solido
+- radianza = flusso radiante emesso da una sorgente estesa per unità di angolo solido e per unità di area proiettata su piano normale
+
+## Fotometria
+studio dell'effetto delle radiazioni elettromagnetiche sul sistema visivo umano
+
+ad ogni grandezza radiometrica corrisponde una grandezza fotometrica valutata secondo la risposta del sistema visivo umano
+
+grandezze fotometriche:
+- energia luminosa: corrisponde a energia radiante
+- flusso luminoso: quantità di energia luminosa emessa da una sorgente nell'unità di tempo
+- emittenza luminosa
+- illuminamento
+- intensità luminosa
+- luminanza
 
 ---
 
-# Hardware
+# CH4 - Trasformazioni e Proiezioni
+
+
+
+
+
+---
+
+
+# CH10 - Hardware
 
 ### Schermi CRT
 
