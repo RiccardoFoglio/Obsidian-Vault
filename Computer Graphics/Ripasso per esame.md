@@ -529,7 +529,11 @@ Per definire la viewpoint 3D
 
 ---
 
-# CH5 - 
+# CH5 - Primitive Grafiche, Pipeline e Rasterizzazione
+
+
+
+
 
 
 
