@@ -369,7 +369,167 @@ grandezze fotometriche:
 
 # CH4 - Trasformazioni e Proiezioni
 
+trasformazione geometrica = corrispondenza biunivoca che associa ogni punto P con P' appartenente allo stesso spazio
+$$P'=f(P)$$
+Trasformazioni lineari: preservano combinazioni lineari (somma, moltiplicazione) + preservano le linee e l'origine
+- riflessione
+- rotazione
+- scalamento
+- scorrimemento
+facili da calcolare, composizione lineare, possibile rappresentare prodotto di più matrici come unica matrice
+trasformazioni affini: preservano linee e distanze, es: rotazione e traslazione.
 
+- **<font color="#00b050">Rotazione</font>** = ruotare un intero oggetto, si applica solo agli estremi perchè infiniti punti nel oggetto
+centro di rotazione è importante
+matriciale:
+$$\begin{bmatrix} x' \\ y' \end{bmatrix} =
+\begin{bmatrix} \cos\theta &-\sin\theta \\ \sin\theta &\cos\theta \end{bmatrix} \cdot 
+\begin{bmatrix} x\\ y\end{bmatrix} $$
+Proprietà:
+$$\begin{bmatrix} \cos\theta &-\sin\theta \\ \sin\theta &\cos\theta \end{bmatrix} \begin{bmatrix} \cos\theta &\sin\theta \\ -\sin\theta &\cos\theta \end{bmatrix} =
+R \cdot R^T =
+\begin{bmatrix} 1 &0 \\ 0 &1 \end{bmatrix} = I$$
+
+- **<font color="#00b050">Riflessione</font>**:
+$$Q = \begin{bmatrix} -1 &0 \\ 0 &1 \end{bmatrix}$$
+non viene preservato orientamento, ma ribaltato, solo origine
+non tutte matrici per cui $Q Q^T = 1$ sono matrici di rotazione
+
+- **<font color="#00b050">Scalamento</font>** = scalare di `a` lungo gli assi
+$$\begin{bmatrix} x' \\ y' \end{bmatrix}
+= \begin{bmatrix} a &0 \\ 0 &a \end{bmatrix} \cdot
+\begin{bmatrix} x \\ y \end{bmatrix}$$
+produce anche una traslazione se l'oggetto non è nell'origine del sistema di riferimento
+
+- **<font color="#00b050">Scorrimento</font>** = spostamento di ogni punto x lungo la direzione u in base alla distanza da un vettore fisso v
+$$\begin{bmatrix} x' \\ y' \end{bmatrix}
+= \begin{bmatrix} 1 &T \\ 0 &1 \end{bmatrix} \cdot
+\begin{bmatrix} x \\ y \end{bmatrix}$$
+
+- **<font color="#92d050">Traslazione</font>** = spostare un punto (offset) del piano in un altra posizione
+trasformazione affine ma non lineare, non rappresentabile in forma matriciale in coordinate cartesiane
+
+Definita come prodotti di matrici
+$$
+\begin{bmatrix} x' \\ y' \end{bmatrix}
+= \begin{bmatrix} a &b \\ c &d \end{bmatrix} \cdot
+\begin{bmatrix} x \\ y \end{bmatrix}
+$$
+## Coordinate omogenee
+
+- Traslazione = $P' = T + P$
+- Scalamento = $P' = S \cdot P$
+- Rotazione = $P' = R \cdot P$
+
+coordinate omogenee derivano dallo studio della prospettiva, modo naturale per assegnare coordinate alle linee, essenziali nella grafica
+
+considera ogni piano 2D che non passa per origine OPPURE in 3D
+- ogni linea che passa per l'origine in 3D corrisponde ad un punto sul piano 2D (intersezione col piano)
+  ![[Screenshot 2025-08-20 at 5.22.58 PM.png]]
+- per i punti 2D si aggiunge una terza coordinata: $\hat p=(x,y,W)$ 
+  due set di coordinate rappresentano lo stesso punto se sono multipli
+  (0,0,0) non ammesso, almeno uno deve essere diverso da zero
+  se W diverso da 0 --> $(x/W, y/W, 1)$
+
+Usando queste coordinate omogenee è possibile rappresentare trasformazione 2D in una lineare 3D 
+$$\begin{bmatrix} x' \\ y' \\ 1 \end{bmatrix}
+= \begin{bmatrix} 1 &0 & d_x\\ 0 &1 & d_y \\ 0 & 0 & 1 \end{bmatrix} \cdot
+\begin{bmatrix} x \\ y \\ 1 \end{bmatrix}$$
+![[Screenshot 2025-08-20 at 5.27.53 PM.png|500]]
+
+## Composizione di Trasformazioni
+
+- 2 traslazioni = somma degli offset
+- 2 scalamenti = prodotto dei fattori di scalamento
+- 2 rotazioni = somma angoli
+
+cambiando ordine delle trasformazioni si genera un risultato diverso, la prima è posta al fondo della composizione (destra)
+
+Trasformazioni:
+- Di Corpo Rigido / Euclidea --> preservati distanze ed angoli
+- Di similarità / similitudine --> preservati angoli
+- Lineari --> scalamento, rotazione, scorrimento
+- Affini --> preservati parallelismo delle linee e rapporti di distanze
+- Proiettive --> preservate linee
+![[Pasted image 20241015131459.png]]
+
+Risultato del prodotto di una sequenza di trasformazioni affini (rotazioni, traslazioni, scalamenti) è ancora una trasformazione affine.
+- preservato parallelismo delle linee
+- non le distanze ed angoli
+
+Le matrici omogenee possono essere moltiplicate tra loro per ottenere le trasformazioni composte --> migliorare efficienza calcoli applicando una singola matrice
+
+## Trasformazioni 3D
+
+coordinate omogenee 3D --> 4 coordinate (x,y,z,W)
+sistema destroso (Z uscente), perpendicolare allo schermo, rotazione positiva è antioraria
+![[Pasted image 20241015132137.png]]
+
+Rappresentazione angoli: necessari 3 gradi di libertà
+- angoli di Eulero --> problema : gimbal lock, blocco cardanico
+- alternativa : Quaternioni (numeri complessi, 4 coordinate)
+
+## Cambio di Sistema di Riferimento
+
+modo alternativo ma equivalente di guardare una trasformazione
+![[Pasted image 20241015133555.png]]
+
+## Camera Virtuale
+
+Osservatore / camera virtuale
+Metafora utile per studiare la creazione di scene 3D
+
+Parametri di vista: specificano le condizioni sotto le quali si vuole vedere il mondo/modello
+
+Proiezioni: trasformano punti in un sistema di riferimento di N dimensioni in un altro con meno dimensioni.
+Proiezione definita dai raggi di proiezione o proiettori
+Possono essere 
+- prospettiche : centro di proiezione esplicito
+- parallele : centro ad infinito, direzione di proiezione
+![[Pasted image 20241015140209.png]]
+![[Pasted image 20241015140233.png]]
+
+proiezioni prospettiche sono definite da piano e centro di proiezione
+scorcio prospettico: effetto di sistema fotografico / sistema visivo umano
+non particolarmente utile per rappresentare la forma o dimensione degli oggetti
+
+proiezione parallela = misure esatte, linee parallele, angoli restano intatti
+### Punti di Fuga
+
+proiezioni prospettiche convergono in un punto di fuga (vanishing point)
+in 3D, le linee parallele si incontrano ad infinito
+Punto di fuga interpretabile come proiezione di un punto ad infinito
+
+Proiezioni parallele definite da direzione verso il centro di proiezione, piano di proiezione.
+Generalmente non sono adatte per immagini foto-realistiche, ma utili per comprendere forme 3D
+### Volume di Vista
+
+Individua proporzione di mondo 2D su cui deve essere effettuato il clipping.
+Proiezione sul piano di vista
+Piramide semi-infinita con vertice nel centro di proiezione e lati passanti per gli spigoli della finestra
+Approssimazione del cono di vista degli occhi
+
+proiezione parallela : parallelepipedo infinito, con lati paralleli alla dir. di proporzione
+Spesso interesse per volumi finiti (piani di clipping)
+
+![[Pasted image 20241016133544.png]]
+
+Clipping = rimozione delle primitive non visibili dalla camera, per evitare sprechi di risorse nella rasterizzazione
+![[Pasted image 20241016133654.png]]
+
+Invece di proiettare direttamente il volume di vista, si considera cubo unitario nel sistema di riferimento delle coordinate di proiezione / del disposivo normalizzate (NPC)
+volume di vista trasformato in un parallelepipedo in NPC che si estende di $min$ e $max$ in ogni direzione --> **3D viewpoint**
+![[Pasted image 20241016133907.png]]
+
+Per definire la viewpoint 3D
+- piano di clipping anteriore = $Z_{max}$;  piano clipping posteriore = $Z_{min}$
+- lato $U_{min}$ = $X_{min}$; lato $U_{max}$ = $X_{max}$
+- lato $V_{min}$ = $Y_{min}$; lato $V_{max}$ = $Y_{max}$
+- faccia $Z = 1$ del cubo unitario è mappata sul quadrato più grande che può essere iscritto nell'area di visualizzazione
+
+---
+
+# CH5 - 
 
 
 
