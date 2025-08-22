@@ -531,6 +531,182 @@ Per definire la viewpoint 3D
 
 # CH5 - Primitive Grafiche, Pipeline e Rasterizzazione
 
+Grafica Raster = primitive grafiche memorizzate in buffer in termini di pixel
+immagine schermo formata a partire dal raster, insieme di scan lines orizzontali composte da diversi pixel
+raster = matrice di pixel che rappresenta l'area dello schermo
+letto in maniera squenziale (sx dx, alto basso)
+
+Svantaggi: 
+- natura discreta della rappresentazione pixel --> coordinate dei punti vanno convertiti in coordinate pixel
+- natura raster --> sistema vettoriale può disegnare linee continue, raster deve approssimare
+- aliasing = artefatto visivo frutto di errore di campionamento / sotto-campionamento
+
+2 tecniche per la visualizzazione:
+- Rasterizzazione : ogni primitiva = insieme di pixel accesi, veloce ma complicato raggiungere risultati fotorealistici, perfetta per grafica vettoriale, font ecc...
+- Raytracing : ogni pixel = insieme di primitive, più facile raggiungere fotorealismo ma più lento
+![[Screenshot 2025-08-22 at 3.13.45 PM.png]]
+
+Pipeline:
+- ingresso = immagine che si vuole disegnare
+- stadi = sequenza di trasformazioni per passare da input ad output
+- uscita = immagine disegnata
+![[Pasted image 20241024183637.png]]
+
+visualizzazione di immagini in tempo reale --> rasterizzazione (in: primitive 3D, out: immagine raster)
+
+Librerie/API approssimano primitive matematiche, descritte in termini di vertici in un sistema di coordinate cartesiane.
+Algoritmi per convertire primitive in pixel (scan conversion) + clipping, indipendenti dal dispositivo raster output. Adattabili ad implementazioni software e hardware
+Invocati ogni volta che un immagine viene creata o modificata, devono creare immagini della qualità appropriata ma il più veloci possibili
+- metodi incrementali nella scan conversion per minimizzare numero di operazioni
+- aritmetica intera e non float
+- esecuzione parallela
+
+## Sistemi di Visualizzazione
+
+libreria grafica = media tra hardware e applicazione
+interfaccia verso l'hardware indipendente dal dispositivo
+- output pipeline: app estrae descrizione oggetti in primitive e passa a libreria che farà scan conversion + clipping
+- input pipeline: interazione utente lato hardware, usata per modificare immagine su schermo
+
+Frame buffer - Controllore grafico : 
+librerie effettuano scan conversion sia fuori dallo schermo che nel frame buffer
+memoria condivisa tra librerie software e dati
+
+Frame buffer + Controllore grafico : 
+controllore implementa scan conversion, minimo sforzo per librerie
+
+Sistemi di sola visualizzazione: semplici, accettano una scan line alla volta (esempio stampante su carta)
+Dispositivi più intelligenti accettano un intero fotogramma / pagina
+
+## Clipping
+
+- clip prima della scan conversion, calcola intersezioni coi confini della regione di clipping
+- forza bruta : scissoring dopo la scan conversion, scritti solo pixel visibili (verifica tutte le coordinate dei pixel con i confini del rettangolo di clip)
+- generare intera collezione di primitive e usare copyPixel sul rettangolo di clip
+
+## Rasterizzazione
+
+### Linee
+
+algoritmo che calcoli coordinate dei pixel che giacciono su una linea retta su matrice raster 2D
+sequenza pixel vicina alla linea ideale e + dritta possibile e + veloce possibile
+
+data una linea di spessore unitario, monitor CRT con sezione circolare e spaziatura variabile
+![[Screenshot 2025-08-22 at 3.50.35 PM.png|400]]
+#### Algoritmo Base:
+- $m = \Delta y / \Delta x$
+- incrementa x di 1 a partire dal punto più a sx
+- calcola la retta $y_i = m \cdot x_i + B$ per ogni $x_i$
+- illumina pixel $(x_i, round(y_i))$
+
+Selezionato il pixel più vicino alla linea (distanza tra pixel e linea ideale è minima)
+
+ottimizzato rimuovendo la moltiplicazione : $y_{i+1} =m\cdot x_{i+1}+B = m(x_i+\Delta x)+B = y_i + m$ perché $\Delta x = 1$
+allora si ha che $y_{i+1} = y_i + m$
+#### Algoritmo Incrementale:
+- inizia con coordinate intere di un estremo $(x_0, y_0)$
+- no parametro B esplicito
+![[Pasted image 20241024190539.png|400]]
+
+
+Se $|m| > 1$, incrementando x si ottiene incremento su y maggiore di 1 
+Algoritmo Digital DIfferential Analyzer (DDA) : strumento per risolvere sistemi di equazioni usando metodi numerici, ma variabili reali e precisione limitata
+#### Algoritmo di Bresenham
+basato su aritmetica intera, evita round()
+permette di calcolare prossimo pixel da quello precedente
+![[Pasted image 20241024191544.png|400]]
+Scelto P bisogna decidere tra
+- incremento destra (E)
+- incremento destra + alto (NE)
+Q = intersezione linea ideale con $x = x_p + 1$
+scegliere NE o E in base alla distanza minore con Q
+#### Formulazione Midpoint
+si osserva da che lato giace M (midpoint tra NE ed E) rispetto alla linea
+- se M sotto linea è vicina a NE
+- se M sopra linea è vicina a E
+errore è sempre 1/2 in questa formulazione
+
+sufficiente calcolare $F(M) = F(x_p+1, y_p+1/2)$ e testare il segno
+### Cerchi
+per disegnare circonferenza si può risolvere equazione implicita $y = f(x) = \pm \sqrt{R^2-x^2}$ ma è inefficiente per via delle moltiplicazioni e radici quadrate
+
+algoritmo midpoint: circonferenza, punti generati e scelti in base a midpoint tra due pixel più vicini alla linea
+![[Screenshot 2025-08-22 at 4.28.45 PM.png]]
+sfruttando simmetria, dato un punto si possono tracciare gli altri 7 specchiati sugli assi, basta calcolare un arco di 45 gradi
+### Poligoni
+Algoritmo utilizzabile sia per convessi che concavi, determina come trattare gruppi/intervalli di pixel (span) compresi tra i lati sx e dx del poligono
+
+pixel sul contorno dello span calcolati con approccio che determina intersezione tra lato poligono e scanline, per mantenere coerenza
+
+![[Screenshot 2025-08-22 at 4.32.58 PM.png|400]]
+
+estremi calcolati con 
+- algoritmo midpoint su ogni lato
+- tabella di estremi per ogni scan line
+- aggiornando tabella quando viene prodotto un nuovo pixel per lato
+
+errori: prodotti estremi fuori dal poligono (non appartenenti o di colore diverso)
+
+![[Screenshot 2025-08-22 at 4.55.14 PM.png|300]]![[Screenshot 2025-08-22 at 4.55.58 PM.png|300]]
+
+1. individuare intersezioni della scan line con tutti i lati del poligono
+2. ordinare intersezioni per X crescente
+3. Filing del poligono segue la regola di parità:
+	- parità pari ad inizio, ogni intersezione incontrata inverte la parità
+	- si disegna pixel se parità è dispari (odd-parity)
+	- "entra in poligono --> diventa dispari --> esce --> diventa pari"
+
+4 elaborazioni per il filling :
+
+1. come si determina quale dei pixel sui due lati è interno?
+	- se dentro al poligono: approssima per difetto, a sinistra
+	- se fuori dal poligono: arrotonda per eccesso, a destra
+
+2. gestire caso speciale di intersezioni per pixel con coordinate intere?
+	- se intersezione è sul lato sinistro dell'intervallo (span): considerato interno (span inizia a x=12 --> 12 interno)
+	- se intersezione è sul lato destro dell'intervallo (span): considerato esterno (span finisce a x=20 --> 20 esterno)
+
+3. vertici condivisi tra diversi poligoni?
+	- bisogna decidere se quel vertice viene contato per il filling o no
+	- per ogni lato del poligono considera $y_{min}$ e $y_{max}$
+	- nel calcolo della parità (filling) considera vertice min e non il max
+	- vertice $y_{max}$ viene disegnato solo se è il vertice minimo di un lato adiacente
+
+4. vertici definiscono un lato orizzontale?
+	- non influiscono sulla parità (filling), non c'è $y_{min}$ e $y_{max}$ 
+	- viene disegnato solo se parità dispari, altrimenti viene saltato
+
+## Algoritmo Scan-Line
+
+1. individuare intersezioni della scan line con tutti i lati del poligono
+   molti lati intersecati dalla scan line intersecano anche alla scan line y+1 (edge coherence)
+2. intersezioni ordinate per coordinata X crescente
+3.  regola di parità per decidere quali pixel sono interni e vanno colorati
+
+Gestione semplificata usando 2 tipi di tabelle
+- **Global Edge Table** (GET) : memorizza info su tutti i lati del poligono, viene usata per aggiornare l'AET, organizzati per scan line a cui iniziano
+- **Active Edge Table** (AET) : memorizza info su tutti i lati attivi per la scan line corrente, intersezioni aggiornate e ordinate per X. Durante scansione si aggiorna aggiungendo i nuovi lati dalla GET e rimuovendo quelli terminati
+
+![[Screenshot 2025-08-22 at 9.36.13 PM.png|400]]
+![[Screenshot 2025-08-22 at 9.36.40 PM.png|400]]
+![[Screenshot 2025-08-22 at 9.46.57 PM.png|400]]
+
+
+#67 pipeline di rasterizzaz moderna
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
