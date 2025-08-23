@@ -807,14 +807,109 @@ grazie al campionamento ci sono soluzioni più efficaci
 ---
 # CH6 - Illuminazione e Texture
 
+calcolo colore di una porzione di superficie in una scena 3D / oggetto
+- modelli di illuminazione (lighting) --> riguarda pixel
+- modelli di ombreggiatura (shading) --> riguarda geometria
+
+Modelli di Illuminazione:
+- Globali = considerano scambio di luce tra tutte le superfici, più realistici e complessi
+- Locali = considerano solo luce che arriva direttamente dalla sorgente, semplici ma non gestiscono ombre, riflessioni e rifrazioni
+## Equazione Fondamentale di Rendering
+
+Rendering Equation unifica diversi algoritmi descrivendo la radianza osservata in un punto come somma di luce emessa e luce riflessa/scambiata tra tutte le superfici
+
+La radianza osservata $Lo$ si ottiene sommando Luce Emessa (Le) e Luce Riflessa, che dipende dalla luce incidente (Li), dal coefficiente di riflessione e dal coseno tra direzione incidente e normale
+
+BRDF (Bidirectional Reflectance Distribution Function) : funzione che descrive come la superficie riflette la luce in tutte le direzioni e determina l'aspetto del materiale
+## Tipi di Riflessione
+
+- **Riflessione speculare ideale** : specchio perfetto
+- **Riflessione diffusa ideale** : uniforme in tutte direzioni
+- **Riflessione speculare non-ideale** : distribuita nell'intorno della direzione di riflessione
+- **Retro-riflessione** : verso sorgente
+## Componenti di Luce
+
+- <font color="#00b050">Luce Ambiente</font> = semplificazione, assume tutta la scena sia colpita da una luce diffusa proveniente da tutte le direzioni
+  viene modellata con fattore $k_a$ e un intensità costante $I_a$ $$I = I_a k_a$$
+- <font color="#00b050">Riflessione Diffusa Ideale (Lambertiana)</font> = luminosità uniforme indipendente dall'angolo di vista. Riflessione uguale in tutte le direzioni.
+  Calcolata usando legge del coseno, dipende dal coefficiente del materiale, intensità della sorgente e dall'angolo di incidenza. $$I = I_p k_d\cos\theta \longrightarrow I = I_p k_d(\bar{N}\cdot \bar{L})$$Può essere attenuata rispetto alla distanza.
+  
+- <font color="#00b050">Riflessione Speculare</font> = su superfici lucide, la riflessione è più intensa vicino alla direzione ideale di riflessione.
+  Se si sposta il POV si sposta anche l'alone (highlight)
+  Nel **modello Phong** l'intensità decresce con la potenza del coseno alla n (esponente di riflessione speculare) tra la direzione ideale e quella di osservazione.
+  Il **modello Blinn** usa il vettore "halfway", semplifica il Phong. 
+## Colore e Attenuazione
+
+Il colore delle superfici e della luce viene gestito separatamente per ciascuna componente RGB
+
+L'attenuazione atmosferica simula la variazione di intensità e colore della luce con la profondità: oggetti lontani appaiono deboli e tendenti ad un colore di fondo
+## Ombreggiatura
+
+è sempre possibile calcolare l'ombreggiatura di una superficie calcolando la normale per ogni punto visibile e applicando un modello di illuminazione al punto
+
+- Flat / Faceted / Constant Shading : un solo colore per l'intera faccia del poligono, calcolato da un unica normale
+- Ombreggiatura Interpolata : si interpolano linearmente i valori di illuminazione calcolati ai vertici, generando gradazioni di colore sui poligoni
+
+Coordinate baricentriche: possono essere usate per interpolare qualunque attributo associato ai vertici. Le 3 funzioni sono ottenute nella fase di verifica dei 3 semipiani nella rasterizzazione --> no ricalcolo
+
+(più poligoni insieme)
+Servono modelli per geometrie poligonali che sfruttino le info relative ai poligoni adiacenti per simulare una superficie smooth:
+- Gouraud Shading : interpola il colore calcolato nei vertici
+- Phong Shading : interpola le normali tra i vertici, calcola l'illuminazione per ogn pixel, migliore per specular highlights
+
+Problemi: discontinuità tra poligoni, Mach band effect, distorsioni prospettiche e dipendenza dall'orientamento
+
+## Textures
+
+Immagine (texture map) digitalizzata o sintetizzata, composta da texel (mappa rettangolare col suo spazio di coordinate)
+
+Coordinate di texture : definiscono mapping da coordinate della superficie a punti nello spazio della texture, spesso definite interpolando linearmente le coordinate di texture associate ai vertici dei triangoli
+![[Screenshot 2025-08-23 at 6.31.47 PM.png|500]]
+
+Campionamento Texture:
+```
+per ogni pixel nell'immagine rasterizzata
+	interpola coordinate (u,v) sul triangolo
+	campiona texture in (u,v)
+	utilizza valore per colorare il pixel
+```
+
+causa proiezione, pixel nello spazio dello schermo hanno posizioni diverse nello spazio texture
+![[Pasted image 20241105141052.png|500]]
+
+- Ingrandimento (magnification) : camera vicino ad oggetto, singolo pixel da mappare su regioni piccole, vasta interpolare valore nel centro del pixel, semplice
+
+- Rimpicciolimento (minification) : singolo pixel da mappare su regioni più grandi della texture, occorre calcolare valore medio della texture sul pixel, più complesso
+
+Aliasing --> singolo pixel sullo schermo copre più pixel, idealmente si calcola valore medio ma è costoso
+Si possono calcolare i valori medi una volta e usare quelle info a run-time quando necessario
+MIPmap : memorizza immagini pre-filtrate ad ogni scala
+
+per capire quale livello della MIPmap usare: campionamento da livelli diversi anche all'interno dello stesso triangolo, calcola differenza tra coordinate di texture per campioni vicini
+
+Arrotondamento : produrre artefatti ai passaggi di livello (da texture nitida a sfocata)
 
 
+Campionamento Texture:
+- calcolo (u,v) dai campioni (x,y) attraverso interpolazione baricentrica
+- calcolo differenze coordinate di texture per campioni vicini, per ottenere L
+- calcolo livello MIPmap a partire da L
+- conversione coordinate di texture normalizzate a coordinate nello spazio della texture
+- individuare texel necessari per filtraggio
+### Ombre
 
+ci sono algoritmi per determinare quali parti di superficie sono viste dalla sorgente di luce
 
+è possibile generare ombre fittizie senza eseguire verifica di visibilità: trasforma ogni oggetto nella proiezione poligonale dalla sorgente di luce (puntiforme) sul piano
+### Trasparenze
 
+superfici che trasmettono luci:
+- trasparenti
+- traslucide --> trasmissione diffusa, raggi mescolati dalla superficie. Oggetti visti attraverso sono "confusi"
 
-
-
+Trasparenza
+- rifrattiva --> linee di vista ottica e geometrica cambiano, indice di rifrazione
+- non rifrattiva --> modo semplice, non realistico, linea visiva non alterata
 
 
 
@@ -833,7 +928,7 @@ grazie al campionamento ci sono soluzioni più efficaci
 # CH8 - Curve Superfici e Geometrie Poligonali
 
 ---
-# Rendering Fotorealistico
+# CH9 - Rendering Fotorealistico
 
 ---
 # CH10 - Hardware
