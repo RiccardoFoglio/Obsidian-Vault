@@ -692,7 +692,119 @@ Gestione semplificata usando 2 tipi di tabelle
 ![[Screenshot 2025-08-22 at 9.46.57 PM.png|400]]
 
 
-#67 pipeline di rasterizzaz moderna
+## Campionamento in Triangoli
+
+Pipeline di rasterizzazione moderna converte primitive in triangoli
+Triangoli:
+- possono approssimare qualsiasi forma
+- sempre planari con normale definita
+- facile interpolare info a partire dai vertici
+- si possono creare pipeline ottimizzate basate sui triangoli
+
+Due problemi principali:
+- Copertura : stabilire quali pixel dello schermo sono coperti dal triangolo
+- Visibilità : determinare quale triangolo è il più vicino alla telecamera per ogni pixel
+
+Posizione dei vertici del triangolo viene proiettata sul piano del display (camera oscura o sensore virtuale) poi si decide per ogni pixel se è dentro o fuori dal triangolo
+
+Algoritmo classico:
+```
+per ogni tirangolo
+	proietta vertici
+	calcola bounding box contentente il triangolo
+	per ogni pixel del bounding box
+		valuta se è dentro usando equzioni dei lati
+		se è dentro assengna il colore nel framebuffer
+```
+
+
+
+Casi Particolari:
+- pixel considerato coperto dal triangolo se si trova su un top edge o su un left edge
+(per evitare doppioni)
+
+rasterizzazione: per elaborare triangolo basta disporre info triangolo + info immagine e profondità per pixel del raster
+
+Limiti: 
+- applicabile solo a primitive per cui possibile effettuare scan conversion
+- gestione obre riflessioni trasparenze non unificata
+- potenziali problemi nel disegnare la primitiva (pixel potrebbe essere considerato più volte)
+
+Vantaggi:
+- con triangoli: rasterizzazione ottimizzata, facile da parallelizzare, memoria gestita in modo efficiente
+- GPU moderne progettate per gestire triangoli
+
+
+Visibilità = in caso di sovrapposizione, controlla buffer di profondità (z-buffer)
+
+Copertura = in situazioni complesse può essere difficile da determinare copertura --> % di area coperta da triangoli può essere usata per illuminare il pixel di conseguenza
+![[Screenshot 2025-08-23 at 3.28.58 PM.png|400]]
+Copertura precisa: teoricamente bisognerebbe calcolare con precisione la copertura esatta, ma per semplicità si considera solo il centro del pixel (un insieme discreto, sample): se il centro è dentro si illumina il pixel
+si verifica un insieme di punto a "campione" --> si può ottenere una buona stima se scelte intelligentemente
+### Brutal Force Approach
+interno del triangolo = insieme di punti interni ai 3 semipiani definiti dalle 3 linee dei lati
+$$E_i(x,y) = a_ix+b_iy+c_i$$
+```
+Calcolo coefficienti E_1, E_2, E_3 dai vertici proiettati
+per ogni pixel
+	valuta funzione nel centro del pixel
+	se positivo/0:
+		pixel è interno al triangolo
+```
+### Bounding Box Approach
+molti calcoli inutili per triangoli piccoli (verifica tutti i pixel il brute force)
+Ottimizzazione:
+- considera solo i pixel all'interno del bounding box 2D del triangolo (min e max di x e y)
+![[Screenshot 2025-08-23 at 3.39.11 PM.png]]
+```
+Per ogni triangolo 
+	Calcola la proiezione dei vertici 
+	Calcola Ei 
+	Calcola il bounding box (sullo schermo) 
+	Per ogni pixel nel bounding box 
+		Valuta le funzioni Ei Se tutte maggiori o uguali a zero 
+		Framebuffer[x,y] = colore del triangolo
+```
+### Incremental Approach
+si risparmia due moltiplicazioni e due somme per pixel, importante riduzione per triangoli grossi
+```
+Per ogni triangolo 
+	Calcola la proiezione dei vertici 
+	Calcola il bounding box (sullo schermo) 
+	Per ogni scan line y nel bounding box 
+		Valuta le funzioni Ei=aix0+biy+ci in (x0,y) 
+		Per ogni pixel nel bounding box 
+			Se tutte maggiori o uguali a zero 
+				Framebuffer[x,y] = colore del triang. 
+			Incrementa l’eq. della linea Ei+=ai
+```
+![[Pasted image 20241104175942.png]]
+### Approccio Gerarchico
+si verificano blocchi di pixel per escludere quelli che non intersecano il triangolo
+![[Pasted image 20241104180111.png]]
+
+## Ricostruzione e Campionamento
+
+ogni campione usato per controllare piccolo elemento luminoso sullo schermo per fargli assumere colore/intensità
+cosa viene ricostruito da questi campioni?
+
+teorema di nyquist-shannon: segnale a banda limitata può essere perfettamente ricostruito se campionato con una frequenza pari al doppio della frequenza massima utilizzando filtro ideale
+
+In grafica i segnali non sono a banda limitata --> non si riesce a ricostruire con filtri ideali
+ciò comporta artefatti (aliasing)
+- Jaggies in imamgini statiche
+- Shimmering in immagini animate
+- Effetto moirè in aree delle immagini ad alta frequenza
+
+![[Screenshot 2025-08-23 at 3.48.56 PM.png|500]]
+
+Antialiasing: aumento risoluzione (riduce problema, non lo elimina)
+grazie al campionamento ci sono soluzioni più efficaci
+- intensità pixel in base a copertura area
+
+
+
+
 
 
 
