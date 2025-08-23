@@ -802,6 +802,8 @@ Antialiasing: aumento risoluzione (riduce problema, non lo elimina)
 grazie al campionamento ci sono soluzioni più efficaci
 - intensità pixel in base a copertura area
 
+- unweighted area sampling : intensità pixel intersecato dalla linea decresce man mano che la distanza tra centro del pixel e linea cresce
+- weighted area sampling : aree di dimensione uguale contribuiscono in maniera diversa in base alla distanza dal centro del pixel
 
 
 
