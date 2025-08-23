@@ -804,9 +804,8 @@ grazie al campionamento ci sono soluzioni più efficaci
 
 - unweighted area sampling : intensità pixel intersecato dalla linea decresce man mano che la distanza tra centro del pixel e linea cresce
 - weighted area sampling : aree di dimensione uguale contribuiscono in maniera diversa in base alla distanza dal centro del pixel
-
-
-
+---
+# CH6 - Illuminazione e Texture
 
 
 
@@ -828,8 +827,15 @@ grazie al campionamento ci sono soluzioni più efficaci
 
 
 ---
+# CH7 - Profondità Visibilità Trasparenze
 
+---
+# CH8 - Curve Superfici e Geometrie Poligonali
 
+---
+# Rendering Fotorealistico
+
+---
 # CH10 - Hardware
 
 ### Schermi CRT
