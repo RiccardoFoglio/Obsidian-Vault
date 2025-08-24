@@ -14,7 +14,7 @@ Determinare superfici visibili: implementazione complicata
 
 # Profondità
 
-A determinazione delle superfici visibili deve essere effettuata in uno spazio 3D, prima che la proiezione rimuova le informazioni di profondità necessarie per confrontare le distanze
+La determinazione delle superfici visibili deve essere effettuata in uno spazio 3D, prima che la proiezione rimuova le informazioni di profondità necessarie per confrontare le distanze
 
 Dati punti, si trovano sullo stesso proiettore? In caso affermativo, z1 e z2 dovranno essere confrontati per stabilire quale dei due sia più vicino all’osservatore.
 

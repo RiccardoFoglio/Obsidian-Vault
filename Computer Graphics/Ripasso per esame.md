@@ -910,22 +910,163 @@ superfici che trasmettono luci:
 Trasparenza
 - rifrattiva --> linee di vista ottica e geometrica cambiano, indice di rifrazione
 - non rifrattiva --> modo semplice, non realistico, linea visiva non alterata
-
-
-
-
-
-
-
-
-
-
-
 ---
 # CH7 - Profondità Visibilità Trasparenze
 
+![[Pasted image 20241114133441.png]]
+ultimo passaggio della pipeline di rasterizzazione: profondità e trasparenze
+
+Problema di visibilità: stabilire quali superfici sono visibili e la direzione di proiezione eliminando le superfici non visibili
+
+approcci:
+- **Object - precision** : confronto tra oggetti per stabilire quali sono nascosti, compenetrazioni (complessità quadratica, poco pratico) 
+
+- **Image - precision** : per ogni pixel stabilire quale oggetto è visibile, risolvendo la visibilità punto per punto (tipico delle pipeline raster)
+## Profondità
+
+Prima della proiezione 2D (quindi in spazio 3D) le coordinate includono profondità (z). Il confronto tra punti sullo stesso proiettore determina qual è più vicino all’osservatore.
+
+La profondità (z) per ciascun frammento/pixel si ottiene interpolando le coordinate dei vertici usando le coordinate baricentriche.
+
+Algoritmo di depth sorting ("del pittore") : ordinare poligoni in base a distanza dal POV e disegnare in ordine
+non funziona sempre, orientamento e profondità variabile possono produrre risultati diversi
+![[Pasted image 20241114140706.png]]
+## Algoritmo Z-Buffer
+
+soluzione pratica e diffusa per la gestione della visibilità:
+
+- frame buffer + depth buffer (z-buffer) : memorizza profondità più vicina incontrata finora per ogni pixel
+- si inizializza lo z-buffer con valori massimi (inf) e frame buffer con colore di sfondo
+- per ogni frammento rasterizzato, si effettua depth test : se profondità minore (vicino) aggiorna z-buffer e anche frame buffer col colore
+
+algoritmo gestisce le compenetrazioni e funziona perfettamente anche con antialiasing tramite sovracampionamento (ogni campione, non ogni pixel)
+## Gestione Trasparenze
+
+La trasparenza è rappresentata dal valore di alpha ($\alpha$) tra 0 e 1
+Il canale alpha permette di combinare (compositing/blending) immagini una sopra l'altra
+Il colore risultante dei pixel si ottiene pesando i colori dei frammenti sovrapposti secondo alpha, con formule esplicite di blending
+
+La pre-moltiplicazione dei canali colore per alpha è una tecnica importante che evita problemi come il "fringing" (bordo nero attorno agli oggetti semitrasparenti) soprattutto nelle operazioni ripetute di compositing
+
+senza pre-moltiplicazione: 	0.5(1,0,0)+(1-0.5)0.5(1,0,0) = (0.75,0,0) --> scuro
+con pre-moltiplicazione: (0.5,0,0.5)+(1-0.5)(0.5,0,0.5) = (0.75,0,0.75) --> corretto
+
+vantaggi:
+- tratta problema nello stesso modo per tutti canali (colore e alpha)
+- riduzione numero operazioni aritmetiche richieste
+- corretta gestione sovrapposizioni multiple
+- corretta gestione del ridimensionamento di texture con trasparenze
+- rappresentazione ideale per pipeline di rasterizzazione
+
+Per immagini trasparenti multiple: si disegna dal più lontano al più vicino (back to front) e si effettua il blending senza aggiornare il depth buffer
+
+1. rendering di tutte le primitive opache usando verifica della visibilità con z-buffer
+2. disabilita aggiornamento depth buffer, render primitive semi-trasparenti in ordine back-front
+## Pipeline OpenGL
+
+- Input: descrizione scena (triangoli, attributi, texture). 
+- Trasformazione dei vertici dei triangoli nel sistema di coordinate della camera 3D
+- Proiezione e trasformazione dei vertici nel sistema di coordinate normalizzate (3D)
+- Esecuzione clipping 3D scartando triangoli esterni al cubo unitario, gestendo intersezioni con esso ecc..
+- Divisione omogenea e trasformazione delle coordinate normalizzate dei vertici in coordinate schermo (2D)
+- Pre-elaborazione dei triangoli, calcolo di parametri che servono per passaggi successivi
+- Campionamento della copertura: calcolo attributi per campioni coperti dal triangolo
+- Calcolo colore del campione : usando modello di illuminazione o campionando texture
+- Aggiornamento Depth Buffer
+- Aggiornamento Frame Buffer
+
+### Pipeline OpenGL 2.X
+
+![[Pasted image 20241114143457.png]]
+
+**Vertex Transformation** : riceve attributi dei singoli vertici e ed esegue trasformazioni di posizione, calcoli di illuminazione per vertice, generazione e trasformazione di coordinate di texture
+
+**Primitive Assembly and Rasterization** : riceve vertici trasformati + info di connettività e assembla le primitive. Effettua clipping e back face culling. La rasterizzazione crea i frammenti (fragment) uno per campione
+Output: posizione fragment nel frame buffer + valori interpolati degli attributi calcolati nello stadio di trasformazione vertici (pixel positions)
+
+**Fragment Texturing and Coloring** : riceve info interpolate dei fragment e produce info di colore e profondità combinando le info calcolate in precedenza (come i texel dalle coord. di texture)
+
+**Raster Operations** : riceve posizione dei pixel e info di colore e profondità dei ragment.
+Esegue una serie di test: Alpha, Depth, Scissor, Stencil
+se test passati, info usate per aggiornare valore pixel in base alla gestione delle trasparenze (fino ad ora no accesso al frame buffer)
+
+Fragment != Pixel --> necessarie fasi di elaborazione e magari antialiasing
+
+### Pipeline OpenGL 4.X
+
+Funzionalità aggiuntive:
+- Tessellation --> gruppi di vertici (e dati) divisi in primitive più piccole
+- Uso di Geometry Shaders --> controlla l'elaborazione delle primitive (In: 1 prim, Out: 0-N prim)
+- Buffer usati per memorizzare dati prodotti dalla fase di trasformazione vertici
+
+Schede Grafiche moderne possono programmare le funzionalità degli stadi della pipeline
+- Vertex Shader : rimpiazza stadio di trasformazione dei vertici
+- Fragment Shader : rende controllabile lo stadio di texture e colorizzazione dei fragment
+#### Vertex Processor
+
+Esegue vertex shader, input = info relative ai vertici: posizione, colore, vettore normale
+
+Istruzioni per eseguire:
+- trasformazioni posizione vertici
+- trasformazione normali
+- generazione coordinate di texture
+- determina colore
+
+vertex processor lavora con un vertice alla volta, non conosce info di connettività, quindi non può fare back face culling
+
+non ha accesso al frame buffer, quindi i pixel
+
+#### Fragment Processor
+
+Esegue il fragment shader
+
+Responsabile per:
+- determinazione colori e coordinate di texture per pixel
+- applicazione texture
+- calcolo normali se illuminazione per pixel
+
+Input = valori interpolati di posizione colore e normali calcolati nello stadio precedente
+
+istruzioni nel fragment shader rimpiazzano stadio della pipeline
+Opera su singoli grammenti, non ha info sui fragment adiacenti
+
+Non può cambiare coordinate del pixel calcolate precedentemente, può accedere alle info di singoli pixel data la loro posizione ma non ha accesso al frame buffer
+## Hardware Grafico
+
+GPU moderne gestiscono scene con milioni di triangoli e calcoli su ogni pixel a risoluzioni elevate, esegue calcoli complessi nei vertex e fragment shaders, opera a framerate elevati (30-120fps)
+
+La pipeline è implementata tramite processori specializzate e architettura multi-core sia su GPU discrete che integrate
+
+Recentemente l'hardware include anche stadi dedicati al ray tracing
+## Ray Tracing
+
+Approccio alternativo alla rasterizzazione, basato sul ray casting:
+- Per ogni pixel spara raggio che attraversa scena e si calcolano le intersezioni con superfici
+
+Determina visibilità e colore pixel in modo ricorsivo (riflessioni, rifrazioni, ombre)
+
+l'algoritmo z-buffer usa i vertici proiettati e verifica copertura pixel
+l'algoritmo ray casting verifica le intersezioni
+![[Pasted image 20241114155743.png|500]]
+
+- determina intersezione di un raggio con qualsiasi superficie
+- può essere lento e complicato
+- solo intersezioni raggio-oggetto, non tra oggetti
+- ottimizzazioni bounding volume per intersezioni più semplici
 ---
 # CH8 - Curve Superfici e Geometrie Poligonali
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 # CH9 - Rendering Fotorealistico
