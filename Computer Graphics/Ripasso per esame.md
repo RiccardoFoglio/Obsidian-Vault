@@ -1056,6 +1056,159 @@ l'algoritmo ray casting verifica le intersezioni
 ---
 # CH8 - Curve Superfici e Geometrie Poligonali
 
+Curve e superfici sono fondamentali in grafica per descrivere geometrie di oggetti, tracciare percorsi e animazioni, definire font e rappresentare dati grafici complessi
+
+Geometria = studio dello spazio e delle forme, dalla misurazione empirica alla formalizzazione matematica delle superfici
+
+Superficie = parte esterna di un oggetto. Diverse codifiche digitali:
+- esplicite : rappresentata direttamente tramite coordinate
+	   nuvole di punti, mesh poligonali
+- implicite : insieme dei punti che soddisfano un equazione
+	   superfici algebriche, CSG, insiemi di livello, frattali
+
+## Rappresentazioni Implicite
+
+Superficie specificata da una relazione (punti in un equazione)
+
+PROs: 
+- verificare se un punto è interno/esterno alla superficie è semplice
+- descrizione compatta
+- rappresentazione esatta di forme semplici
+
+CONs: 
+- Estrazione di tutti i punti sulla superficie è difficile, soprattutto per forme complesse
+
+Tipi di rappresentazioni implicite:
+
+- <font color="#ffff00">Constructive Solid Geometry (CSG)</font> = Creazione di forme complesse da primitive tramite unioni, intersezioni, differenze strutturate ad albero
+
+- <font color="#ffff00">Metasuperfici / Blobby</font> = Somma di funzioni (tipo Gaussiante) per descrivere forme che si fondono gradualmente
+
+- <font color="#ffff00">Insiemi di Livello</font> = superficie rappresentata come griglia di valori e valutazione della soglia
+
+- <font color="#ffff00">Frattali</font> = forme auto-simili, utilizzate per fenomeni naturali, difficili da controllare in dettaglio
+## Rappresentazioni Esplicite
+
+- <font color="#ffff00">Point Could</font> = lista di coordinate (spesso normali), rappresenta facilmente qualunque geometria, semplici da visualizzare. Però sono difficili da interpolare/analizzare/gestire in modo topologicamente consistente.
+
+- <font color="#ffff00">Polygon Mesh</font> = collezioni di vertici collegati in poligoni (triangoli o quadrilateri) e informazioni sulla connettività. 
+  Facile elaborazione, adattabilità di campionamento, gestibilità in simulazioni e rendering.
+  Struttura dati complessa, superfici curve approssimate attraverso poligoni.
+
+## Rappresentazioni Parametriche di Curve
+
+Curve Esplicite : $y=f(x)$ limitate per curve complesse, rotazioni e tangenti infinite
+
+Curve Parametriche : $(x(t), y(t), z(t))$ con $t$ parametro. Flessibile, gestisce tangenti e giunzioni tra segmenti.
+
+in generale curve n=3 (cubiche), perchè:
+- grado 1: retta/segmento, i due coefficienti determinati dagli estremi
+- grado 2: non adatta, 3 coeff, due estremi + una condizione / 3 punti
+- grado +3: costi di elaborazione elevati
+
+- grado 3: 4 coefficienti/vincoli : 2 estremi + 2 valori della derivata negli estremi
+
+**Continuità parametrica** 
+- $C^0$ se le due curve **coincidono** in un punto (di giunzione) 
+- $C^1$ se i due vettori tangenti alla curva **sono uguali** (**direzione** e **modulo**) nel punto di giunzione 
+- $C^2$ se la derivata seconda **è uguale** in quel punto
+
+**Continuità geometrica** 
+- $G^0$ se le due curve **coincidono** in un punto (di giunzione) 
+- $G^1$ se i due vettori tangenti alla curva sono **proporzionali** nel punto di giunzione (hanno la stessa direzione, ma non necessariamente lo stesso modulo) 
+	- Pendenza uguale, uno multiplo dell’altro (TV1=k·TV2, k>0) 
+	- Spesso richiesto, es. nel CAD
+- $G^2$ se la derivata seconda è **proporzionale** in quel punto
+
+$C^1$ implica $G^1$ 
+
+- **Hermite** : definite da 2 estremi e 2 vettori tangenti negli estremi. Usano vincoli diretti sui punti-tangenti. Continuità facile da regolare
+
+- **Bezier** : Definite da 4 punti di controllo. Curve passano solo per i punti estremi, i punti intermedi regolano le direzioni tangenti. Semplici grazie ai polinomi di Bernstein, sempre contenute nel convex hull dei punti di controllo.
+  Svantaggi: punto di controllo modifica tutta la curva, pesanti restrizioni sulla forma della curva per continuità G2 (C2)
+
+- **Spline/B-Spline** : interpolano determinati punti di controllo, uniscono segmenti di curve garantendo diversi livelli di continuità (C0, C1, C2) --> un grado di continuità in più rispetto a Hermite e Bezier, controllo locale
+
+	- **B-Spline uniformi** : nodi equispaziati, ogni segmento di curva influenza solo pochi punti di controllo. 
+	  $n$ nodi e $n-1$ punti di controllo
+
+	- **B-Spline non uniformi** : nodi non equispaziati, maggiore flessibilità nella forma e nella gestione delle interpolazioni
+
+- **Curve Razionali NURBS** : aggiungono una quarta coordinata (peso). permettono manipolazioni geometriche e rappresentazione esatta di coniche
+
+![[Pasted image 20241124224445.png]]
+
+## Superfici Parametriche
+
+- Superfici bi-cubiche : generalizzazione delle curve cubiche. Definite da griglie di punti di controllo
+
+- Superfici di Bezier : Patch derivati dai prodotti tensoriali delle curve. Semplici da disegnare ma non sempre facili da connettere mantenendo continuità
+
+- Superfici NURBS : Reale generalizzazione, permettono rappresentazione di superfici complesse e coniche con continuità elevata, ma difficili da manipolare
+
+## Superfici di Suddivisione
+
+Partire da mesh di controllo "grezza" e raffinarla ripetutamente calcolando (con opportune regole di media) nuove posizioni dei vertici
+
+Algoritmi Catmull-Clask (quadrilateri) e Loop (triangoli)
+
+PROs : Facili da manipolare per il modellatore, generando superfici smooth, usate in CGI professionale
+CONs : Difficile valutare punti singoli sulla superficie, controllo della continuità nei vertici
+## Topologia: Varietà e Mesh Poligonali
+
+Varietà (manifold) : condizione per cui una superficie, localmente, "assomiglia" ad un piano
+In termini semplificati, in geometria una superficie è una varietà se, avvicinandosi molto, è possibile disegnare su di essa una griglia piana
+
+Condizioni per una mesh poligonale per essere varietà:
+- ogni lato appartiene ad al più 2 poligoni
+- per ogni vertice, i poligoni che lo contengono formano un unico anello
+
+PROs : algoritmi e strutture dati più semplici, gestione topologica robusta e storage efficiente (analogia con bitmap a griglia regolare)
+
+## Strutture Dati per Mesh Poligonali
+
+- **Array / List di triangoli** : solo coordinate, massima semplicità ma difficile da gestire vicinanza/connettività
+- **Elenco di adiacenze / Matrici di incidenza** : Vertici memorizzati come triplette di coordinate / triangoli come triplette di indici.
+  Relazioni tra vertici-lati-facce rendono rapide alcune operazioni, ma memoria elevata
+- **Struttura Half Edge** : mix tra lista ma memorizza alcune info di vicinanza tramite puntatori.
+  Gestione efficiente della connettività, facilitata traversine e manipolazione della mesh (inserimento, cancellazione, split, collapse edge)
+
+Confronto tra gli approcci:
+
+|                                       | Array/Lista | Matrice Incidenza | Half-Edge |
+| ------------------------------------- | ----------- | ----------------- | --------- |
+| tempo di accesso agli elementi vicini | NO          | SI                | SI        |
+| Facilità di rimozione di elementi     | NO          | NO                | SI        |
+| Supporto superfici non varietà        | SI          | SI                | NO        |
+## Elaborazione delle Geometrie (Geometry Processing)
+
+Operazioni principali:
+
+- Ricostruzione : da punti, punti+normali, immagini, si cerca di ricostruire una superficie coerente (tramite visual hull, power crust)
+
+- Filtraggio : Rimozione di rumore, enfasi delle caratteristiche geometriche importanti
+  (tramite curvature, edge detection, filtri bilaterali/spettrali)
+
+- Sovra/Sotto-campionamento : Aumentare o ridurre il numero di elementi geometrici
+	- algoritmo greedy di edge collapse e metriche di errore
+	- attenzione alla degradazione della qualità con ricampionamenti ripetuti
+
+- Ricampionamento : modificare la distriuzione dei campioni per migliorare la qualità della mesh in base a obiettivi diversi
+
+
+Qualità della mesh: 
+- approssimazione della forma originale, presenza di dettagli dove la curvatura è alta
+- regolarità degli angoli (ideale 60 gradi in pesi triangolari)
+- Condizione di Delaunay : nessun altro vertice nella circonferenza di un triangolo
+- Regolarità del grado dei vertici (6 per triangoli, 4 per quadrilateri)
+- Tecniche per migliorare la qualità: flip degli edge, ricentramento dei vertici, ricampionamento isotropico
+
+
+
+
+
+
+
 
 
 
