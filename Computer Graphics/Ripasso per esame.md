@@ -1202,30 +1202,108 @@ Qualità della mesh:
 - Condizione di Delaunay : nessun altro vertice nella circonferenza di un triangolo
 - Regolarità del grado dei vertici (6 per triangoli, 4 per quadrilateri)
 - Tecniche per migliorare la qualità: flip degli edge, ricentramento dei vertici, ricampionamento isotropico
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ---
 # CH9 - Rendering Fotorealistico
 
+Lo scopo è simulare la generazione di immagini che siano visivamente realistiche, a partire da una scena descritta da geometrie, materiali, luci e una camera virtuale.
+
+## Rasterizzazione vs Ray Tracing
+
+Rasterizzazione:
+- Opera per primitive: per ogni primitiva si verifica la copertura sui pixel, calcolando visibilità e colore tramite z-buffer e modelli di illuminazione locali
+- Modello di illuminazione locale: difficoltà nel gestire eventi globali come ombre, riflessioni, rifrazioni
+- Non richiede memoria dell'intera scena per ogni pixel
+
+Ray Tracing:
+- Opera per campione/pixel: per ogni pixel della camera si traccia un raggio verso la scena per individuare l'oggetto visibile, gestendo visibilità e colore attraverso calcoli fisici.
+- Modello di illuminazione globale: facile la simulazione di ombre, riflessioni, rifrazioni e fenomeni di luce indiretta
+- Necessita accesso a tutta la scena per calcoli complessi
+
+## Ray Tracing
+
+Forward Ray Tracing : tracciamento dei raggi dalla sorgente, usato raramente perchè inefficiente
+Backward Ray Tracing : tracciamento dei raggi dal punto di vista della camera verso la scena, più usato perchè simula solo ciò che viene visualizzato nell'immagine
+
+Illuminazione Globale: il raytracing applica ricorsivamente i modelli di illuminazione locale per gestire riflessioni e rifrazioni multiple, consentendo rendering realistico
+
+Algoritmo base:
+1. per ogni pixel traccia raggio dalla camera
+2. trova prima intersezione oggetto-raggio
+3. calcola colore al punto di intersezione tramite modelli di illuminazione (considerando sorgenti dirette)
+4. traccia raggi secondari per riflessi, rifrazioni, ombre: ricorsione nei calcoli secondo proprietà dei materiali
+5. calcola contributo di ogni sorgente
+
+Limiti: simulazioni di luce indiretta e globale approssimate, problemi di precisione numerica e immagini innaturali, complessità computazionale elevata
+
+- **Distributed Ray Tracing** : tracciamento multiplo di raggi in direzioni distribuite per simulare effetti complessi (riflessioni sfumate, penombre, traslucenza, depth of field, motion blur, antialiasing)
+
+- **Monte Carlo Ray Tracing / Path Tracing** : approccio che usa il campionamento stocastico e integrazione numerica per calcolare radianza, risolvendo equazione di rendering per tutti i contributi di luce
+
+![[Pasted image 20241126124518.png]]
+
+- **Campionamento per importanza** : ottimizza i campioni considerando il materiale e direzioni più rilevanti
+
+- **Campionamento per importanza multiplo** : info dai materiali + sorgenti di luce: combina le due strategie per migliorare efficienza e qualità
+
+- approccio bi-direzionale: si collega percorso backward e quello forward, aiuta a scegliere i percorsi da considerare
+
+Radianza osservata in un punto $p$ nella direzione $\omega _o$ è data dalla somma della luce emessa e della luce riflessa (integrata in tutte le direzioni incidenti, pesata dal coefficiente di riflessione e coseno tra direzione e normale)
+
+Ad ogni punto di intersezione, vengono tracciati nuovi raggi (riflessi, rifrazioni, ombre)
+Ricorsione viene fermata in base a soglie di contriuto, profondità massima o tecniche probabilistiche
+Potenziale introduzione di bias se non si considerano tutti i precorsi significativi, strategie come Metropolis Light Transport (MLT) mirano a trovare e ottimizzare i percorsi buoni
+## Approcci Alternativi
+
+Radiosity:
+- studio dell'energia luminosa totale scambiata tra superfici, assunzione di ambienti chiusi e riflessione diffusa.
+- suddivisione in regioni emittenti/riflettenti, calcolo dei fattori di forma e solving di sistemi di equazioni
+- Scene trattate in modo indipendente dal POV, costoso in memoria, efficace per luce diffusa e ombre morbide
+
+Photon Mapping:
+- 2 fasi: tracciamento dei fotoni dalle sorgenti + memorizzazione info in una photon map e rendering finale raccogliendo i contributi dei fotoni 
+- gathering dei fotoni per ogni pixel durante il rendering, simulando scattering riflessione e trasmissione
+- buona flessibilità per gestire effetti complessi e la possibilità di riutilizzare i dati per diversi POV
+
+Confronto:
+- Ray/Path Tracing -->
+	  adatto per riflessioni speculari, fenomeni che dipendono dal POV
+	  costoso, non sempre real-tim
+	  
+- Radiosity -->
+	  Efficiente per diffusione
+	  Non ottimale per riflessione speculare, più adatto per ambienti statici
+
+- Photon Mapping -->
+	  Buon compromesso, sfrutta vantaggi dei due approcci, permette riutilizzo dei dati
+
+## Blender
+
+Blender offre 3 motori di rendering integrati:
+- **Workbench**: rasterizzazione, ottimizzato per visualizzazione rapida in fase di modellazione/animazione
+- **Eevee**: basato su OpenGL, codice simile ad Unreal Engine, Rasterizzazione avanzata per interattività e tempo reale
+- **Cycles**: basato sul path tracing, per rendering finale fotorealistico
+
+## Ottimizzazioni e Strutture Dati per Intersezioni
+
+Intersezione base raggio-triangolo: complessità O(N), poco efficiente per scene grandi
+
+Bounding Volume Hierarchy (BVH): gerarchia che usa bounding boxes per suddividere le primitive, riducendo il numero di test necessari
+
+Binary Space Partitioning (BSP): suddivide lo spazio in piani arbitrari, più adatta a oggetti solidi
+
+K-D Tree: suddivisione spaziale usando piani allineati agli assi, efficienza nell'intersezione
+
+Griglie uniformi e octree: suddivisione dello spazio in celle di uguale dimensione (griglie) o octani (octree) adatte a scene con distribuzione regolare
+
+Scaletta della struttura: dipende dalla scena, distribuzione primitive e dagli obiettivi di efficienza e scalabilità
+
 ---
 # CH10 - Hardware
+
+
+
+
+
 
 ### Schermi CRT
 
