@@ -3,7 +3,7 @@
 
 30% cervello dedicato ad elaborazione di info visive --> occhi = canale di comunicazione con banda maggiore per cervello
 
-Informatica Grafica = tecniche e metodi per rappresentare sotto forma di stimuli sensoriali + elaborare e manipolare info digitali
+Informatica Grafica = tecniche e metodi per rappresentare sotto forma di stimoli sensoriali + elaborare e manipolare info digitali
 
 Computer Graphics = aspetti di sintesi di informazioni visive (sensoriali) mediante calcolatore. tecniche di rendering. Immagine è il prodotto finale che parte dai dati
 
@@ -12,7 +12,6 @@ Computer Vision = analisi di immagini, immagine è punto di partenza e finisce i
 ![[Pasted image 20240924133143.png|500]]
 ![[Pasted image 20240924133206.png|500]]
 ![[Pasted image 20240924133223.png|500]]
-
 ## Rendering
 
 Dato un cubo centrato nell'origine, di dimensione 2 per lato, spigoli allineati con assi x,y,z
@@ -183,7 +182,6 @@ Stesso colore ma più efficiente:
 ![[Pasted image 20241004121741.png|600]]
 
 Colore = quantità di luce generata o assorbita, in funzione della frequenza
-
 - assorbimento
 - riflessione
 - trasmissione
@@ -306,7 +304,7 @@ Cr = differenza dal verde nel campo del rosso
 tipica codifica 8 bit per canale = 256 valori, cifre esadecimali : #ff6600
 codifiche diverse:
 - comodità = utente può scegliere velocemente il colore
-- efficienza = possibile codificare in maniera diversa in base a quanto siano rilevanti dal unto di vista percettivo (compressione)
+- efficienza = possibile codificare in maniera diversa in base a quanto siano rilevanti dal punto di vista percettivo (compressione)
 - elaborazione = rilevante lo spazio di colori in cui si effettuano operazioni di interpolazione o miscellazione (blending)
 - riproducibilità = modelli diversi rappresentano insiemi di colori diversi
 
@@ -608,7 +606,6 @@ allora si ha che $y_{i+1} = y_i + m$
 - no parametro B esplicito
 ![[Pasted image 20241024190539.png|400]]
 
-
 Se $|m| > 1$, incrementando x si ottiene incremento su y maggiore di 1 
 Algoritmo Digital DIfferential Analyzer (DDA) : strumento per risolvere sistemi di equazioni usando metodi numerici, ma variabili reali e precisione limitata
 #### Algoritmo di Bresenham
@@ -717,8 +714,6 @@ per ogni tirangolo
 		se è dentro assengna il colore nel framebuffer
 ```
 
-
-
 Casi Particolari:
 - pixel considerato coperto dal triangolo se si trova su un top edge o su un left edge
 (per evitare doppioni)
@@ -727,7 +722,7 @@ rasterizzazione: per elaborare triangolo basta disporre info triangolo + info im
 
 Limiti: 
 - applicabile solo a primitive per cui possibile effettuare scan conversion
-- gestione obre riflessioni trasparenze non unificata
+- gestione ombre riflessioni trasparenze non unificata
 - potenziali problemi nel disegnare la primitiva (pixel potrebbe essere considerato più volte)
 
 Vantaggi:
@@ -858,7 +853,6 @@ Servono modelli per geometrie poligonali che sfruttino le info relative ai polig
 - Phong Shading : interpola le normali tra i vertici, calcola l'illuminazione per ogn pixel, migliore per specular highlights
 
 Problemi: discontinuità tra poligoni, Mach band effect, distorsioni prospettiche e dipendenza dall'orientamento
-
 ## Textures
 
 Immagine (texture map) digitalizzata o sintetizzata, composta da texel (mappa rettangolare col suo spazio di coordinate)
@@ -888,7 +882,6 @@ MIPmap : memorizza immagini pre-filtrate ad ogni scala
 per capire quale livello della MIPmap usare: campionamento da livelli diversi anche all'interno dello stesso triangolo, calcola differenza tra coordinate di texture per campioni vicini
 
 Arrotondamento : produrre artefatti ai passaggi di livello (da texture nitida a sfocata)
-
 
 Campionamento Texture:
 - calcolo (u,v) dai campioni (x,y) attraverso interpolazione baricentrica
