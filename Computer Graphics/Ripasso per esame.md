@@ -871,7 +871,7 @@ per ogni pixel nell'immagine rasterizzata
 causa proiezione, pixel nello spazio dello schermo hanno posizioni diverse nello spazio texture
 ![[Pasted image 20241105141052.png|500]]
 
-- Ingrandimento (magnification) : camera vicino ad oggetto, singolo pixel da mappare su regioni piccole, vasta interpolare valore nel centro del pixel, semplice
+- Ingrandimento (magnification) : camera vicino ad oggetto, singolo pixel da mappare su regioni piccole, basta interpolare valore nel centro del pixel, semplice
 
 - Rimpicciolimento (minification) : singolo pixel da mappare su regioni più grandi della texture, occorre calcolare valore medio della texture sul pixel, più complesso
 
