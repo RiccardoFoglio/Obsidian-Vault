@@ -5,4 +5,5 @@
 
 # [[Parameter Learning - Gradient Descent]]
 
+# [[Model and Cost Function (Logistic Regression)]]
 

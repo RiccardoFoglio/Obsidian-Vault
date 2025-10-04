@@ -20,6 +20,8 @@ how to choose the parameters?
 best way to define the function is to minimize the distance of the data and the predicted curve, by finding the position and orientation of the line
 
 ![[Screenshot 2025-10-02 at 5.31.00 PM.png|500]]
+$h_\theta(x^{(i)})$ is the predicted value, $y^{(i)}$ is the actual
+
 ![[Screenshot 2025-10-02 at 5.31.09 PM.png|500]]
 
 with a simplified dataset:
