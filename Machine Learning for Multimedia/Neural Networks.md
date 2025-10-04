@@ -52,3 +52,19 @@ we want to find w and b to minimize J(w,b) using gradient descent
 ![[Screenshot 2025-10-04 at 9.36.23 PM.png|500]]
 ![[Screenshot 2025-10-04 at 9.36.51 PM.png|500]]
 
+## Computation Graph
+
+$$J(a,b,c) = 3(a+bc)$$
+![[Screenshot 2025-10-04 at 9.40.36 PM.png|200]]
+![[Screenshot 2025-10-04 at 9.40.42 PM.png|500]]
+with numbers:
+![[Screenshot 2025-10-04 at 9.44.47 PM.png|500]]
+![[Screenshot 2025-10-04 at 9.45.17 PM.png|500]]
+![[Screenshot 2025-10-04 at 9.46.10 PM.png|500]]
+![[Screenshot 2025-10-04 at 9.46.38 PM.png|500]]
+
+
+
+
+
+![[Screenshot 2025-10-04 at 9.41.50 PM.png|500]]
