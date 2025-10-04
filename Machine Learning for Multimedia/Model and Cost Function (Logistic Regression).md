@@ -47,3 +47,16 @@ applying to each class the classification will lead to multiple grouping
 **overfitting** = if we have too many features the hypothesis may fit the training set very well but fail to generalize to new examples (predict new values...) --> high variance
 
 ![[Screenshot 2025-10-04 at 6.49.52 PM.png|500]]
+
+To solve overfitting:
+- reduce number of features: 
+	- manually select which features to keep
+	- model selection algorithms
+- regularization
+	- keep all features but reduce magnitude
+	- works well when we have a lot of features, each of which contributes a bit to predicting y
+
+![[Screenshot 2025-10-04 at 6.53.44 PM.png]]
+$\lambda$ = regularization parameter
+need to update the optimization algorithm accordingly
+
