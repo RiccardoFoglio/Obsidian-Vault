@@ -11,5 +11,8 @@
 
 # [[Training Neural Networks]]
 
+# [[Evaluating Learning Algorithms]]
+
+
 
 
