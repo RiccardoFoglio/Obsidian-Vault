@@ -64,7 +64,3 @@ with numbers:
 ![[Screenshot 2025-10-04 at 9.46.38 PM.png|500]]
 
 
-
-
-
-![[Screenshot 2025-10-04 at 9.41.50 PM.png|500]]
