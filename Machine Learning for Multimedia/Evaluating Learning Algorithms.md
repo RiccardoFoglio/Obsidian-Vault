@@ -34,6 +34,45 @@ error with high variance:
 ![[Screenshot 2025-10-12 at 10.27.18 PM.png|500]]
 at the end of the training, still high variance
 
+## Error with skewed classes
+
+Cancer classification example
+- train classifier: Y=1 cancer, Y=0 no cancer
+- threshold: set to 0.5 --> greater than 0.5 means y=1
+- I find that i'm correct 99%, so 1% error on validation/test set
+
+what if only a small fraction have cancer? like 0.5%
+if i have a function that ignores input and always gives 0 (no cancer)
+
+![[Screenshot 2025-11-04 at 10.37.58 PM.png|500]]
+
+Precision: of all patients where we predicted y=1, how many really have cancer?
+$$
+precision = \frac{true\_pos}{true\_pos + false\_pos}
+$$
+Recall: of all patients that actually have cancer, how many did we correctly detect?
+$$
+recall = \frac{true\_pos}{true\_pos + false\_neg}
+$$
+
+We want to predict y=1 only if very confident
+- threshold set to 0.7 or 0.9 (very high)
+High precision, but low recall
+
+We want to avoid missing too many cases of cancer (avoid false negatives)
+- threshold set to 0.4 or 0.2
+Lower precision, but higher recall
+
+Comparison between precision (P) and recall (R)
+![[Screenshot 2025-11-04 at 10.50.43 PM.png|500]]
+
+When we have multiple metrics to classify an algorithm, we can have max 1 optimizing metrics and then satisficing metrics:
+
+![[Screenshot 2025-11-04 at 11.14.46 PM.png|400]]
+
+if we have enough time, the peak accuracy is limited by the human-level performance. Past it, machines are needed to improve accuracy but take a long time
+
+![[Screenshot 2025-11-04 at 11.17.03 PM.png|500]]
 
 when evaluating an classification task, you must be given the human error reference.
 - Training error: 8%
@@ -52,4 +91,5 @@ chain of assumptions in Machine Learning:
 Need to:
 - find ways to deal with all of them
 - possibly having them not influencing each other
+
 
