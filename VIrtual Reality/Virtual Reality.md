@@ -1,3 +1,3 @@
 
-# [[Virtual Reality Intro]]
+# Virtual Reality Intro
 
