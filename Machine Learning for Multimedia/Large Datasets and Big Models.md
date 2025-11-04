@@ -71,4 +71,44 @@ Other problems:
 very slow, not steep
 
 consider a very deep NN
-![[Screenshot 2025-11-05 at 12.20.43 AM.png]]
+![[Screenshot 2025-11-05 at 12.21.31 AM.png|500]]
+
+![[Screenshot 2025-11-05 at 12.20.43 AM.png|500]]
+
+gradients might be very high or very low --> to avoid it: initialization is key
+
+![[Screenshot 2025-11-05 at 12.22.52 AM.png|500]]
+![[Screenshot 2025-11-05 at 12.23.10 AM.png]]
+
+If features have noticeably different scales --> normalize inputs to speedup training
+- for each feature
+	- subtract mean computed on given feature over the whole training set
+	- divide by standard deviation computed over whole training set
+use same mean and variance/standard dev values also to normalize test and dev sets
+
+![[Screenshot 2025-11-05 at 12.27.37 AM.png]]
+
+## NN and Multi-class Classification
+
+![[Screenshot 2025-11-05 at 12.28.25 AM.png]]
+
+![[Screenshot 2025-11-05 at 12.28.58 AM.png]]
+ideal result:
+![[Screenshot 2025-11-05 at 12.29.04 AM.png]]
+but the neurons don't know that the sum must be 1.0
+
+Activations for the i-th unit in layer L defined as:
+![[Screenshot 2025-11-05 at 12.30.06 AM.png|500]]
+![[Screenshot 2025-11-05 at 12.31.09 AM.png|500]]
+after training with millions of images we have this network:
+![[Screenshot 2025-11-05 at 12.31.56 AM.png|500]]
+
+can i use the same model for a different task? 
+--> yes drop the last layers that are more specific and recalculate them, while keeping the core layers at the beginning which learn something that can be reused
+this is called Transfer Learning
+
+When does transfer learning make sense?
+- transfer from task A to task B if
+	- task A and B have the same type of input
+	- you have a lot more data for task A than task B
+	- low level features from task A could be helpful for learning task B
