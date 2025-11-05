@@ -50,6 +50,36 @@ Example: 10 filters 3x3x3 --> 1 layer of convolutional NN, how many parameters?
 - (3x3x3 + 1) x 10 = 280, not many
 
 
+f = filter size
+p = padding
+s = stride
+$n_c$ = number of filters
 
-Notation (61/109)
+ConvNet example
+![[Screenshot 2025-11-05 at 10.18.04 PM.png]]
+
+Types of layers in a ConvNet:
+- Convolutional (CONV)
+- Fully connected (FC)
+- Pooling (POOL)
+
+Pooling Layer: MAX POOLING
+![[Screenshot 2025-11-05 at 10.25.37 PM.png|500]]
+2 hyperparameters f, s BUT no complexity, no parameters to learn
+Channels processed separately
+
+Pooling Layer: AVERAGE POOLING
+![[Screenshot 2025-11-05 at 10.27.27 PM.png|500]]
+
+typically after a CONV layer you place a POOL layer to compress but not lose too much info
+![[Screenshot 2025-11-05 at 10.29.27 PM.png|500]]
+
+Why convolutions?
+- Parameter sharing: a feature detector (like a vertical edge detector) that is useful in one part of the image
+- sparsity of connections: in each layer, each output value depends only on a small number of inputs
+
+Standard Network: 3072x4704 parameters
+ConvNet: 5x5x3+1 = 456 parameters
+
+less parameters, less prone to overfitting
 

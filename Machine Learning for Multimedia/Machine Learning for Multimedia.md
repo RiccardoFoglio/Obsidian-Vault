@@ -17,5 +17,7 @@
 
 # [[Computer Vision and Convolutional Neural Networks]]
 
+# [[CNN - Case Studies and Tasks]]
+
 
 
