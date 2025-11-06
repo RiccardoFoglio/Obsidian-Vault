@@ -33,4 +33,7 @@ calculate whatever and use what is needed
 ![[Screenshot 2025-11-06 at 12.14.24 AM.png]]
 ![[Screenshot 2025-11-06 at 12.14.52 AM.png]]
 
+Data vs Hand-engineering
+![[Screenshot 2025-11-06 at 5.16.41 PM.png]]
+![[Screenshot 2025-11-06 at 5.17.50 PM.png]]
 
