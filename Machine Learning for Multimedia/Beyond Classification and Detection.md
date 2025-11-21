@@ -103,3 +103,40 @@ Train the network with pairs of images
 
 ![[Screenshot 2025-11-21 at 4.51.21 PM.png]]
 
+![[Screenshot 2025-11-21 at 4.52.40 PM.png]]
+
+if we take a look at layer 1: check what each neuron is viewing and what features is activating it
+we can see that it activates with very low level features:
+![[Screenshot 2025-11-21 at 4.55.21 PM.png]]
+9 units (each has 9 pixels) of the layer 1
+
+![[Screenshot 2025-11-21 at 4.56.13 PM.png]]
+Moving further in the network, info is more condensed, and in the same units more info is stored in each pixel. So more and more specific recognition
+
+- Content (C)
+- Style (S)
+- Generated Image (G)
+
+![[Screenshot 2025-11-21 at 4.58.25 PM.png]]
+
+Given C and S, start G randomly, then use gradient descent to minimize J(G)
+
+![[Screenshot 2025-11-21 at 5.00.08 PM.png]]
+
+if we use a hidden layer L to compute content cost:
+- use pre-trained ConvNet (VGG)
+- a(l)(c) and a(l)(g) activation layers on the images
+- if they are similar both images have similar content
+![[Screenshot 2025-11-21 at 5.01.47 PM.png]]
+
+measure the "Style" of an image:
+using layer L's activation to measure style
+define style as the correlation between activations across channels
+how correlated are the activations across different channels?
+![[Screenshot 2025-11-21 at 5.06.48 PM.png]]
+- orange channel activates with vertical stripes
+- yellow channel activates with color orange in pixel
+- --> orange stripes will activate both neurons
+
+![[Screenshot 2025-11-21 at 5.08.16 PM.png]]
+![[Screenshot 2025-11-21 at 5.08.58 PM.png]]
