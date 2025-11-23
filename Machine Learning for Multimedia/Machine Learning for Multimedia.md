@@ -24,6 +24,8 @@
 # [[Beyond Classification and Detection]]
 
 
+Lia Morra
 
+# [[Sequence Models]]
 
 
