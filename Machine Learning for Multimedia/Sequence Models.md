@@ -55,4 +55,46 @@ Many to Many where length of input is different from the length of the output.
 Suppress the output, process input, produce a compressed space, then next section produces output
 ![[Screenshot 2025-11-23 at 5.18.15 PM.png]]
 
-Language modeling:
+## Language modeling
+Probability of each sentence actually being said:
+![[Screenshot 2025-11-23 at 5.23.04 PM.png]]
+
+Training set: large corpus of text
+![[Screenshot 2025-11-23 at 5.25.00 PM.png]]
+
+![[Screenshot 2025-11-23 at 5.25.40 PM.png]]
+
+the input of the prev step is narrowing down a bit all the possible words that could follow the word, so probability is shifted
+
+The network will learn a distribution of the probability of all words in the vocabulary
+
+Sample from the probability we calculated in training
+	to autocomplete the next word, roll the dice with the probabilities we have
+
+Statistical plausibility doesn't mean it's correct
+
+## Modeling Dynamical Systems
+
+Dynamical system is a mathematical object (model) used to describe time evolution of the variables characterizing a phenomena under study
+
+Continuous-time dynamical systems the model is described by means of ordinary differential equation
+
+![[Screenshot 2025-11-24 at 2.57.46 PM.png]]
+
+while a discrete-time dynamical system when the model is described in terms of difference equations
+
+![[Screenshot 2025-11-24 at 2.58.13 PM.png]]
+
+Dynamical systems can be used to describe different kind of natural or man-made systems
+- mechanics
+- aerospace
+- robotics
+- electronics
+- finance
+- social media
+- biology
+
+# Vanishing Gradients and Solutions
+
+
+![[Screenshot 2025-11-24 at 3.00.25 PM.png]]
