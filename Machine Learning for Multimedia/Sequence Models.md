@@ -96,5 +96,93 @@ Dynamical systems can be used to describe different kind of natural or man-made 
 
 # Vanishing Gradients and Solutions
 
-
+singular subject must be recalled when it's time for the verb, even with a long sentence separating the two.
 ![[Screenshot 2025-11-24 at 3.00.25 PM.png]]
+
+Summing all singular losses, the gradient of each is used for the total
+![[Screenshot 2025-11-24 at 3.03.40 PM.png]]
+
+the issue here is: the loss at each step is dependent on the previous one, so each one has to back propagate to all previous layers. This means that back propagation is basically multiplying the weight by itself a lot of times
+![[Screenshot 2025-11-24 at 3.06.59 PM.png]]
+exploding gradients can be fixed: put a cap
+vanishing gradients are harder, because you can't recover the learning process
+
+Units used to avoid vanishing gradients:
+
+Current RNN unit: ![[Screenshot 2025-11-24 at 3.09.06 PM.png]]
+gating functions for input and output, will emphasize 
+
+GRU (simplified)
+![[Screenshot 2025-11-24 at 3.11.20 PM.png]]
+memory cell, update gate is used decide if has to be updated with the new value or it's too close to 0.
+So only update for useful information in the sentence, not for junk in the middle of the sentence.
+$g_r$ gating function will learn how relevant information are
+
+trial and error to develop these gating functions
+![[Screenshot 2025-11-24 at 4.24.57 PM.png]]
+Long short-term memory : LSTM is older, further gates and elements
+difference with GRU: 2 gates instead of just one ($g_u$ and $g_f$) and activation is calculated on another gate ($g_o$) so activation is not useful for output generation --> more degrees of freedom
+![[Screenshot 2025-11-24 at 4.26.56 PM.png]]
+
+Output cannot depend on information that has not been seen yet, but when we read we look ahead --> Bidirectional RNN
+![[Screenshot 2025-11-24 at 4.36.44 PM.png]]
+
+Deep RNN: Stacking more than one RNN (2-3 layers becomes very heavy), to make the function more complex (and therefore more flexible)
+
+![[Screenshot 2025-11-24 at 4.41.23 PM.png]]
+
+# Attention Models
+
+attention = way to modulate information in network flow
+
+translating: give some words in the sentence more importance than others, dampen some of the inputs that are not relevant
+
+FR : Jane s'est rendue en Afrique en septembre dernier
+EN : Jane went to Africa last September
+![[Screenshot 2025-11-24 at 4.47.23 PM.png]]
+
+Attention mechanisms also introduced with images for image captioning:
+![[Screenshot 2025-11-24 at 4.48.52 PM.png]]
+
+![[Screenshot 2025-11-24 at 4.50.02 PM.png]]
+
+![[Screenshot 2025-11-24 at 4.52.33 PM.png]]
+
+grid of vectors will analyze each part of the image and suppress the info of parts of the image that are not relevant
+![[Screenshot 2025-11-24 at 4.53.19 PM.png]]
+
+soft attention = weights are between 0 and 1, but not completely suppressing it (so never too close to the extremes)
+
+## Transformer Model: attention is all you need
+
+Transformers = alternative to RNN that use only attention
+the building block is the scale dot-product attention
+
+$Attention(Q,K,V) = softmax(QK/ \sqrt(d_k))V$
+
+![[Screenshot 2025-11-24 at 4.58.53 PM.png]]
+
+- Queries and keys are vectors of size $d_k$
+- Attention measure how compatible queries and keys are
+- Softmax ensures that all weights sum to 1
+
+multi-head attention consists of several attention layers running in parallel
+Key, value and query are linearly projected by multiplying with learnable weight matrices W^Q, $W^K$, $W^V$
+![[Screenshot 2025-11-24 at 5.01.41 PM.png]]
+
+Self-Attention: queries and keys come from same sequence, each vector of system can be considered as either one (all combinations)
+we may or may not look into the future, if we want to prevent looking we need to mask
+
+self-attention layers learn "it" could refer to different entities in different contexts
+![[Screenshot 2025-11-24 at 5.05.48 PM.png]]
+looking into the future is needed to find out which meaning
+in some real-time applications this is not possible, so in training you have to mask the looking into the future
+
+Transformer Architecture:
+![[Screenshot 2025-11-24 at 5.07.37 PM.png]]
+output: probabilities of seeing a certain word
+entire sequence analyzed in parallel, expensive in memory
+
+**problem** : output of attention layer doesn't depend on order!
+**solution** : positional embedding encode position of each token and are concatenated to the input embedding
+
