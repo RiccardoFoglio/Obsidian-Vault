@@ -186,3 +186,21 @@ entire sequence analyzed in parallel, expensive in memory
 **problem** : output of attention layer doesn't depend on order!
 **solution** : positional embedding encode position of each token and are concatenated to the input embedding
 
+RNNs 
+- vanishing gradient problems (difficulty with long sequences) 
+- expects ordered sequences of inputs
+- employ a sequential computational model: long training time
+
+Transformers 
+- good at long sequences and long-range dependencies 
+- can operate over underordered sets, missing data ...
+- employ a parallel computational model: all computations can be done in parallel
+
+but: require tons of memory, training data and computational resources
+
+Also very good for images, need much larger datasets but have better results
+![[Screenshot 2025-11-24 at 5.18.38 PM.png]]
+state of the art: made of transformers
+
+Multi-Modal transformers : handle different inputs
+![[Screenshot 2025-11-24 at 5.19.30 PM.png]]
