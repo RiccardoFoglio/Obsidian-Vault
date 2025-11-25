@@ -25,7 +25,11 @@
 
 
 Lia Morra
-
 # [[Sequence Models]]
+
+Antonio Servetti
+
+# [[Machine and Deep Learning for Audio]]
+
 
 
