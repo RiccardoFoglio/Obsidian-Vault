@@ -23,13 +23,13 @@
 
 # [[Beyond Classification and Detection]]
 
-
 Lia Morra
 # [[Sequence Models]]
 
 Antonio Servetti
-
 # [[Machine and Deep Learning for Audio]]
 
+Andrea Bottino
+# [[Generative Adversarial Networks (GANs)]]
 
-
+# [[Human Action Recognition]]
