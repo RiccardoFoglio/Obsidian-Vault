@@ -150,6 +150,100 @@ so far
   ![[Screenshot 2025-12-27 at 8.38.03 PM.png|500]]
   
 - **Controllable Generation**: specify certain characteristics of the output without changing model
+Differences in the output features can be obtained acting on the input noise vector
+How?
+- Interpolating in latent space (z-space --> noise vector space) it's possible to interpolate between generated outputs
+![[Screenshot 2025-12-28 at 5.42.11 PM.png|500]]
+issues:
+- output feature correlation : z-space and output features are strongly correlated, difficult to isolate individual affects
+- z-space entanglement : each noise component acts on multiple features, everything tied together
+  ![[Screenshot 2025-12-28 at 5.44.11 PM.png|400]]
+  need a z-space large enough
+  regularizer encourages disentanglement: penalizes entanglement and can be cast as a supervised/unsupervised method
+  ![[Screenshot 2025-12-28 at 5.45.01 PM.png|400]]
 
+Possible regularizers:
+- mutual information (estimates the statistical dependence between 2 variables): maximize MI between latent variables $z_i$ and data generated as G($z_i$)
+- total correlation : minimize total correlation between latent variables to achieve their statistical independence
+- Geometric regularization : idea is to penalize the discrepancies between data generated along the interpolating line in latent space. Requires choice of a discrepancy function
 
+## GAN Applications
 
+Image to Image translation: transferring style from one image to another
+(day to night, sketch to photo, BW to Color etc...)
+
+can be paired or unpaired
+![[Screenshot 2025-12-28 at 5.49.44 PM.png|500]]
+### Paired i2i : Pix2Pix 
+type of conditional GAN for paired image 2 image translation
+![[Screenshot 2025-12-28 at 5.50.40 PM.png|500]]
+Generator takes a real image as input and aims at producing a specific output (the paired image)
+![[Screenshot 2025-12-28 at 5.52.12 PM.png|500]]
+input discriminator is a real input concatenated with EITHER the generated output OR the ground truth
+![[Screenshot 2025-12-28 at 5.52.57 PM.png|500]]
+
+Pix2Pix Architecture:
+![[Screenshot 2025-12-28 at 5.53.16 PM.png|500]]
+
+Pix2Pix Loss : composed by adversarial loss (any) plus a regularization term
+pixel loss, aimed at providing generator with more information about the real target to generate
+![[Screenshot 2025-12-28 at 5.55.19 PM.png|500]]
+
+### Unpaired i2i : CycleGAN
+Find reciprocal mapping between two sets of images (with different styles)
+aims at finding commonalities and differences
+
+![[Screenshot 2025-12-28 at 5.56.50 PM.png|500]]
+
+From zebra to horse and back to zebra (cycle)
+real and fake zebra MUST match --> *cycle consistency* --> preserve contents
+![[Screenshot 2025-12-28 at 5.57.45 PM.png|500]]
+
+Discriminator loss --> style transfer
+![[Screenshot 2025-12-28 at 5.58.38 PM.png|500]]
+
+Module Architecture
+![[Screenshot 2025-12-28 at 5.59.06 PM.png|500]]
+
+Loss: Cycle consistency loss --> based on pixel differences for both loop directions
+![[Screenshot 2025-12-28 at 6.00.22 PM.png|500]]
+![[Screenshot 2025-12-28 at 6.00.54 PM.png|500]]
+cycle consistency loss is the sum of pixel losses in both cycle directions
+sum of adversarial loss using a weight (as before)
+
+Adversarial Loss : uses least square loss (helps vanishing gradient and mode collapse), output is patch-based (consider a sum over all patches)
+
+Identity loss : extra loss term (optional) to help color preservation in the output. Enforces identity at pixel level (discourages color distortion). Two identity losses, one for each domain
+
+CycleGAN Loss
+![[Screenshot 2025-12-28 at 6.05.14 PM.png|500]]
+
+- Work well for transferring styles
+- Work bad when the transformation involves GEOMETRIC transformations
+
+### Image Super-Resolution
+Increase image resolution creating "new" pixel contents
+SRResNet : DCGAN like architecture
+During training high resolution images (HR) are downsampled to low-resolution (LR) and fed to a generator that creates a Super-resolution (SR) of LR
+![[Screenshot 2025-12-28 at 6.07.36 PM.png|500]]
+
+SR Loss: final loss function is based on the VGG network
+![[Screenshot 2025-12-28 at 6.08.42 PM.png|500]]
+
+Discriminator Loss: combination of losses, Adversarial loss for discriminator
+Generator Loss : Adversarial loss + content loss
+
+### 3D - GAN
+Generating 3D instead of 2D images. 
+Approach is the same: 
+- generator --> 3D shapes
+- discriminator --> tells real from fake 3D models
+
+High unbalance between generator and discriminator: generating 3D objects is much more complex than classifying them
+3 training tricks:
+- learning rate for D much smaller than learning rate for G
+- Batch size is very large (100)
+- Discriminator is updated only if the accuracy in the last batch is < 80%
+
+Combines VAE and GAN to produce a latent vector for 3D generation from image space
+![[Screenshot 2025-12-28 at 6.17.15 PM.png|500]]
