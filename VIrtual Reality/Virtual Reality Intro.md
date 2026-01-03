@@ -1,0 +1,1 @@
+AR = Realtà Aumentata è combinazione di percezioni dirette e mediate dal computer
