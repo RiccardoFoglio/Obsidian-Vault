@@ -146,4 +146,131 @@ Feedback Aptico (Tatto): Si divide in due grandi categorie
 - Servono per simulare le forze di accelerazione (gravità, curve, frenate).
 - Sono fondamentali nei simulatori di volo o di guida professionali.
 
-# Unit 5 : 
+# Unit 5 : Architetture per VR
+
+Un sistema VR non è solo un computer che "mostra immagini", ma un insieme di processi coordinati.
+
+Il VR Engine (Motore VR) : è l'astrazione software che gestisce l'intera esperienza. 
+Si occupa di tre compiti principali:
+- **Input Processor:** Legge i dati dai sensori (posizione, bottoni, gesti).
+- **Simulation Processor:** Gestisce la logica del mondo (fisica, collisioni, script, intelligenza artificiale).
+- **Rendering Processor:** Genera gli output per l'utente (immagini 3D, suoni spazializzati, vibrazioni).
+
+Il Flusso di Dati : esiste un ciclo continuo (loop) che deve essere il più veloce possibile per mantenere l'immersione:
+1. L'utente compie un'azione.
+2. I sensori inviano i dati all'**Input Processor**.
+3. La simulazione aggiorna lo stato del mondo (**Simulation Processor**).
+4. Il sistema genera i feedback visivi/uditivi/aptici (**Rendering Processor**).
+5. L'utente percepisce il cambiamento e reagisce.
+
+Architetture Hardware: il "VR Engine" può essere implementato in diversi modi:
+- **Standalone (Singolo Computer):** Tutto il carico (input, fisica, grafica) è gestito da un'unica macchina (es. PC con visore cablato o visori come il Meta Quest).
+- **Architetture Distribuite:** Il carico è diviso tra più computer collegati in rete. Questo è necessario per:
+    - Sistemi multi-utente (VR collaborativa).
+    - Sistemi ad altissime prestazioni (es. CAVE o simulatori professionali).
+
+Networking in VR (Sistemi Multi-utente): quando più utenti sono nello stesso spazio virtuale, sorgono sfide tecniche:
+- **Topologia Client-Server:** Un server centrale mantiene la "verità" dello stato del mondo. I client inviano i propri movimenti e ricevono gli aggiornamenti sugli altri utenti.
+    - _Vantaggi:_ Coerenza dei dati.
+    - _Svantaggi:_ Se il server cade, cade tutto; latenza dovuta alla distanza dal server.
+- **Sistemi Multi-Server:** Più server collaborano (scalabilità). Migliora l'affidabilità ma è più complesso sincronizzare i cambiamenti tra i server.
+
+Problematiche della Rete:
+- **Latenza di Rete:** Il tempo necessario affinché un pacchetto dati viaggi tra client e server. In VR, una latenza alta causa "lag" nei movimenti degli altri avatar (li vedi a scatti).
+- **Banda Passante:** Necessaria per trasmettere modelli 3D complessi o flussi video in tempo reale.
+- **Sincronizzazione:** Garantire che tutti gli utenti vedano la stessa cosa nello stesso momento (es. se lancio una palla, tutti devono vederla colpire lo stesso punto).
+# Unit 6 : Modellazione VR
+
+La modellazione è la fase di definizione delle caratteristiche degli oggetti nel **World Database**. Si articola in quattro livelli principali:
+
+1. **Modellazione Geometrica** : rappresenta la forma e l'aspetto visivo dell'oggetto.
+- **Metodi di creazione:**
+    - **Sintesi:** Creazione manuale tramite software (es. Blender, Maya) usando poligoni o superfici matematiche.
+    - **Campionamento (3D Scanning):** Uso di laser scanner o fotogrammetria per ricostruire oggetti reali.
+- **Elementi chiave:**
+    - **Geometria:** Solitamente basata su mesh poligonali (triangoli). Per la VR real-time è fondamentale il **Polygon Budget** (mantenere basso il numero di poligoni).
+    - **Apparenza (Materiali e Texture):** Definizione di come l'oggetto riflette la luce, il suo colore e i dettagli superficiali tramite mappe di immagini.
+
+2. **Modellazione Cinematica** : definisce come gli oggetti possono muoversi nello spazio senza considerare le forze (causa del movimento).
+- **Gradi di Libertà (DOF):** Quanti e quali movimenti sono permessi a un oggetto o a una parte di esso.
+- **Gerarchie e Vincoli:** Gli oggetti possono avere strutture gerarchiche (es. braccio -> avambraccio -> mano). Se muovo la spalla, la mano segue il movimento.
+
+3. **Modellazione Fisica** : aggiunge "massa" e regole dinamiche agli oggetti per renderli realistici.
+- **Proprietà:** Massa, attrito, elasticità, baricentro.
+- **Collision Detection:** Il sistema deve calcolare costantemente se due oggetti si toccano. In VR, per risparmiare calcoli, si usano spesso **Bounding Boxes** (scatole invisibili semplificate) invece della mesh complessa per rilevare gli impatti.
+
+4. **Modellazione del Comportamento (Agenti Intelligenti)** : Riguarda gli oggetti "vivi" o autonomi (NPC - Non-Player Characters).
+- **Stato Interno:** L'agente può avere variabili come "fame", "paura" o "energia".
+- **Percezione:** La capacità dell'agente di "vedere" o "sentire" l'utente o altri oggetti nel raggio d'azione.
+- **Logica Decisionale:**
+    - **Macchine a Stati Finiti (FSM):** L'agente passa da uno stato all'altro (es. da "Pattuglia" a "Inseguimento") in base a trigger.
+    - **Behavior Trees (BT):** Strutture ad albero più complesse per comportamenti gerarchici e prioritari.
+# Unit 7 : Management
+
+Il problema fondamentale della VR è che il rendering deve essere completato in meno di **11ms** (per i 90Hz) o **13ms** (per i 72Hz). Se la scena è troppo complessa, il frame rate cala.
+
+Librerie e Livelli di Astrazione : Esistono diversi modi per gestire il rendering:
+- **Librerie di basso livello:** OpenGL, DirectX, Vulkan. Offrono massimo controllo ma sono difficili da usare.
+- **Scene Graph API:** Librerie come OpenSceneGraph che organizzano il mondo in una gerarchia di nodi (albero).
+- **VR Engines (Unity/Unreal):** Forniscono strumenti pronti all'uso per fisica, audio, grafica e IA.
+
+Tecniche di Ottimizzazione : Per mantenere il tempo di calcolo sotto la soglia critica, si usano diverse strategie:
+**A. Culling (Rimozione di ciò che non si vede)**
+- **View Frustum Culling:** Il sistema non renderizza gli oggetti che si trovano fuori dalla "piramide visiva" della telecamera.
+- **Occlusion Culling:** Se un oggetto grande (es. un muro) copre un oggetto piccolo dietro di sé, il sistema evita di disegnare l'oggetto nascosto.
+**B. LOD - Level of Detail (Livello di Dettaglio)** Questa è la tecnica più celebre. 
+Consiste nell'avere diverse versioni dello stesso modello 3D:
+- **High Poly:** Molti dettagli, usato quando l'oggetto è vicino all'utente.
+- **Low Poly:** Pochi dettagli, usato quando l'oggetto è lontano.
+- Il sistema scambia queste versioni in base alla distanza dalla telecamera per risparmiare calcoli della GPU.
+**C. Detail Elision** Se un oggetto è così piccolo o lontano da occupare meno di un pixel sullo schermo, il sistema smette completamente di renderizzarlo.
+
+Gestione del Database (World Database) : il mondo virtuale può essere troppo grande per stare tutto nella RAM. Si usano tecniche di gestione della memoria:
+- **Cell Segmentation:** Il mondo viene diviso in "celle" (stanze o settori). Viene caricata in memoria solo la cella in cui si trova l'utente e quelle adiacenti.
+- **Predictive Loading (Look-ahead):** Il sistema analizza la direzione del movimento dell'utente e inizia a caricare dal disco le celle o gli oggetti che probabilmente vedrà tra pochi secondi.
+
+Time-critical Rendering : se il sistema si accorge che non farà in tempo a renderizzare il frame, può decidere di:
+- Ridurre temporaneamente la qualità dei modelli (LOD forzato).
+- Interrompere il rendering di oggetti non essenziali.
+- **Latenza:** Ricorda che la latenza totale "Motion-to-Photon" deve essere **< 20ms**. Se il rendering è troppo lento, questa soglia viene superata.
+# Unit 8 : System Architecture
+
+L'obiettivo dell'AR è mantenere l'utente nel mondo fisico, arricchendo la sua percezione con informazioni generate dal computer.
+
+Secondo la definizione classica, un sistema AR deve:
+1. **Combinare reale e virtuale** in un ambiente reale.
+2. **Essere interattivo in tempo reale**.
+3. **Essere registrato in 3D** (allineamento spaziale preciso tra oggetti virtuali e reali).
+
+Esistono due approcci principali per mostrare contenuti AR:
+**A. Video See-Through (VST)**
+- L'utente guarda il mondo attraverso una telecamera. Il computer combina il flusso video reale con la grafica virtuale e mostra il risultato su uno schermo.
+- **Pro:** Controllo totale sui pixel (posso oscurare completamente il reale), latenza sincronizzata tra reale e virtuale.
+- **Con:** Percezione del mondo limitata dalla risoluzione della telecamera, ritardo (lag) visivo del mondo reale.
+**B. Optical See-Through (OST)**
+- L'utente vede il mondo reale direttamente attraverso lenti trasparenti. La grafica viene proiettata sulle lenti tramite specchi o guide d'onda (es. HoloLens, Magic Leap).
+- **Pro:** Visione naturale e istantanea del mondo reale (sicurezza), risoluzione del reale infinita.
+- **Con:** Difficile rendere gli oggetti virtuali opachi (sembrano "fantasmi"), FOV ridotto, problemi di calibrazione tra occhio e lenti.
+
+In AR, il tracking è molto più critico che in VR. Se il tracking "balla" in VR, l'utente sta male; in AR, l'oggetto virtuale sembra scivolare sulle superfici reali, rompendo l'illusione.
+- **Tracking basato su Marker:** Usa immagini predefinite (QR code, loghi) per stabilire la posizione.
+- **Tracking Markerless (SLAM):** _Simultaneous Localization and Mapping_. Il sistema mappa l'ambiente circostante in tempo reale usando le telecamere e stima la posizione del dispositivo senza bisogno di marker.
+
+#### **4. Componenti di un sistema AR**
+
+- **Sensori:** Telecamere, IMU (accelerometri/giroscopi), sensori di profondità (LiDAR/ToF).
+- **Processore:** Deve gestire la visione artificiale (computer vision) per riconoscere il mondo e il rendering grafico simultaneamente.
+- **Display:** Mobile (smartphone), HMD (visori), o Spatial AR (proiettori che proiettano direttamente sugli oggetti reali).
+
+#### **5. SDK e Strumenti di Sviluppo**
+
+Per l'esame, ricorda i principali toolkit citati:
+- **ARKit:** Framework di Apple per dispositivi iOS.
+- **ARCore:** Framework di Google per Android.
+- **Vuforia:** SDK molto popolare per il tracking di immagini e oggetti 3D.
+- **MRTK (Mixed Reality Toolkit):** Libreria per sviluppare interazioni avanzate (gesti, tracciamento oculare) su HoloLens e altri visori.
+
+
+
+# Unit 9 : Futuro del VR
+
