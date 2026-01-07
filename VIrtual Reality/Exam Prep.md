@@ -256,21 +256,38 @@ In AR, il tracking è molto più critico che in VR. Se il tracking "balla" in VR
 - **Tracking basato su Marker:** Usa immagini predefinite (QR code, loghi) per stabilire la posizione.
 - **Tracking Markerless (SLAM):** _Simultaneous Localization and Mapping_. Il sistema mappa l'ambiente circostante in tempo reale usando le telecamere e stima la posizione del dispositivo senza bisogno di marker.
 
-#### **4. Componenti di un sistema AR**
-
+Componenti di un sistema AR :
 - **Sensori:** Telecamere, IMU (accelerometri/giroscopi), sensori di profondità (LiDAR/ToF).
 - **Processore:** Deve gestire la visione artificiale (computer vision) per riconoscere il mondo e il rendering grafico simultaneamente.
 - **Display:** Mobile (smartphone), HMD (visori), o Spatial AR (proiettori che proiettano direttamente sugli oggetti reali).
 
-#### **5. SDK e Strumenti di Sviluppo**
-
-Per l'esame, ricorda i principali toolkit citati:
+SDK e Strumenti di Sviluppo
 - **ARKit:** Framework di Apple per dispositivi iOS.
 - **ARCore:** Framework di Google per Android.
 - **Vuforia:** SDK molto popolare per il tracking di immagini e oggetti 3D.
 - **MRTK (Mixed Reality Toolkit):** Libreria per sviluppare interazioni avanzate (gesti, tracciamento oculare) su HoloLens e altri visori.
 
-
-
 # Unit 9 : Futuro del VR
 
+Miglioramento della Qualità Visiva :per arrivare alla "risoluzione retinica" (dove l'occhio non distingue più i pixel), c'è ancora molta strada da fare:
+- **PPD (Pixel Per Degree):** L'occhio umano ha una risoluzione di circa **60-70 PPD**. I visori attuali (come l'Apple Vision Pro) arrivano a circa 34-40 PPD. Il futuro punta a superare i 70 PPD.
+- **Risoluzione:** Si punta all'**8K per occhio** per coprire un campo visivo ampio senza perdere nitidezza.
+
+Eye Tracking e Foveated Rendering : una delle tecnologie più citate per il futuro prossimo:
+- **Eye Tracking:** Sensori interni al visore tracciano dove sta guardando esattamente la pupilla.
+- **Foveated Rendering:** Sfrutta il fatto che l'occhio umano vede nitidamente solo nella parte centrale della retina (la _fovea_).
+    - Il sistema renderizza alla massima qualità solo la piccola zona che l'utente sta guardando.
+    - Tutto il resto (la visione periferica) viene renderizzato a bassa risoluzione.
+    - **Risultato:** Risparmio enorme di potenza di calcolo (fino al 50-70%) senza che l'utente se ne accorga.
+
+Problemi di Accomodazione (Vergence-Accommodation Conflict) : nei visori attuali, le lenti hanno un fuoco fisso. Questo crea un conflitto:
+- **Vergenza:** Gli occhi convergono correttamente sull'oggetto virtuale.
+- **Accomodazione:** Il cristallino dell'occhio rimane focalizzato sulla distanza fissa dello schermo del visore.
+- **Soluzione futura:** **Display Varifocali** o **Light Field Displays**, che permettono all'occhio di cambiare fuoco dinamicamente proprio come nella realtà.
+
+Nuove Frontiere Sensoriali: 
+- **Tatto Avanzato:** Guanti aptici più leggeri (es. _SenseGlove_) o tute integrali (_Teslasuit_) che usano l'elettrostimolazione muscolare (EMS) per simulare impatti e resistenze.
+- **Olfatto e Gusto:** Esistono prototipi di "collari" che rilasciano essenze profumate sincronizzate con la scena (es. odore di foresta o di bruciato), ma sono ancora poco diffusi.
+- **Interfacce Neurali (BCI):** Il sogno è il collegamento diretto con il cervello (stile Matrix), bypassando i sensi fisici (es. i progetti di _Neuralink_).
+
+Social VR e Avatar : il futuro mira a superare gli avatar "cartooneschi" per arrivare ai **Codec Avatars** (Facebook/Meta): ricostruzioni fotorealistiche basate su AI che replicano le espressioni facciali dell'utente in tempo reale tramite telecamere interne.
