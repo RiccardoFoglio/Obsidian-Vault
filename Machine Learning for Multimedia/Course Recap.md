@@ -255,16 +255,138 @@ Using a Confusion Matrix is better to derive:
 
 # Unit 8 : Large Datasets and Big Models
 
+The Role of Data and the "Big Model" Rationale: for many complex tasks, the amount of data is more important than the specific algorithm used.
+- **The Power of Data**: as the training set size increases (e.g., millions of words for text classification), various algorithms (Naive Bayes, Perceptron, etc.) tend to converge toward similarly high performance.
+- **Large Data Rationale**: To successfully use a massive dataset, you need a "big model" (a neural network with many hidden units) to achieve **low bias**. The large training set then ensures **low variance** by preventing the model from overfitting the data.
+- **Human Expert Test**: A useful test for whether a model _should_ be able to predict $y$ from $x$ is whether a human expert could confidently do so given the same input.
 
+Advanced Regularization Techniques: to combat **high variance** (overfitting) in big models, several techniques are used:
+- **L2 Regularization (Weight Decay)**: Adds a penalty term to the cost function ($\frac{\lambda}{2m}\sum w^2$) to keep weight values small. In gradient descent, this manifests as "weight decay," where weights are slightly reduced in every update step.
+- **Dropout**: nodes in the network are randomly "dropped" (set to zero) during training with a specific probability (e.g., 0.5). This prevents neurons from becoming overly dependent on specific inputs. **Important**: Dropout must be disabled during test time.
+- **Data Augmentation**: Artificially increases the training set size by applying transformations to existing data, such as flipping, rotating, or distorting images of cats or digits.
 
+Optimization: Mini-batch Gradient Descent
+Training on millions of examples with standard "Batch" gradient descent is too slow because one step requires processing the entire dataset.
+- **Mini-batches**: The training set is split into smaller subsets called mini-batches (e.g., 1,000 examples each).
+- **The Process**: The algorithm performs a gradient descent step after each mini-batch rather than waiting for the whole dataset.
+- **Epoch**: One pass through the entire training set. In mini-batch descent, one epoch consists of many individual steps (e.g., 5,000 steps if there are 5,000 mini-batches).
+- **Stochastic Gradient Descent (SGD)**: A special case where the mini-batch size is 1. While fast, it loses the speed benefits of **vectorization**.
+- **Choosing Size**: Typical mini-batch sizes are powers of 2 (64, 128, 256, 1024) to optimize CPU/GPU memory usage.
 
+Vanishing and Exploding Gradients : In very deep networks, gradients can grow or shrink exponentially as they are multiplied through many layers.
+- **Exploding Gradients**: If weights are $>1$, activations and gradients grow exponentially, causing training to diverge.
+- **Vanishing Gradients**: If weights are $<1$, they decrease exponentially, making the network stop learning.
+- **Mitigation (Initialization)**: This is managed by careful weight initialization. A common strategy is to set the variance of the weights $Var(w_i) = \frac{1}{n}$ (where $n$ is the number of input features) to keep the signal strength consistent across layers.
+
+Normalization Strategies
+- **Input Normalization**: Scaling features to have a mean of 0 and a variance of 1 to speed up gradient descent.
+- **Batch Normalization**: A critical technique where the **activations ($Z$)** of internal layers are normalized during training.
+    - **Benefits**: It allows much faster training, makes the network more robust to weight changes in earlier layers, and has a slight regularization effect similar to dropout.
+
+Softmax and Transfer Learning
+- **Softmax Layer**: A generalization of logistic regression for **multi-class classification**. 
+  It outputs a probability distribution over $C$ classes where all probabilities sum to 1
+- **Transfer Learning**: The process of taking a network trained on a large task (Task A, e.g., general image recognition) and repurposing it for a different task (Task B, e.g., radiology images).
+    - **When it works**: It is most effective when Task A has much more data than Task B and the low-level features (edges, shapes) from Task A are useful for Task B.
 
 # Unit 9 : Computer Vision and Convolutional NN
-# Unit 10 : 
-# Unit 11 : 
-# Unit 12 : 
-# Unit 13 : 
-# Unit 14 : 
-# Unit 15 : 
-# Unit 16 : 
+
+Computer vision involves various tasks such as **Image Classification** (e.g., is it a cat?), **Object Detection** (identifying where objects are), and **Neural Style Transfer** (merging the content of one image with the style of another).
+- **The Dimensionality Problem**: A small $64 \times 64$ RGB image has $12,288$ features ($64 \times 64 \times 3$). However, a $1000 \times 1000$ image has **3 million features**.
+- **Why Standard NNs Fail**: If the first hidden layer of a standard network has 1,000 units, the weight matrix $W^{[1]}$ would have **3 billion parameters** for a $1MP$ image, making it computationally impossible to train without overfitting.
+
+Convolutions allow the network to detect low-level features like edges using a small **filter** (or kernel).
+- **Edge Detection**: By convolving a $6 \times 6$ image with a $3 \times 3$ filter, you produce a $4 \times 4$ output.
+    - **Vertical Filter**: A filter like `[[1, 0, -1], [1, 0, -1], [1, 0, -1]]` detects vertical transitions in brightness.
+    - **Horizontal Filter**: Detects horizontal edges.
+    - ![[Screenshot 2025-11-05 at 12.41.10 AM.png|400]]
+- **Learning Features**: Instead of using hand-coded filters (like Sobel or Scharr), deep learning allows the network to **learn the filter weights** ($w_1, \dots, w_9$) that are most useful for the task.
+  ![[Screenshot 2025-11-05 at 12.41.46 AM.png|500]]
+
+- **Padding ($p$)**: Standard convolutions "shrink" the image and "throw away" information from the edges.    
+    - **Valid Convolution**: No padding ($p=0$).
+    - **Same Convolution**: Padding pixels are added so the output size matches the input size. Formula: $p = (f-1)/2$.
+    ![[Screenshot 2025-11-05 at 12.44.40 AM.png|400]]
+- **Stride ($s$)**: The number of pixels the filter jumps at each step.
+  ![[Screenshot 2025-11-05 at 12.46.52 AM.png|500]]
+- Output Size Formula: For an $n \times n$ input and $f \times f$ filter:
+  $$\text{Output Size} = \lfloor \frac{n + 2p - f}{s} + 1 \rfloor \times \lfloor \frac{n + 2p - f}{s} + 1 \rfloor \text{}$$
+
+Convolutions on 3D (RGB) Images
+- **Multiple Channels**: For an RGB image ($6 \times 6 \times 3$), the filter must also be 3D ($3 \times 3 \times 3$). The output is still a 2D map because values across all channels are summed.    
+- **Multiple Filters**: If you apply $n_C$ different filters (e.g., 10 filters), the output will have $n_C$ channels (e.g., $4 \times 4 \times 10$).
+
+Pooling layers reduce the spatial size (width and height) of the representation to speed up computation and make features more robust.
+- **Max Pooling**: Takes the maximum value in a window (e.g., $2 \times 2$). It is the most common type and helps detect if a feature is present anywhere in the region.
+  ![[Screenshot 2025-11-05 at 10.25.37 PM.png|300]]
+- **Average Pooling**: Takes the average value.
+  ![[Screenshot 2025-11-05 at 10.27.27 PM.png|300]]
+- **Key Property**: Pooling has **no learnable parameters**; it only has hyperparameters like filter size ($f$) and stride ($s$).
+
+Case Study: LeNet-5 Architecture : a classic CNN for digit recognition typically follows this pattern:
+1. **Input**: $32 \times 32 \times 3$ image.
+2. **CONV1**: 6 filters ($5 \times 5$), stride 1 $\rightarrow$ $28 \times 28 \times 6$.
+3. **POOL1**: Max pool ($2 \times 2$), stride 2 $\rightarrow$ $14 \times 14 \times 6$.
+4. **CONV2**: 16 filters ($5 \times 5$), stride 1 $\rightarrow$ $10 \times 10 \times 16$.
+5. **POOL2**: Max pool ($2 \times 2$), stride 2 $\rightarrow$ $5 \times 5 \times 16$.
+6. **FC3, FC4, Softmax**: Fully connected layers followed by a 10-class output.
+![[Screenshot 2025-11-05 at 10.29.27 PM.png|500]]
+
+Why Convolutions Work : CNNs are much more efficient than fully connected (FC) networks because of two main principles:
+- **Parameter Sharing**: A feature detector (like an edge detector) useful in one part of the image is likely useful in another part.
+- **Sparsity of Connections**: Each output value depends only on a small number of local inputs, not the entire image.
+**Result**: For a layer where a standard network might need **14 million parameters**, a ConvNet might only need **456 parameters**, making it less prone to overfitting.
+# Unit 10 : CNN - Case Studies and Tasks
+
+### **1. Classic Networks**
+
+Three foundational architectures that defined the early eras of deep learning.
+
+- **LeNet-5 (1998)**: Designed for document recognition (digit classification).
+    - **Architecture**: Follows a sequence of 
+      **Input (32x32x1) → CONV (5x5, s=1) → AVG-POOL (2x2, s=2) → CONV (5x5, s=1) → AVG-POOL (2x2, s=2) → FC (120 units) → FC (84 units) → Output**
+    - **Key Insight**: It established the standard pattern of alternating convolutional and pooling layers.
+		![[Screenshot 2025-11-05 at 10.54.53 PM.png|400]]
+
+- **AlexNet (2012)**: The model that triggered the deep learning revolution by winning the ImageNet challenge.
+    - **Architecture**: Significantly larger than LeNet, it processes $227 \times 227 \times 3$ images. It uses large filters ($11 \times 11$) in early layers and Max-Pooling.
+    - **Structure**: Consists of 5 Convolutional layers and 3 Fully Connected layers, ending with a 1000-class Softmax.
+		![[Screenshot 2025-11-05 at 10.55.31 PM.png|500]]
+
+- **VGG-16 (2015)**: Notable for its extreme simplicity and uniformity.
+    - **Design Rule**: Uses exclusively **$3 \times 3$ convolutions** (stride 1, same padding) and **$2 \times 2$ Max-Pooling** (stride 2).
+    - **Scaling**: The number of filters doubles after every pooling layer (64 → 128 → 256 → 512), while the spatial dimensions ($H, W$) are halved.
+		![[Screenshot 2025-11-05 at 11.07.11 PM.png|500]]
+
+Residual Networks (ResNet): As networks grew deeper, they encountered the "vanishing gradient" problem, where training error actually _increased_ for very deep "plain" networks.
+![[Screenshot 2025-11-06 at 12.06.36 AM.png|500]]
+- **The Residual Block**: Introduces a **"shortcut" or "skip connection"** that bypasses one or more layers.
+    - **Mathematical Formula**: Instead of just calculating $a^{[l+2]} = g(z^{[l+2]})$, ResNet calculates $a^{[l+2]} = g(z^{[l+2]} + a^{[l]})$.
+- **Performance**: This shortcut allows the gradient to flow through the network more easily, enabling the training of extremely deep networks (e.g., **ResNet-152**) without the degradation in performance seen in plain networks.
+![[Screenshot 2025-11-06 at 12.06.59 AM.png|500]]
+
+1x1 Convolutions and the Inception Module:
+- **1x1 Convolutions ("Network in Network")**: Used to change the number of channels (dimensionality reduction/increase) while keeping height and width constant.
+    - **Example**: A $28 \times 28 \times 192$ input can be shrunk to $28 \times 28 \times 32$ using thirty-two $1 \times 1$ filters, significantly reducing computational cost for subsequent layers.
+- **Inception Module**: Instead of choosing one filter size, the Inception module applies $1 \times 1, 3 \times 3,$ and $5 \times 5$ convolutions, along with Max-Pooling, **all in parallel**.
+    - **Concatenation**: The outputs of all these operations are concatenated along the channel dimension.
+    - **Efficiency**: To avoid computational explosion, $1 \times 1$ "bottleneck" layers are used before the $3 \times 3$ and $5 \times 5$ convolutions to reduce the number of input channels.
+
+Practical Strategy - Data vs. Hand-Engineering: 
+- **Small Datasets (e.g., Object Detection)**: Require more **hand-engineering**, sophisticated algorithms, and complex network architectures to achieve good results.
+- **Large Datasets (e.g., Speech Recognition)**: Can rely on **simpler algorithms** and less manual architecture design, as the sheer volume of data provides the necessary knowledge.
+- **Case Study Recommendations**:
+    - Use published architectures from the literature.
+    - Leverage open-source implementations.
+    - Use **pre-trained models** and perform **fine-tuning** on your specific dataset/task.
+# Unit 11 : Object Detection
+
+
+
+
+# Unit 12 : Beyond Classification and Detection
+# Unit 13 : Sequence Models
+# Unit 14 : Machine and Deep Learning for Audio
+# Unit 15 : Generative Adversarial Networks (GANs)
+# Unit 16 : Human Action Recognition
 
