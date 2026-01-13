@@ -33,7 +33,8 @@ Fast R-CNN
 - propose regions
 - use convolutional implementation of sliding windows to classify all the proposed regions at once
 
-![[Screenshot 2025-11-06 at 9.39.59 PM.png]]![[Screenshot 2025-11-06 at 10.05.35 PM.png]]
+![[Screenshot 2025-11-06 at 9.39.59 PM.png]]
+![[Screenshot 2025-11-06 at 10.05.35 PM.png]]
 In Fast R-CNN the ROI generation becomes the bottleneck
 
 
