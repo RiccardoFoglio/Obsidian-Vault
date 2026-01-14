@@ -35,4 +35,4 @@ Andrea Bottino
 # [[Human Action Recognition]]
 
 
-# [[Course Recap]]
+# [[ML Course Recap]]
