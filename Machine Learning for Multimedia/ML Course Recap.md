@@ -29,7 +29,7 @@ Linear Regression is used to predict a continuous "target" variable based on one
 - $m$ : total number of training examples in the set
 
 Hypothesis Function ($h$) : This function maps input x to the estimated output y. For univariate linear regression (regression with one variable) the hypothesis is defined as:
-$$h_\theta(x) - \theta_0 + \theta_1x$$
+$$h_\theta(x) = \theta_0 + \theta_1x$$
 where the variables $\theta_0$ and $\theta_1$ are parameters of the model (weights $w$ and bias $b$)
 
 Cost Function measures the accuracy of the hypothesis function by calculating how close the predicted values are to the actual values in the training set
