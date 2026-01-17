@@ -32,11 +32,10 @@ Hypothesis Function ($h$) : This function maps input x to the estimated output y
 $$h_\theta(x) = \theta_0 + \theta_1x$$
 where the variables $\theta_0$ and $\theta_1$ are parameters of the model (weights $w$ and bias $b$)
 
-Cost Function measures the accuracy of the hypothesis function by calculating how close the predicted values are to the actual values in the training set
+**Cost Function** measures the accuracy of the hypothesis function by calculating how close the predicted values are to the actual values in the training set
 
-Square Error Cost Function: most common for linear regression
+**Square Error Cost Function**: most common for linear regression
 $$J(\theta_0, \theta_1) = \frac{1}{2m} \sum^{m}_{i=1}(h_\theta(x^{(i)})-y^{(i)})$$
-
 Simplified model: often the hypothesis is used as: $h_\theta = \theta_1 x$ (setting $\theta_0 = 0$), resulting in a cost function that only depends one a single parameter $J(\theta_1)$
 
 The Goal of Linear Regression is to choose parameters $\theta_0$ and $\theta_1$ that **minimize** the cost function. By minimizing the squared difference between predictions and actual data we find the "line of best fit"
@@ -182,7 +181,7 @@ Forward Propagation is the process of calculating predictions by passing data th
 	- $A^{[l]} = g^{[l]}(Z^{[l]})$ (where $g$ is the activation function).
 
 - **Vectorization**: instead of processing examples one by one in a for-loop, entire training set $X$ is processed as a Matrix $A^[0]$. 
-  This allows $Z^[l]$ and $A^[l]$ to be computed for all $m$ training examples simultaneously
+  This allows $Z^{[l]}$ and $A^{[l]}$ to be computed for all $m$ training examples simultaneously
 
 Choosing the right **activation function** is critical for network performance
 - **Sigmoid**: $\sigma(z) = \frac{1}{1+e^{-z}}$. Outputs range $(0, 1)$.
