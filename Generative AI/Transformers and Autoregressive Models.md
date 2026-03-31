@@ -181,3 +181,40 @@ Same concept of CLIP can be extended to other modalities
 ![[Screenshot 2026-03-28 at 12.11.20 AM.png|500]]
 
 # Autoregressive Generation
+
+Goal of any generative model is to learn the joint distribution over data
+in autoregressive models we apply the **chain rule of probability** to obtain an exact lossless decomposition of conditional probabilities
+![[Screenshot 2026-03-31 at 1.57.54 PM.png]]
+![[Screenshot 2026-03-31 at 1.58.02 PM.png]]
+This is an exact identity, no approximation is involved
+
+The recursion becomes explicit when we observe that each factor conditions only all previously generated elements, which grows the joint one variable at a time
+Each step requires only the previous context making the computation inherently recursive
+An auto-regressive model parameterises each conditional factor with a shared neural network
+![[Screenshot 2026-03-31 at 2.02.12 PM.png]]
+
+The log-likelihood decomposes into a sum of independent terms:
+![[Screenshot 2026-03-31 at 2.05.51 PM.png]]
+- Train to predict next token using softmax + cross-entropy loss
+- Teacher forcing during training (always feed previous ground truth)
+
+Generation proceeds by sampling: directly executing the recursive structure
+![[Screenshot 2026-03-31 at 2.07.09 PM.png]]
+Each sample depends causally on all prior ones, this is the recursive formulation run forward in time:
+![[Screenshot 2026-03-31 at 2.07.18 PM.png]]
+
+Text Generation Example:
+![[Screenshot 2026-03-31 at 2.07.46 PM.png]]
+
+![[Screenshot 2026-03-31 at 2.18.35 PM.png]]
+Tokenization and Emeddigs must enable bi-directional mapping:
+- Image --> Patches --> Embeddings
+- Embeddings --> Patches --> Images
+
+![[Screenshot 2026-03-31 at 2.26.01 PM.png]]
+
+Sampling strategies: control how models select the next token, balancing coherence creativity and speed
+- Greedy sampling: pick token with highest probability --> low variability, local optimal selections doesn't guarantee global maximization
+
+==> use temperature-scaled softmax (low T more predictable outputs, high T more varied but potentially incoherent ones)
+==> use alternative sampling: Top-K (ranking) selection, beam search etc...
