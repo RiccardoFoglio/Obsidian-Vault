@@ -5,3 +5,5 @@
 
 # [[Variational Autoencoders]]
 
+# [[Latent Diffusion Models]]
+
